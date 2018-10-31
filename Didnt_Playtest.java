@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class Didnt_Playtest extends JFrame {
@@ -33,8 +34,18 @@ public class Didnt_Playtest extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	/* Card Class */
+	
+	
+	
+	/* Variablelen aanmaken */
+	 ArrayList<String> player1Hand=new ArrayList<String>();
+	 ArrayList<String> player2Hand=new ArrayList<String>();
+	 ArrayList<Tuples > deck=new ArrayList<Tuples>();
+
 	/* Alles predifineren */
 	JLabel l1 = new JLabel("");
+	JButton b1 = new JButton("PC");
 	
 	
 	/* Basis Functies */
@@ -52,10 +63,28 @@ public class Didnt_Playtest extends JFrame {
 		playerWins("Player 2");
 	}
 	
+	public void cardILose(String player) {
+		playerLoses(player);
+	}
+	
+	
+	public void startOfGame(){
+		int random = (int) (Math.random()*2+1);
+		if (random == 1) {
+			b1.setText("PC");
+		}
+		if (random == 2) {
+			b1.setText("I Lose");
+		}
+	}
+	
+	/* Put the Cards in the Deck */
+	deck.add("I Lose", "You lose the game", "oof");
+	
 	
 	public Didnt_Playtest() {
 		
-		
+		startOfGame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 895, 758);
 		contentPane = new JPanel();
@@ -63,14 +92,13 @@ public class Didnt_Playtest extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("PC");
-		btnNewButton.addActionListener(new ActionListener() {
+		b1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardPc("Me");
 			}
 		});
-		btnNewButton.setBounds(90, 420, 125, 139);
-		contentPane.add(btnNewButton);
+		b1.setBounds(10, 514, 125, 139);
+		contentPane.add(b1);
 		l1.setBounds(10, 21, 768, 74);
 		contentPane.add(l1);
 		
@@ -80,4 +108,3 @@ public class Didnt_Playtest extends JFrame {
 	}
 	
 }
-
