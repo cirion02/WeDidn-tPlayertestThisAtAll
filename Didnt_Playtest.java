@@ -36,6 +36,9 @@ public class Didnt_Playtest extends JFrame {
 	 */
 	/* Card Class */
 	
+	Map< String,String> hm = new HashMap< String,String>();
+	Map< String, Function<String,String,Void> > hm = new HashMap< String, Function<String,String,Void> >();
+	
 	
 	
 	/* Variablelen aanmaken */
