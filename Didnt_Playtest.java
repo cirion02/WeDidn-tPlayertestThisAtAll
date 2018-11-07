@@ -8,6 +8,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 import java.awt.event.ActionEvent;
 
 public class Didnt_Playtest extends JFrame {
@@ -36,15 +39,14 @@ public class Didnt_Playtest extends JFrame {
 	 */
 	/* Card Class */
 	
-	Map< String,String> hm = new HashMap< String,String>();
-	Map< String, Function<String,String,Void> > hm = new HashMap< String, Function<String,String,Void> >();
-	
-	
+	Map <String,String> nameToText = new HashMap< String,String>();
+	Map <String,Integer> nameToRank = new HashMap< String,Integer>();
+	HashMap <String, Void> nameToEffect = new HashMap<String, Void>();	
+
 	
 	/* Variablelen aanmaken */
 	 ArrayList<String> player1Hand=new ArrayList<String>();
 	 ArrayList<String> player2Hand=new ArrayList<String>();
-	 ArrayList<Tuples > deck=new ArrayList<Tuples>();
 
 	/* Alles predifineren */
 	JLabel l1 = new JLabel("");
@@ -82,10 +84,14 @@ public class Didnt_Playtest extends JFrame {
 	}
 	
 	/* Put the Cards in the Deck */
-	deck.add("I Lose", "You lose the game", "oof");
+	
 	
 	
 	public Didnt_Playtest() {
+		
+		nameToText.put("PC", "Everybody wins");
+		nameToEffect.put("PC",cardPc("Me"));
+
 		
 		startOfGame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,3 +117,4 @@ public class Didnt_Playtest extends JFrame {
 	}
 	
 }
+
