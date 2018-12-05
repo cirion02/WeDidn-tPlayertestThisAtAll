@@ -1,12 +1,17 @@
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Didnt_Playtest.cardILose;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,12 +42,35 @@ public class Didnt_Playtest extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	/* Card Class */
 	
-	Map <String,String> nameToText = new HashMap< String,String>();
-	Map <String,Integer> nameToRank = new HashMap< String,Integer>();
-	HashMap <String, Void> nameToEffect = new HashMap<String, Void>();	
-
+	
+	ArrayList<Object> cards=new ArrayList<Object>();
+	
+	public class cardPc {
+		static final String name = "PC";
+		static final String text = "Everybody wins";
+		public void playCard(String Player) {
+			playerWins("Player 1");
+			playerWins("Player 2");
+		}
+		public String getName() {
+			return name;
+		}
+	}
+	
+	public class cardILose {
+		static final String name = "I Lose";
+		static final String text = "You Lose";
+		public void playCard(String Player) {
+			playerLoses(Player);
+		}
+		public String getName() {
+			return name;
+		}
+	}
+	
+	cardPc kaartPc = new cardPc();
+	cardILose kaartILose = new cardILose();
 	
 	/* Variablelen aanmaken */
 	 ArrayList<String> player1Hand=new ArrayList<String>();
@@ -83,16 +111,26 @@ public class Didnt_Playtest extends JFrame {
 		}
 	}
 	
+	public void runCard(String Name, String Player) {
+		for (int i=0; i<cards.size(); i++) {
+			Object testObject = cards.get(i);
+			String name = ((Component) testObject).getName();
+			//if (Name == name) {
+			//	testObject.playCard(Player);
+			//}
+		}
+	}
+	
 	/* Put the Cards in the Deck */
 	
 	
 	
 	public Didnt_Playtest() {
-		
-		nameToText.put("PC", "Everybody wins");
-		nameToEffect.put("PC",cardPc("Me"));
-
-		
+		cards.add(kaartPc);
+		cards.add(kaartILose);
+		kaartPc.playCard("Me");
+		Object testObject = kaartPc;
+		testObject.playCard("Me");
 		startOfGame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 895, 758);
@@ -103,13 +141,14 @@ public class Didnt_Playtest extends JFrame {
 		
 		b1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardPc("Me");
+				runCard("PC", "Me");
 			}
 		});
 		b1.setBounds(10, 514, 125, 139);
 		contentPane.add(b1);
 		l1.setBounds(10, 21, 768, 74);
 		contentPane.add(l1);
+		
 		
 	
 		
