@@ -6,8 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Didnt_Playtest.cardILose;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
@@ -17,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
 
 public class Didnt_Playtest extends JFrame {
 
@@ -44,9 +43,14 @@ public class Didnt_Playtest extends JFrame {
 	 */
 	
 	
-	ArrayList<Object> cards=new ArrayList<Object>();
+	public interface playable {
+		public void playCard(String player);
+		public String getName();
+	}
 	
-	public class cardPc {
+	ArrayList<playable> cards=new ArrayList<playable>();
+	
+	public class cardPc implements playable {
 		static final String name = "PC";
 		static final String text = "Everybody wins";
 		public void playCard(String Player) {
@@ -58,7 +62,7 @@ public class Didnt_Playtest extends JFrame {
 		}
 	}
 	
-	public class cardILose {
+	public class cardILose implements playable {
 		static final String name = "I Lose";
 		static final String text = "You Lose";
 		public void playCard(String Player) {
@@ -113,11 +117,11 @@ public class Didnt_Playtest extends JFrame {
 	
 	public void runCard(String Name, String Player) {
 		for (int i=0; i<cards.size(); i++) {
-			Object testObject = cards.get(i);
-			String name = ((Component) testObject).getName();
-			//if (Name == name) {
-			//	testObject.playCard(Player);
-			//}
+			playable testObject = cards.get(i);
+			String name = testObject.getName();
+			if (Name == name) {
+				testObject.playCard(Player);
+			}
 		}
 	}
 	
@@ -128,9 +132,6 @@ public class Didnt_Playtest extends JFrame {
 	public Didnt_Playtest() {
 		cards.add(kaartPc);
 		cards.add(kaartILose);
-		kaartPc.playCard("Me");
-		Object testObject = kaartPc;
-		testObject.playCard("Me");
 		startOfGame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 895, 758);
@@ -154,6 +155,4 @@ public class Didnt_Playtest extends JFrame {
 		
 		
 	}
-	
 }
-
