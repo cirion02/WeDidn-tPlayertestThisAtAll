@@ -108,7 +108,7 @@ public class Didnt_Playtest extends JFrame {
 		}
 	}
 	
-	public void dillHand() {
+	public void fillHand() {
 		for (int i=0; i<20; i++) {
 			player1Hand.add(kaartNone);
 			player2Hand.add(kaartNone);
@@ -117,8 +117,8 @@ public class Didnt_Playtest extends JFrame {
 	
 	public void fillLibrary(int amount) {
 		for (int i=0; i<amount; i++) {
-			for (i=0; i<cards.size(); i++) {
-				library.add(cards.get(i));
+			for (int t=0; t<cards.size(); t++) {
+				library.add(cards.get(t));
 			}
 		}
 	}
