@@ -50,6 +50,15 @@ public class Didnt_Playtest extends JFrame {
 	
 	ArrayList<playable> cards=new ArrayList<playable>();
 	
+	public class cardNone implements playable {
+		public void playCard(int Player) {
+			
+		}
+		public String getName() {
+			return "nothing";
+		}
+	}
+	
 	public class cardPc implements playable {
 		static final String name = "PC";
 		static final String text = "Everybody wins";
@@ -75,6 +84,7 @@ public class Didnt_Playtest extends JFrame {
 	
 	cardPc kaartPc = new cardPc();
 	cardILose kaartILose = new cardILose();
+	cardNone kaartNone = new cardNone();
 	
 	/* Variablelen aanmaken */
 	 ArrayList<playable> player1Hand=new ArrayList<playable>();
@@ -88,15 +98,28 @@ public class Didnt_Playtest extends JFrame {
 	
 	/* Basis Functies */
 	public void Draw(int player, int amount) {
-		switch (player) {
-			case 1: 
-		
+		int random;
+		for (int i=0; i<amount; i++) {
+			random = (int) (Math.random()*library.size());
+			switch (player) {
+				case 1: player1Hand.add(library.get(random));
+				case 2: player2Hand.add(library.get(random));
+			}
+		}
+	}
+	
+	public void dillHand() {
+		for (int i=0; i<20; i++) {
+			player1Hand.add(kaartNone);
+			player2Hand.add(kaartNone);
 		}
 	}
 	
 	public void fillLibrary(int amount) {
-		for (int i=0; i<cards.size(); i++) {
-			library.add(cards.get(i));
+		for (int i=0; i<amount; i++) {
+			for (i=0; i<cards.size(); i++) {
+				library.add(cards.get(i));
+			}
 		}
 	}
 	
@@ -109,13 +132,7 @@ public class Didnt_Playtest extends JFrame {
 	}
 	
 	public void startOfGame(){
-		int random = (int) (Math.random()*2+1);
-		if (random == 1) {
-			b1.setText("PC");
-		}
-		if (random == 2) {
-			b1.setText("I Lose");
-		}
+		fillLibrary(10);
 	}
 	
 	public void runCard(String Name, int Player) {
