@@ -44,7 +44,7 @@ public class Didnt_Playtest extends JFrame {
 	
 	
 	public interface playable {
-		public void playCard(String player);
+		public void playCard(int player);
 		public String getName();
 	}
 	
@@ -53,9 +53,9 @@ public class Didnt_Playtest extends JFrame {
 	public class cardPc implements playable {
 		static final String name = "PC";
 		static final String text = "Everybody wins";
-		public void playCard(String Player) {
-			playerWins("Player 1");
-			playerWins("Player 2");
+		public void playCard(int Player) {
+			playerWins(1);
+			playerWins(2);
 		}
 		public String getName() {
 			return name;
@@ -65,7 +65,7 @@ public class Didnt_Playtest extends JFrame {
 	public class cardILose implements playable {
 		static final String name = "I Lose";
 		static final String text = "You Lose";
-		public void playCard(String Player) {
+		public void playCard(int Player) {
 			playerLoses(Player);
 		}
 		public String getName() {
@@ -77,8 +77,9 @@ public class Didnt_Playtest extends JFrame {
 	cardILose kaartILose = new cardILose();
 	
 	/* Variablelen aanmaken */
-	 ArrayList<String> player1Hand=new ArrayList<String>();
-	 ArrayList<String> player2Hand=new ArrayList<String>();
+	 ArrayList<playable> player1Hand=new ArrayList<playable>();
+	 ArrayList<playable> player2Hand=new ArrayList<playable>();
+	 ArrayList<playable> library=new ArrayList<playable>(); 
 
 	/* Alles predifineren */
 	JLabel l1 = new JLabel("");
@@ -86,24 +87,26 @@ public class Didnt_Playtest extends JFrame {
 	
 	
 	/* Basis Functies */
-	public void playerLoses(String player) {
-		l1.setText(l1.getText() + player + " has lost the game.  ");
+	public void Draw(int player, int amount) {
+		switch (player) {
+			case 1: 
+		
+		}
 	}
 	
-	public void playerWins(String player) {
+	public void fillLibrary(int amount) {
+		for (int i=0; i<cards.size(); i++) {
+			library.add(cards.get(i));
+		}
+	}
+	
+	public void playerLoses(int player) {
+		l1.setText(l1.getText() + "player " + player + " has lost the game.  ");
+	}
+	
+	public void playerWins(int player) {
 		l1.setText(l1.getText() + player + " has won the game.  ");
 	}
-	
-	/* Kaarten */
-	public void cardPc(String player) {
-		playerWins("Player 1");
-		playerWins("Player 2");
-	}
-	
-	public void cardILose(String player) {
-		playerLoses(player);
-	}
-	
 	
 	public void startOfGame(){
 		int random = (int) (Math.random()*2+1);
@@ -115,7 +118,7 @@ public class Didnt_Playtest extends JFrame {
 		}
 	}
 	
-	public void runCard(String Name, String Player) {
+	public void runCard(String Name, int Player) {
 		for (int i=0; i<cards.size(); i++) {
 			playable testObject = cards.get(i);
 			String name = testObject.getName();
@@ -142,7 +145,7 @@ public class Didnt_Playtest extends JFrame {
 		
 		b1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				runCard("PC", "Me");
+				runCard("PC", 1);
 			}
 		});
 		b1.setBounds(10, 514, 125, 139);
