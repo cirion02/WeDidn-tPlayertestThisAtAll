@@ -94,7 +94,10 @@ public class Didnt_Playtest extends JFrame {
 	/* Alles predifineren */
 	JLabel l1 = new JLabel("");
 	JButton b0 = new JButton("");
-	
+	JButton b1 = new JButton("");
+	JButton b2 = new JButton("");
+	JButton b3 = new JButton("");
+	JButton b4 = new JButton("");
 	
 	/* Basis Functies */
 	public void Draw(int player, int amount) {
@@ -152,7 +155,11 @@ public class Didnt_Playtest extends JFrame {
 	public Didnt_Playtest() {
 		cards.add(kaartPc);
 		cards.add(kaartILose);
-		player1Hand.add(kaartPc);
+		player1Hand.add(kaartILose);
+		player1Hand.add(kaartILose);
+		player1Hand.add(kaartILose);
+		player1Hand.add(kaartILose);
+		player1Hand.add(kaartILose);
 		startOfGame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 895, 758);
@@ -175,24 +182,90 @@ public class Didnt_Playtest extends JFrame {
 		String cardInHand0 = player1Hand.get(0).getName();
 		b0.setText(player1Hand.get(0).getName());
 		contentPane.add(b0);
-		b0.setBounds(10, 514, 125, 139);
+		b0.setBounds(30, 514, 125, 139);
 		
 		switch (cardInHand0) {
-			case "nothing": b0.setVisible(false);
-							break;
-			default: 		contentPane.add(b0);
-							b0.setVisible(true);	
-							break;
+		case "nothing": b0.setVisible(false);
+						break;
+		default: 		b0.setVisible(true);	
+						break;
+		}
+		
+		b1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				runCard(player1Hand.get(1).getName(), 1);
+			}
+		});
+		String cardInHand1 = player1Hand.get(1).getName();
+		b1.setText(player1Hand.get(1).getName());
+		contentPane.add(b1);
+		b1.setBounds(200, 514, 125, 139);
+		
+		switch (cardInHand1) {
+		case "nothing": b1.setVisible(false);
+						break;
+		default: 		b1.setVisible(true);	
+						break;
+		}
+		
+
+		b2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				runCard(player1Hand.get(2).getName(), 1);
+			}
+		});
+		String cardInHand2 = player1Hand.get(2).getName();
+		b2.setText(player1Hand.get(2).getName());
+		contentPane.add(b2);
+		b2.setBounds(370, 514, 125, 139);
+		
+		switch (cardInHand2) {
+		case "nothing": b2.setVisible(false);
+						break;
+		default: 		b2.setVisible(true);	
+						break;
+		}
+		
+
+		b3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				runCard(player1Hand.get(3).getName(), 1);
+			}
+		});
+		String cardInHand3 = player1Hand.get(3).getName();
+		b3.setText(player1Hand.get(3).getName());
+		contentPane.add(b3);
+		b3.setBounds(540, 514, 125, 139);
+		
+		switch (cardInHand3) {
+		case "nothing": b3.setVisible(false);
+						break;
+		default: 		b3.setVisible(true);	
+						break;
+		}
+		
+
+		b4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				runCard(player1Hand.get(4).getName(), 1);
+			}
+		});
+		String cardInHand4 = player1Hand.get(4).getName();
+		b4.setText(player1Hand.get(4).getName());
+		contentPane.add(b4);
+		b4.setBounds(710, 514, 125, 139);
+		
+		switch (cardInHand4) {
+		case "nothing": b4.setVisible(false);
+						break;
+		default: 		b4.setVisible(true);	
+						break;
 		}
 		
 		
-		b0.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				runCard(player1Hand.get(0).getName(), 1);
-			}
-		});
 		
-		String cardInHand1 = player1Hand.get(1).getName();
+		
+		
 		
 		
 		
