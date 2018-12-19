@@ -93,7 +93,7 @@ public class Didnt_Playtest extends JFrame {
 
 	/* Alles predifineren */
 	JLabel l1 = new JLabel("");
-	JButton b1 = new JButton("PC");
+	JButton b0 = new JButton("");
 	
 	
 	/* Basis Functies */
@@ -133,6 +133,7 @@ public class Didnt_Playtest extends JFrame {
 	
 	public void startOfGame(){
 		fillLibrary(10);
+		fillHand();
 	}
 	
 	public void runCard(String Name, int Player) {
@@ -148,10 +149,10 @@ public class Didnt_Playtest extends JFrame {
 	/* Put the Cards in the Deck */
 	
 	
-	
 	public Didnt_Playtest() {
 		cards.add(kaartPc);
 		cards.add(kaartILose);
+		player1Hand.add(kaartPc);
 		startOfGame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 895, 758);
@@ -160,16 +161,44 @@ public class Didnt_Playtest extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		b1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				runCard("PC", 1);
-			}
-		});
-		b1.setBounds(10, 514, 125, 139);
-		contentPane.add(b1);
+		
+		
+		
+		
 		l1.setBounds(10, 21, 768, 74);
 		contentPane.add(l1);
+		b0.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				runCard(player1Hand.get(0).getName(), 1);
+			}
+		});
+		String cardInHand0 = player1Hand.get(0).getName();
+		b0.setText(player1Hand.get(0).getName());
+		contentPane.add(b0);
+		b0.setBounds(10, 514, 125, 139);
 		
+		switch (cardInHand0) {
+			case "nothing": b0.setVisible(false);
+							break;
+			default: 		contentPane.add(b0);
+							b0.setVisible(true);	
+							break;
+		}
+		
+		
+		b0.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				runCard(player1Hand.get(0).getName(), 1);
+			}
+		});
+		
+		String cardInHand1 = player1Hand.get(1).getName();
+		
+		
+		
+		
+		 
+	
 		
 	
 		
