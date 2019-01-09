@@ -16,6 +16,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.Choice;
+import javax.swing.JTextField;
 
 public class Didnt_Playtest extends JFrame {
 
@@ -90,14 +94,21 @@ public class Didnt_Playtest extends JFrame {
 	 ArrayList<playable> player1Hand=new ArrayList<playable>();
 	 ArrayList<playable> player2Hand=new ArrayList<playable>();
 	 ArrayList<playable> library=new ArrayList<playable>(); 
+	 ArrayList<String> Prompts = new ArrayList<String>();
 
 	/* Alles predifineren */
 	JLabel l1 = new JLabel("");
+	
 	JButton b0 = new JButton("");
 	JButton b1 = new JButton("");
 	JButton b2 = new JButton("");
 	JButton b3 = new JButton("");
 	JButton b4 = new JButton("");
+	
+	Choice prompt = new Choice();
+	JButton confirm = new JButton("Confirm");
+	private final JButton btnTestprompt = new JButton("TESTPROMPT");
+	private JTextField test;
 	
 	/* Basis Functies */
 	public void Draw(int player, int amount) {
@@ -149,6 +160,11 @@ public class Didnt_Playtest extends JFrame {
 		}
 	}
 	
+	public void callPrompt() {
+		prompt.setVisible(true);
+		confirm.setVisible(true);
+	}
+	
 	/* Put the Cards in the Deck */
 	
 	
@@ -168,10 +184,9 @@ public class Didnt_Playtest extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
-		
-		
-		
+		Prompts.add("Rock");
+		Prompts.add("Paper");
+		Prompts.add("Scissors");
 		l1.setBounds(10, 21, 768, 74);
 		contentPane.add(l1);
 		b0.addActionListener(new ActionListener() {
@@ -255,6 +270,9 @@ public class Didnt_Playtest extends JFrame {
 		contentPane.add(b4);
 		b4.setBounds(710, 514, 125, 139);
 		
+
+		
+		
 		switch (cardInHand4) {
 		case "nothing": b4.setVisible(false);
 						break;
@@ -263,18 +281,59 @@ public class Didnt_Playtest extends JFrame {
 		}
 		
 		
+
+		prompt.setBounds(382, 275, 113, 40);
+		contentPane.add(prompt);
+		prompt.setVisible(false);
+		for (int i=0; i<Prompts.size(); i++) {
+			String choice = Prompts.get(i);
+			prompt.add(choice);
+		}
 		
 		
+		confirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String finalChoice = prompt.getSelectedItem();
+				test.setText(finalChoice);
+			}
+		});
+		confirm.setBounds(382, 301, 113, 37);
+		contentPane.add(confirm);
+		btnTestprompt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				callPrompt();
+			}
+		});
+		btnTestprompt.setBounds(96, 130, 89, 23);
+		
+		contentPane.add(btnTestprompt);
+	   
+		  
 		
 		
+		   
 		
+		  
 		
 		
 		 
-	
+		 
+		 
+		 
+		   
 		
-	
 		
 		
+		
+		
+    
+		 
+		 
+		 
+		
+		 
+		
+		 
+		  
 	}
 }
