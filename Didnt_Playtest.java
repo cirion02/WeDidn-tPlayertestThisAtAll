@@ -1,3 +1,5 @@
+package thing;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -21,7 +23,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.Choice;
 import javax.swing.JTextField;
 
-public class Didnt_Playtest extends JFrame {
+public class sdadf extends JFrame {
 
 	private JPanel contentPane;
 
@@ -32,7 +34,7 @@ public class Didnt_Playtest extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Didnt_Playtest frame = new Didnt_Playtest();
+					sdadf frame = new sdadf();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -117,6 +119,7 @@ public class Didnt_Playtest extends JFrame {
 	cardPc kaartPc = new cardPc();
 	cardILose kaartILose = new cardILose();
 	cardNone kaartNone = new cardNone();
+	cardNone kaartBattleRock = new cardNone();
 	
 	/* Variablelen aanmaken */
 	 ArrayList<playable> player1Hand=new ArrayList<playable>();
@@ -163,7 +166,17 @@ public class Didnt_Playtest extends JFrame {
 	
 	public void RockPaperScissors(String Loses, int Player) {
 		Prompts.clear();
+		Prompts.add("Rock");
+		Prompts.add("Paper");
+		Prompts.add("Scissors");
+		returnFunction = Loses;
 		callPrompt();
+	}
+	
+	public void RockPaperScissorsDone(String Loses, String Picked) {
+		if (Loses == Picked) {
+			playerLoses(1);
+		}
 	}
 	
 	public void fillLibrary(int amount) {
@@ -200,10 +213,12 @@ public class Didnt_Playtest extends JFrame {
 	/* Put the Cards in the Deck */
 	
 	
-	public Didnt_Playtest() {
+	public sdadf() {
+		confirm.setVisible(false);
 		cards.add(kaartPc);
 		cards.add(kaartILose);
-		player1Hand.add(kaartILose);
+		cards.add(kaartBattleRock);
+		player1Hand.add(kaartBattleRock);
 		player1Hand.add(kaartILose);
 		player1Hand.add(kaartILose);
 		player1Hand.add(kaartILose);
@@ -304,7 +319,7 @@ public class Didnt_Playtest extends JFrame {
 		b4.setBounds(710, 514, 125, 139);
 		
 		JLabel Display = new JLabel("New label");
-		Display.setBounds(60, 122, 583, 52);
+		Display.setBounds(59, 164, 583, 52);
 		contentPane.add(Display);
 		
 		switch (cardInHand4) {
@@ -326,6 +341,9 @@ public class Didnt_Playtest extends JFrame {
 		confirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String finalChoice = prompt.getSelectedItem();
+				if (returnFunction == "Rock" || returnFunction == "Paper" || returnFunction == "Scissors") {
+					RockPaperScissorsDone(returnFunction, finalChoice);
+				}
 				test.setText(finalChoice);
 			}
 		});
