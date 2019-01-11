@@ -1,3 +1,5 @@
+
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -16,6 +18,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.Choice;
+import javax.swing.JTextField;
 
 public class Didnt_Playtest extends JFrame {
 
@@ -46,15 +52,23 @@ public class Didnt_Playtest extends JFrame {
 	public interface playable {
 		public void playCard(int player);
 		public String getName();
+		public String getText();
 	}
 	
+
+	String returnFunction = "";
 	ArrayList<playable> cards=new ArrayList<playable>();
+	
+	
 	
 	public class cardNone implements playable {
 		public void playCard(int Player) {
 			
 		}
 		public String getName() {
+			return "nothing";
+		}
+		public String getText() {
 			return "nothing";
 		}
 	}
@@ -69,6 +83,9 @@ public class Didnt_Playtest extends JFrame {
 		public String getName() {
 			return name;
 		}
+		public String getText() {
+			return text;
+		}
 	}
 	
 	public class cardILose implements playable {
@@ -80,16 +97,35 @@ public class Didnt_Playtest extends JFrame {
 		public String getName() {
 			return name;
 		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardBattleRock implements playable {
+		static final String name = "Battle! (Rock)";
+		static final String text = "Each player trows rock, paper or scissors.\nAnyone who trew rock loses.";
+		public void playCard(int Player) {
+			RockPaperScissors("Rock", Player);
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
 	}
 	
 	cardPc kaartPc = new cardPc();
 	cardILose kaartILose = new cardILose();
 	cardNone kaartNone = new cardNone();
+	cardBattleRock kaartBattleRock = new cardBattleRock();
 	
 	/* Variablelen aanmaken */
 	 ArrayList<playable> player1Hand=new ArrayList<playable>();
 	 ArrayList<playable> player2Hand=new ArrayList<playable>();
 	 ArrayList<playable> library=new ArrayList<playable>(); 
+	 ArrayList<String> Prompts = new ArrayList<String>();
 
 	/* Alles predifineren */
 	JLabel l1 = new JLabel("");
@@ -98,6 +134,11 @@ public class Didnt_Playtest extends JFrame {
 	JButton b2 = new JButton("");
 	JButton b3 = new JButton("");
 	JButton b4 = new JButton("");
+	
+	Choice prompt = new Choice();
+	JButton confirm = new JButton("Confirm");
+	private final JButton btnTestprompt = new JButton("TESTPROMPT");
+	private JTextField test;
 	
 	/* Basis Functies */
 	public void Draw(int player, int amount) {
@@ -115,6 +156,30 @@ public class Didnt_Playtest extends JFrame {
 		for (int i=0; i<20; i++) {
 			player1Hand.add(kaartNone);
 			player2Hand.add(kaartNone);
+		}
+	}
+	
+	public void callPrompt() {
+		prompt.setVisible(true);
+		for (int i=0; i<Prompts.size(); i++) {
+			String choice = Prompts.get(i);
+			prompt.add(choice);
+		}
+		confirm.setVisible(true);
+	}
+	
+	public void RockPaperScissors(String Loses, int Player) {
+		Prompts.clear();
+		Prompts.add("Rock");
+		Prompts.add("Paper");
+		Prompts.add("Scissors");
+		returnFunction = Loses;
+		callPrompt();
+	}
+	
+	public void RockPaperScissorsDone(String Loses, String Picked) {
+		if (Loses == Picked) {
+			playerLoses(1);
 		}
 	}
 	
@@ -149,13 +214,18 @@ public class Didnt_Playtest extends JFrame {
 		}
 	}
 	
-	/* Put the Cards in the Deck */
-	
+	public void AIPlaysCard() {
+		 int random = (int) Math.random() * player2Hand.size();
+		 runCard(player2Hand.get(random).getName(), 2);
+		 player2Hand.remove(random);
+	}
 	
 	public Didnt_Playtest() {
+		confirm.setVisible(false);
 		cards.add(kaartPc);
 		cards.add(kaartILose);
-		player1Hand.add(kaartILose);
+		cards.add(kaartBattleRock);
+		player1Hand.add(kaartBattleRock);
 		player1Hand.add(kaartILose);
 		player1Hand.add(kaartILose);
 		player1Hand.add(kaartILose);
@@ -255,6 +325,10 @@ public class Didnt_Playtest extends JFrame {
 		contentPane.add(b4);
 		b4.setBounds(710, 514, 125, 139);
 		
+		JLabel Display = new JLabel("New label");
+		Display.setBounds(59, 164, 583, 52);
+		contentPane.add(Display);
+		
 		switch (cardInHand4) {
 		case "nothing": b4.setVisible(false);
 						break;
@@ -262,18 +336,31 @@ public class Didnt_Playtest extends JFrame {
 						break;
 		}
 		
+		prompt.setBounds(382, 275, 113, 40);
+		contentPane.add(prompt);
+		prompt.setVisible(false);
 		
-		
-		
-		
-		
-		
-		
-		
-		 
-	
-		
-	
+
+
+		confirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String finalChoice = prompt.getSelectedItem();
+				if (returnFunction == "Rock" || returnFunction == "Paper" || returnFunction == "Scissors") {
+					RockPaperScissorsDone(returnFunction, finalChoice);
+				}
+				test.setText(finalChoice);
+			}
+		});
+		confirm.setBounds(382, 301, 113, 37);
+		contentPane.add(confirm);
+		btnTestprompt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				callPrompt();
+			}
+		});
+		btnTestprompt.setBounds(96, 130, 89, 23);
+
+		contentPane.add(btnTestprompt);
 		
 		
 	}
