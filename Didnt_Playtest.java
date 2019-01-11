@@ -1,5 +1,3 @@
-package thing;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -23,7 +21,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.Choice;
 import javax.swing.JTextField;
 
-public class sdadf extends JFrame {
+public class DidntPlaytest extends JFrame {
 
 	private JPanel contentPane;
 
@@ -34,7 +32,7 @@ public class sdadf extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					sdadf frame = new sdadf();
+					DidntPlaytest frame = new DidntPlaytest();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -116,10 +114,40 @@ public class sdadf extends JFrame {
 		}
 	}
 	
+	public class cardBattlePaper implements playable {
+		static final String name = "Battle! (Paper)";
+		static final String text = "Each player trows rock, paper or scissors.\nAnyone who trew paper loses.";
+		public void playCard(int Player) {
+			RockPaperScissors("Paper", Player);
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardBattleScissors implements playable {
+		static final String name = "Battle! (Scissors)";
+		static final String text = "Each player trows rock, paper or scissors.\nAnyone who trew scissors loses.";
+		public void playCard(int Player) {
+			RockPaperScissors("Scissors", Player);
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
 	cardPc kaartPc = new cardPc();
 	cardILose kaartILose = new cardILose();
 	cardNone kaartNone = new cardNone();
-	cardNone kaartBattleRock = new cardNone();
+	cardBattleRock kaartBattleRock = new cardBattleRock();
+	cardBattlePaper kaartBattlePaper = new cardBattlePaper();
+	cardBattleScissors kaartBattleScissors = new cardBattleScissors();
 	
 	/* Variablelen aanmaken */
 	 ArrayList<playable> player1Hand=new ArrayList<playable>();
@@ -160,7 +188,12 @@ public class sdadf extends JFrame {
 	}
 	
 	public void callPrompt() {
+		prompt.removeAll();
 		prompt.setVisible(true);
+		for (int i=0; i<Prompts.size(); i++) {
+			String choice = Prompts.get(i);
+			prompt.add(choice);
+		}
 		confirm.setVisible(true);
 	}
 	
@@ -213,14 +246,16 @@ public class sdadf extends JFrame {
 	/* Put the Cards in the Deck */
 	
 	
-	public sdadf() {
+	public DidntPlaytest() {
 		confirm.setVisible(false);
 		cards.add(kaartPc);
 		cards.add(kaartILose);
 		cards.add(kaartBattleRock);
+		cards.add(kaartBattlePaper);
+		cards.add(kaartBattleScissors);
 		player1Hand.add(kaartBattleRock);
-		player1Hand.add(kaartILose);
-		player1Hand.add(kaartILose);
+		player1Hand.add(kaartBattlePaper);
+		player1Hand.add(kaartBattleScissors);
 		player1Hand.add(kaartILose);
 		player1Hand.add(kaartILose);
 		startOfGame();
@@ -332,10 +367,7 @@ public class sdadf extends JFrame {
 		prompt.setBounds(382, 275, 113, 40);
 		contentPane.add(prompt);
 		prompt.setVisible(false);
-		for (int i=0; i<Prompts.size(); i++) {
-			String choice = Prompts.get(i);
-			prompt.add(choice);
-		}
+		
 
 
 		confirm.addActionListener(new ActionListener() {
