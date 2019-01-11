@@ -63,12 +63,15 @@ public class Didnt_Playtest extends JFrame {
 	}
 	
 	public class cardPc implements playable {
+		/* the name and card text */
 		static final String name = "PC";
 		static final String text = "Everybody wins";
+		/* the effect of the card */
 		public void playCard(int Player) {
 			playerWins(1);
 			playerWins(2);
 		}
+		/* the way to find the name and text of the card */
 		public String getName() {
 			return name;
 		}
@@ -206,9 +209,30 @@ public class Didnt_Playtest extends JFrame {
 		callPrompt();
 	}
 	
+	/* The function all the Numbers cards call to do their effect */
+	public void numbers(String Loses, int Player) {
+		Prompts.clear();
+		Prompts.add("1");
+		Prompts.add("2");
+		Prompts.add("3");
+		Prompts.add("4");
+		Prompts.add("5");
+		returnFunction = Loses;
+		callPrompt();
+	}
+	
 	/* the function the confirm button calls for Battle! cards */
 	public void RockPaperScissorsDone(String Loses, String Picked) {
 		if (Loses == Picked) {
+			playerLoses(1);
+		}
+	}
+	
+	public void numbersDone(String Loses, String Picked) {
+		if (Loses == "Even" && (Picked == "2" || Picked == "4")) {
+			playerLoses(1);
+		}
+		if (Loses == "Odd" && (Picked == "1" || Picked == "3" || Picked == "5")) {
 			playerLoses(1);
 		}
 	}
