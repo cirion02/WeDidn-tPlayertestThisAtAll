@@ -200,8 +200,8 @@ public class DidntPlaytest extends JFrame {
 		for (int i=0; i<amount; i++) {
 			random = (int) (Math.random()*library.size());
 			switch (player) {
-				case 1: player1Hand.add(library.get(random));
-				case 2: player2Hand.add(library.get(random));
+				case 1: player1Hand.add(0, library.get(random));
+				case 2: player2Hand.add(0, library.get(random));
 			}
 		}
 	}
@@ -228,11 +228,8 @@ public class DidntPlaytest extends JFrame {
 	
 	/* If the AI has to  make a choice, use this function */
 	public void AiChoise(String Loses) {
-		System.out.println(Prompts.size());
 		int choiceNumber = (int) (Math.random() * Prompts.size());
-		System.out.println(choiceNumber);
 		String choice = Prompts.get(choiceNumber);
-		System.out.println(choice);
 		l1.setText("Your opponent chose " + choice + ".  ");
 		if (choice == Loses || (Loses == "Even" && (choice == "2" || choice == "4")) || (Loses == "Odd" && (choice == "1" || choice == "3" || choice == "5"))) {
 			playerLoses(2);
@@ -247,6 +244,12 @@ public class DidntPlaytest extends JFrame {
 		Prompts.add("Paper");
 		Prompts.add("Scissors");
 		returnFunction = Loses;
+		if (Player == 2) {
+			callPrompt();
+		}
+		if (Player == 1) {
+			AiChoise(Loses);
+		}
 		
 	}
 	
@@ -337,12 +340,10 @@ public class DidntPlaytest extends JFrame {
 		cards.add(kaartBattleRock);
 		cards.add(kaartBattlePaper);
 		cards.add(kaartBattleScissors);
-		player1Hand.add(kaartBattleRock);
-		player1Hand.add(kaartBattlePaper);
-		player1Hand.add(kaartBattleScissors);
-		player1Hand.add(kaartNumbersEven);
-		player1Hand.add(kaartNumbersOdd);
+		cards.add(kaartNumbersEven);
+		cards.add(kaartNumbersOdd);
 		startOfGame();
+		Draw(1, 5);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 895, 758);
 		contentPane = new JPanel();
