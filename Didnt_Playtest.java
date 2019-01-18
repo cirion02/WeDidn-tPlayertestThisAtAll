@@ -162,6 +162,7 @@ public class Didnt_Playtest extends JFrame {
 	private final JButton btnTestprompt = new JButton("TESTPROMPT");
 	private JTextField test;
 	
+	boolean kaartGespeeld = false;
 	/* Basis Functies */
 	
 	/* Adds cards from the library to the hand */
@@ -237,24 +238,61 @@ public class Didnt_Playtest extends JFrame {
 	public void startOfGame(){
 		fillLibrary(10);
 		fillHand();
+		int startingPlayer = (int) Math.random() + 1;
+		if (startingPlayer == 1) {
+			
+		}
+		if (startingPlayer == 2) {
+			AIPlaysCard();
+		}
 	}
 	
 	/* If you give this a cardname it will activate that cards effect */
 	public void runCard(String Name, int Player) {
+		if (Player == 1) {
+			b0.setEnabled(false);
+			b1.setEnabled(false);
+			b2.setEnabled(false);
+			b3.setEnabled(false);
+			b4.setEnabled(false);
+		}
 		for (int i=0; i<cards.size(); i++) {
 			playable testObject = cards.get(i);
 			String name = testObject.getName();
 			if (Name == name) {
 				testObject.playCard(Player);
+				kaartGespeeld = false;
 			}
 		}
 	}
 	
 	/* If you give this a card-name it will activate that cards effect */
 	public void AIPlaysCard() {
-		 int random = (int) Math.random() * player2Hand.size();
-		 runCard(player2Hand.get(random).getName(), 2);
-		 player2Hand.remove(random);
+		b0.setEnabled(false);
+		b1.setEnabled(false);
+		b2.setEnabled(false);
+		b3.setEnabled(false);
+		b4.setEnabled(false); 
+		int random = (int) Math.random() * player2Hand.size();
+		runCard(player2Hand.get(random).getName(), 2);
+		player2Hand.remove(random);
+		b0.setEnabled(true);
+		b1.setEnabled(true);
+		b2.setEnabled(true);
+		b3.setEnabled(true);
+		b4.setEnabled(true);
+	}
+	/* turnsysteem */
+	public void PlayerTurn() {
+		while (kaartGespeeld = false) {
+		}
+		AITurn();
+	}
+	public void AITurn() {
+		AIPlaysCard();
+		while (kaartGespeeld = false) {
+			
+		}
 	}
 	
 	/*Front End (Mostly) */
@@ -267,11 +305,13 @@ public class Didnt_Playtest extends JFrame {
 		cards.add(kaartBattlePaper);
 		cards.add(kaartBattleScissors);
 		player1Hand.add(kaartBattleRock);
+		player2Hand.add(kaartILose);
 		player1Hand.add(kaartBattlePaper);
 		player1Hand.add(kaartBattleScissors);
 		player1Hand.add(kaartILose);
 		player1Hand.add(kaartILose);
 		startOfGame();
+		AIPlaysCard();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 895, 758);
 		contentPane = new JPanel();
@@ -389,11 +429,17 @@ public class Didnt_Playtest extends JFrame {
 		contentPane.add(b2);
 		contentPane.add(b3);
 		contentPane.add(b4);
+		b0.setEnabled(false);
+		b1.setEnabled(false);
+		b2.setEnabled(false);
+		b3.setEnabled(false);
+		b4.setEnabled(false);
 		contentPane.add(Display);
 		contentPane.add(prompt);
 		contentPane.add(confirm);
 		contentPane.add(btnTestprompt);
 		
+		// main game loop //
 		
 	}
 }
