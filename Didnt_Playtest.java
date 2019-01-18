@@ -24,14 +24,14 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
 /* Part of Eclipse */
-public class Didnt_Playtest extends JFrame {
+public class DidntPlaytest extends JFrame {
 
 	private JPanel contentPane;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Didnt_Playtest frame = new Didnt_Playtest();
+					DidntPlaytest frame = new DidntPlaytest();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -133,6 +133,34 @@ public class Didnt_Playtest extends JFrame {
 		}
 	}
 	
+	public class cardNumbersEven implements playable {
+		static final String name = "Numbers (Even)";
+		static final String text = "Each player trows between 1 and 5 fingers.\nAnyone who trew an even number of fingers loses.";
+		public void playCard(int Player) {
+			Numbers("Even", Player);
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardNumbersOdd implements playable {
+		static final String name = "Numbers (Odd)";
+		static final String text = "Each player trows between 1 and 5 fingers.\nAnyone who trew an odd number of fingers loses.";
+		public void playCard(int Player) {
+			Numbers("Odd", Player);
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
 	/* Make an Object for each class */
 	cardPc kaartPc = new cardPc();
 	cardILose kaartILose = new cardILose();
@@ -140,6 +168,8 @@ public class Didnt_Playtest extends JFrame {
 	cardBattleRock kaartBattleRock = new cardBattleRock();
 	cardBattlePaper kaartBattlePaper = new cardBattlePaper();
 	cardBattleScissors kaartBattleScissors = new cardBattleScissors();
+	cardNumbersOdd kaartNumbersOdd = new cardNumbersOdd();
+	cardNumbersEven kaartNumbersEven = new cardNumbersEven();
 	
 	/* Variablelen aanmaken */
 	 ArrayList<playable> player1Hand=new ArrayList<playable>();
@@ -196,6 +226,20 @@ public class Didnt_Playtest extends JFrame {
 		confirm.setVisible(true);
 	}
 	
+	/* If the AI has to  make a choice, use this function */
+	public void AiChoise(String Loses) {
+		System.out.println(Prompts.size());
+		int choiceNumber = (int) (Math.random() * Prompts.size());
+		System.out.println(choiceNumber);
+		String choice = Prompts.get(choiceNumber);
+		System.out.println(choice);
+		l1.setText("Your opponent chose " + choice + ".  ");
+		if (choice == Loses || (Loses == "Even" && (choice == "2" || choice == "4")) || (Loses == "Odd" && (choice == "1" || choice == "3" || choice == "5"))) {
+			playerLoses(2);
+		}
+	}
+	
+	
 	/* The function all the Battle! cards call to do their effect */
 	public void RockPaperScissors(String Loses, int Player) {
 		Prompts.clear();
@@ -203,7 +247,7 @@ public class Didnt_Playtest extends JFrame {
 		Prompts.add("Paper");
 		Prompts.add("Scissors");
 		returnFunction = Loses;
-		callPrompt();
+		
 	}
 	
 	/* the function the confirm button calls for Battle! cards */
@@ -211,6 +255,33 @@ public class Didnt_Playtest extends JFrame {
 		if (Loses == Picked) {
 			playerLoses(1);
 		}
+		confirm.setVisible(false);
+		prompt.setVisible(false);
+	}
+	
+	public void Numbers(String Loses, int Player) {
+		Prompts.clear();
+		Prompts.add("1");
+		Prompts.add("2");
+		Prompts.add("3");
+		Prompts.add("4");
+		Prompts.add("5");
+		returnFunction = Loses;
+		if (Player == 2) {
+			callPrompt();
+		}
+		if (Player == 1) {
+			AiChoise(Loses);
+		}
+	}
+	
+	
+	public void NumbersDone(String Loses, String Picked) {
+		if ((Loses == "Even" && (Picked == "2" || Picked == "4")) || (Loses == "Odd" && (Picked == "1" || Picked == "3" || Picked == "5"))) {
+			playerLoses(1);
+		}
+		confirm.setVisible(false);
+		prompt.setVisible(false);
 	}
 	
 	/* adds all the cards to the library */
@@ -258,7 +329,7 @@ public class Didnt_Playtest extends JFrame {
 	}
 	
 	/*Front End (Mostly) */
-	public Didnt_Playtest() {
+	public DidntPlaytest() {
 		confirm.setBounds(382, 301, 113, 37);
 		confirm.setVisible(false);
 		cards.add(kaartPc);
@@ -269,8 +340,8 @@ public class Didnt_Playtest extends JFrame {
 		player1Hand.add(kaartBattleRock);
 		player1Hand.add(kaartBattlePaper);
 		player1Hand.add(kaartBattleScissors);
-		player1Hand.add(kaartILose);
-		player1Hand.add(kaartILose);
+		player1Hand.add(kaartNumbersEven);
+		player1Hand.add(kaartNumbersOdd);
 		startOfGame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 895, 758);
