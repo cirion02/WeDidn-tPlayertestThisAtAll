@@ -68,6 +68,10 @@ public class DidntPlaytest extends JFrame {
 		public void playCard(int Player) {
 			playerWins(1);
 			playerWins(2);
+			kaartGespeeld = true;
+			if (Player == 1) {
+			kaartGespeeld = true;
+			}
 		}
 		public String getName() {
 			return name;
@@ -75,6 +79,7 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		
 	}
 	
 	public class cardILose implements playable {
@@ -82,6 +87,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "You Lose";
 		public void playCard(int Player) {
 			playerLoses(Player);
+			if (Player == 1) {
+			kaartGespeeld = true;
+			}
 		}
 		public String getName() {
 			return name;
@@ -235,6 +243,7 @@ public class DidntPlaytest extends JFrame {
 		if (choice == Loses || (Loses == "Even" && (choice == "2" || choice == "4")) || (Loses == "Odd" && (choice == "1" || choice == "3" || choice == "5"))) {
 			playerLoses(2);
 		}
+		kaartGespeeld = false;
 	}
 	
 	
@@ -305,7 +314,6 @@ public class DidntPlaytest extends JFrame {
 	/* Makes a player wins the game */
 	public void playerWins(int player) {
 		l1.setText(l1.getText() + player + " has won the game.  ");
-		System.exit(0);
 	}
 	
 	/* calls all functions that have to happen at the start of the game */
@@ -323,50 +331,35 @@ public class DidntPlaytest extends JFrame {
 	
 	/* If you give this a cardname it will activate that cards effect */
 	public void runCard(String Name, int Player) {
-		if (Player == 1) {
-			b0.setEnabled(false);
-			b1.setEnabled(false);
-			b2.setEnabled(false);
-			b3.setEnabled(false);
-			b4.setEnabled(false);
-		}
 		for (int i=0; i<cards.size(); i++) {
 			playable testObject = cards.get(i);
 			String name = testObject.getName();
 			if (Name == name) {
 				testObject.playCard(Player);
-				kaartGespeeld = false;
+			}
+			if (Player == 1) {
+				kaartGespeeld = true;
 			}
 		}
 	}
 	
 	/* If you give this a card-name it will activate that cards effect */
 	public void AIPlaysCard() {
-		b0.setEnabled(false);
-		b1.setEnabled(false);
-		b2.setEnabled(false);
-		b3.setEnabled(false);
-		b4.setEnabled(false); 
+		
 		int random = (int) Math.random() * player2Hand.size();
 		runCard(player2Hand.get(random).getName(), 2);
 		player2Hand.remove(random);
-		b0.setEnabled(true);
-		b1.setEnabled(true);
-		b2.setEnabled(true);
-		b3.setEnabled(true);
-		b4.setEnabled(true);
+		
 	}
 	/* turnsysteem */
+	public void AITurn() {
+		AIPlaysCard();
+		PlayerTurn();
+	}
 	public void PlayerTurn() {
 		while (kaartGespeeld = false) {
 		}
 		AITurn();
-	}
-	public void AITurn() {
-		AIPlaysCard();
-		while (kaartGespeeld = false) {
-			
-		}
 	}
 	
 	/*Front End (Mostly) */
@@ -382,6 +375,8 @@ public class DidntPlaytest extends JFrame {
 		cards.add(kaartNumbersOdd);
 		startOfGame();
 		Draw(1, 5);
+		Draw(2, 5);
+		PlayerTurn();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 895, 758);
 		contentPane = new JPanel();
@@ -488,7 +483,7 @@ public class DidntPlaytest extends JFrame {
 		btnTestprompt.setBounds(96, 130, 89, 23);
 		btnTestprompt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				callPrompt();
+				AIPlaysCard();
 			}
 		});
 		contentPane.setLayout(null);
@@ -499,11 +494,6 @@ public class DidntPlaytest extends JFrame {
 		contentPane.add(b2);
 		contentPane.add(b3);
 		contentPane.add(b4);
-		b0.setEnabled(false);
-		b1.setEnabled(false);
-		b2.setEnabled(false);
-		b3.setEnabled(false);
-		b4.setEnabled(false);
 		contentPane.add(Display);
 		contentPane.add(prompt);
 		contentPane.add(confirm);
