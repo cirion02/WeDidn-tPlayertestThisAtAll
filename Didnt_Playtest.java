@@ -192,7 +192,6 @@ public class DidntPlaytest extends JFrame {
 	private final JButton btnTestprompt = new JButton("TESTPROMPT");
 	private JTextField test;
 	
-	boolean kaartGespeeld = false;
 	/* Basis Functies */
 	
 	/* Adds cards from the library to the hand */
@@ -245,6 +244,7 @@ public class DidntPlaytest extends JFrame {
 		Prompts.add("Paper");
 		Prompts.add("Scissors");
 		returnFunction = Loses;
+		l1.setText(l1.getText() + "ROCK PAPER SCISSORS!");
 		if (Player == 2) {
 			callPrompt();
 		}
@@ -271,6 +271,7 @@ public class DidntPlaytest extends JFrame {
 		Prompts.add("4");
 		Prompts.add("5");
 		returnFunction = Loses;
+		l1.setText(l1.getText() + "CHOOSE A NUMBER!");
 		if (Player == 2) {
 			callPrompt();
 		}
@@ -312,62 +313,31 @@ public class DidntPlaytest extends JFrame {
 	public void startOfGame(){
 		fillLibrary(10);
 		fillHand();
-		int startingPlayer = (int) Math.random() + 1;
-		if (startingPlayer == 1) {
-			
-		}
-		if (startingPlayer == 2) {
-			AIPlaysCard();
-		}
 	}
 	
 	/* If you give this a cardname it will activate that cards effect */
 	public void runCard(String Name, int Player) {
-		if (Player == 1) {
-			b0.setEnabled(false);
-			b1.setEnabled(false);
-			b2.setEnabled(false);
-			b3.setEnabled(false);
-			b4.setEnabled(false);
-		}
+		
 		for (int i=0; i<cards.size(); i++) {
 			playable testObject = cards.get(i);
 			String name = testObject.getName();
 			if (Name == name) {
 				testObject.playCard(Player);
-				kaartGespeeld = false;
 			}
+		}
+		if (Player == 1) {
+			AIPlaysCard();
 		}
 	}
 	
 	/* If you give this a card-name it will activate that cards effect */
 	public void AIPlaysCard() {
-		b0.setEnabled(false);
-		b1.setEnabled(false);
-		b2.setEnabled(false);
-		b3.setEnabled(false);
-		b4.setEnabled(false); 
 		int random = (int) Math.random() * player2Hand.size();
 		runCard(player2Hand.get(random).getName(), 2);
 		player2Hand.remove(random);
-		b0.setEnabled(true);
-		b1.setEnabled(true);
-		b2.setEnabled(true);
-		b3.setEnabled(true);
-		b4.setEnabled(true);
 	}
 	/* turnsysteem */
-	public void PlayerTurn() {
-		while (kaartGespeeld = false) {
-		}
-		AITurn();
-	}
-	public void AITurn() {
-		AIPlaysCard();
-		while (kaartGespeeld = false) {
-			
-		}
-	}
+
 	
 	/*Front End (Mostly) */
 	public DidntPlaytest() {
@@ -382,6 +352,7 @@ public class DidntPlaytest extends JFrame {
 		cards.add(kaartNumbersOdd);
 		startOfGame();
 		Draw(1, 5);
+		Draw(2, 5);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 895, 758);
 		contentPane = new JPanel();
@@ -499,11 +470,6 @@ public class DidntPlaytest extends JFrame {
 		contentPane.add(b2);
 		contentPane.add(b3);
 		contentPane.add(b4);
-		b0.setEnabled(false);
-		b1.setEnabled(false);
-		b2.setEnabled(false);
-		b3.setEnabled(false);
-		b4.setEnabled(false);
 		contentPane.add(Display);
 		contentPane.add(prompt);
 		contentPane.add(confirm);
