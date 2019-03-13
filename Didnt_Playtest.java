@@ -523,6 +523,7 @@ public class DidntPlaytest extends JFrame {
 		for (int i=0; i<player2Battlefield.size(); i++) {
 			playable testObject = player2Battlefield.get(i);
 			testObject.battleEffect(2);
+		}
 		if (prompt.isVisible() == false) { 
 		b0.setEnabled(true);
 		b1.setEnabled(true);
