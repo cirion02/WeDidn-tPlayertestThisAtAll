@@ -161,6 +161,20 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
+	public class cardPoints implements playable {
+		static final String name = "Points";
+		static final String text = "You get +8 points, anyone with 15 or more points wins.";
+		public void playCard(int Player) {
+			Points(Player);
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
 	/* Make an Object for each class */
 	cardPc kaartPc = new cardPc();
 	cardILose kaartILose = new cardILose();
@@ -170,6 +184,7 @@ public class DidntPlaytest extends JFrame {
 	cardBattleScissors kaartBattleScissors = new cardBattleScissors();
 	cardNumbersOdd kaartNumbersOdd = new cardNumbersOdd();
 	cardNumbersEven kaartNumbersEven = new cardNumbersEven();
+	cardPoints kaartPoints = new cardPoints();
 	
 	/* Variablelen aanmaken */
 	 ArrayList<playable> player1Hand=new ArrayList<playable>();
@@ -177,7 +192,12 @@ public class DidntPlaytest extends JFrame {
 	 ArrayList<playable> library=new ArrayList<playable>(); 
 	 ArrayList<String> Prompts = new ArrayList<String>();
 	 ArrayList<playable> cards = new ArrayList<playable>();
+	 ArrayList<playable> totalBattlefield = new ArrayList<playable>();
+	 ArrayList<playable> player1Battlefield = new ArrayList<playable>();
+	 ArrayList<playable> player2Battlefield = new ArrayList<playable>();
 	 String returnFunction = "";
+	 int player1points = 0;
+	 int player2points = 0;
 		
 	/* Alles objecten predifineren */
 	JLabel l1 = new JLabel("");
@@ -254,6 +274,21 @@ public class DidntPlaytest extends JFrame {
 		
 	}
 	
+	public void Points(int Player) {
+		switch (Player) {
+		case 1 :	player1points += 8;
+					player1Battlefield.add(kaartPoints);
+					if (player1points > 14) {
+						playerWins(1);
+					}
+		case 2 :	player2points += 8;
+					player2Battlefield.add(kaartPoints);
+					if (player2points > 14) {
+						playerWins(2);
+					}
+		}
+	}
+	
 	/* the function the confirm button calls for Battle! cards */
 	public void RockPaperScissorsDone(String Loses, String Picked) {
 		if (Loses == Picked) {
@@ -306,7 +341,6 @@ public class DidntPlaytest extends JFrame {
 	/* Makes a player wins the game */
 	public void playerWins(int player) {
 		l1.setText(l1.getText() + player + " has won the game.  ");
-		System.exit(0);
 	}
 	
 	/* calls all functions that have to happen at the start of the game */
@@ -337,7 +371,6 @@ public class DidntPlaytest extends JFrame {
 		player2Hand.remove(random);
 	}
 	/* turnsysteem */
-
 	
 	/*Front End (Mostly) */
 	public DidntPlaytest() {
@@ -350,6 +383,7 @@ public class DidntPlaytest extends JFrame {
 		cards.add(kaartBattleScissors);
 		cards.add(kaartNumbersEven);
 		cards.add(kaartNumbersOdd);
+		cards.add(kaartPoints);
 		startOfGame();
 		Draw(1, 5);
 		Draw(2, 5);
