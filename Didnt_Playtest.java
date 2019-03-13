@@ -45,6 +45,7 @@ public class DidntPlaytest extends JFrame {
 	/* Make the thing that all the cards are */
 	public interface playable {
 		public void playCard(int player);
+		public void battleEffect(int player);
 		public String getName();
 		public String getText();
 	}
@@ -52,6 +53,9 @@ public class DidntPlaytest extends JFrame {
 	/* Make all the cards ass classes*/
 	public class cardNone implements playable {
 		public void playCard(int Player) {
+			
+		}
+		public void battleEffect(int Player) {
 			
 		}
 		public String getName() {
@@ -69,6 +73,9 @@ public class DidntPlaytest extends JFrame {
 			playerWins(1);
 			playerWins(2);
 		}
+		public void battleEffect(int Player) {
+			
+		}
 		public String getName() {
 			return name;
 		}
@@ -82,6 +89,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "You Lose";
 		public void playCard(int Player) {
 			playerLoses(Player);
+		}
+		public void battleEffect(int Player) {
+			
 		}
 		public String getName() {
 			return name;
@@ -97,6 +107,9 @@ public class DidntPlaytest extends JFrame {
 		public void playCard(int Player) {
 			RockPaperScissors("Rock", Player);
 		}
+		public void battleEffect(int Player) {
+			
+		}
 		public String getName() {
 			return name;
 		}
@@ -110,6 +123,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "Each player trows rock, paper or scissors.\nAnyone who trew paper loses.";
 		public void playCard(int Player) {
 			RockPaperScissors("Paper", Player);
+		}
+		public void battleEffect(int Player) {
+			
 		}
 		public String getName() {
 			return name;
@@ -125,6 +141,9 @@ public class DidntPlaytest extends JFrame {
 		public void playCard(int Player) {
 			RockPaperScissors("Scissors", Player);
 		}
+		public void battleEffect(int Player) {
+			
+		}
 		public String getName() {
 			return name;
 		}
@@ -138,6 +157,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "Each player trows between 1 and 5 fingers.\nAnyone who trew an even number of fingers loses.";
 		public void playCard(int Player) {
 			Numbers("Even", Player);
+		}
+		public void battleEffect(int Player) {
+			
 		}
 		public String getName() {
 			return name;
@@ -153,6 +175,9 @@ public class DidntPlaytest extends JFrame {
 		public void playCard(int Player) {
 			Numbers("Odd", Player);
 		}
+		public void battleEffect(int Player) {
+			
+		}
 		public String getName() {
 			return name;
 		}
@@ -166,6 +191,70 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "You get +8 points, anyone with 15 or more points wins.";
 		public void playCard(int Player) {
 			Points(Player);
+		}
+		public void battleEffect(int Player) {
+			
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardNoDrawing implements playable {
+		static final String name = "No Drawing!";
+		static final String text = "PLayers can't draw cards, if they have no card to play they lose.";
+		public void playCard(int Player) {
+			totalBattlefield.add(kaartNoDrawing);
+			Drawing = false;
+		}
+		public void battleEffect(int Player) {
+			
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardSuperPoints implements playable {
+		static final String name = "Super Points";
+		static final String text = "You get +90 points, but now you need 100 or more points wins.";
+		public void playCard(int Player) {
+			winPoints = 100;
+			superPoints(Player);
+		}
+		public void battleEffect(int Player) {
+			
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardTheEnd implements playable {
+		static final String name = "The End";
+		static final String text = "At the end of your next turn, everyone loses.";
+		public void playCard(int Player) {
+			switch (Player) {
+			case 1 : player1Battlefield.add(kaartTheEnd);
+			case 2 : player2Battlefield.add(kaartTheEnd);
+			}
+				
+		}
+		public void battleEffect(int Player) {
+			theEndTimer -= 1;
+			if (theEndTimer == 0) {
+				playerLoses(1);
+				playerLoses(2);
+			}
 		}
 		public String getName() {
 			return name;
@@ -185,20 +274,26 @@ public class DidntPlaytest extends JFrame {
 	cardNumbersOdd kaartNumbersOdd = new cardNumbersOdd();
 	cardNumbersEven kaartNumbersEven = new cardNumbersEven();
 	cardPoints kaartPoints = new cardPoints();
+	cardTheEnd kaartTheEnd = new cardTheEnd();
+	cardSuperPoints kaartSuperPoints = new cardSuperPoints();
+	cardNoDrawing kaartNoDrawing = new cardNoDrawing();
 	
 	/* Variablelen aanmaken */
-	 ArrayList<playable> player1Hand=new ArrayList<playable>();
-	 ArrayList<playable> player2Hand=new ArrayList<playable>();
-	 ArrayList<playable> library=new ArrayList<playable>(); 
-	 ArrayList<String> Prompts = new ArrayList<String>();
-	 ArrayList<playable> cards = new ArrayList<playable>();
-	 ArrayList<playable> totalBattlefield = new ArrayList<playable>();
-	 ArrayList<playable> player1Battlefield = new ArrayList<playable>();
-	 ArrayList<playable> player2Battlefield = new ArrayList<playable>();
-	 String returnFunction = "";
-	 int player1points = 0;
-	 int player2points = 0;
-		
+	ArrayList<playable> player1Hand=new ArrayList<playable>();
+	ArrayList<playable> player2Hand=new ArrayList<playable>();
+	ArrayList<playable> library=new ArrayList<playable>(); 
+	ArrayList<String> Prompts = new ArrayList<String>();
+	ArrayList<playable> cards = new ArrayList<playable>();
+	ArrayList<playable> totalBattlefield = new ArrayList<playable>();
+	ArrayList<playable> player1Battlefield = new ArrayList<playable>();
+	ArrayList<playable> player2Battlefield = new ArrayList<playable>();
+	String returnFunction = "";
+	int player1points = 0;
+	int player2points = 0;
+	int theEndTimer = 2;
+	int winPoints = 15;
+	boolean Drawing = true;
+	
 	/* Alles objecten predifineren */
 	JLabel l1 = new JLabel("");
 	JButton b0 = new JButton("");
@@ -218,12 +313,23 @@ public class DidntPlaytest extends JFrame {
 	
 	/* Adds cards from the library to the hand */
 	public void Draw(int player, int amount) {
-		int random;
-		for (int i=0; i<amount; i++) {
-			random = (int) (Math.random()*library.size());
-			switch (player) {
-				case 1: player1Hand.add(0, library.get(random));
-				case 2: player2Hand.add(0, library.get(random));
+		if (Drawing == true) {
+			int random;
+			for (int i=0; i<amount; i++) {
+				random = (int) (Math.random()*library.size());
+				switch (player) {
+					case 1: player1Hand.add(0, library.get(random));
+					case 2: player2Hand.add(0, library.get(random));
+				}
+			}
+		}
+		else {
+			if (player == 1 && player1Hand.size() == 0) {
+				playerLoses(1);
+			}
+
+			if (player == 2 && player2Hand.size() == 0) {
+				playerLoses(2);
 			}
 		}
 	}
@@ -280,12 +386,27 @@ public class DidntPlaytest extends JFrame {
 		switch (Player) {
 		case 1 :	player1points += 8;
 					player1Battlefield.add(kaartPoints);
-					if (player1points > 14) {
+					if (player1points >= winPoints) {
 						playerWins(1);
 					}
 		case 2 :	player2points += 8;
 					player2Battlefield.add(kaartPoints);
-					if (player2points > 14) {
+					if (player2points >= winPoints) {
+						playerWins(2);
+					}
+		}
+	}
+	
+	public void superPoints(int Player) {
+		switch (Player) {
+		case 1 :	player1points += 90;
+					player1Battlefield.add(kaartSuperPoints);
+					if (player1points >= winPoints) {
+						playerWins(1);
+					}
+		case 2 :	player2points += 90;
+					player2Battlefield.add(kaartSuperPoints);
+					if (player2points >= winPoints) {
 						playerWins(2);
 					}
 		}
@@ -374,6 +495,10 @@ public class DidntPlaytest extends JFrame {
 			}
 		}
 		if (Player == 1) {
+			for (int i=0; i<player1Battlefield.size(); i++) {
+				playable testObject = player1Battlefield.get(i);
+				testObject.battleEffect(1);
+			}
 			if (extraTurn) {
 				extraTurn = false;
 			}
@@ -391,9 +516,13 @@ public class DidntPlaytest extends JFrame {
 	
 	/* If you give this a card-name it will activate that cards effect */
 	public void AIPlaysCard() {
+		Draw(2, 1);
 		int random = (int) Math.random() * player2Hand.size();
 		runCard(player2Hand.get(random).getName(), 2);
 		player2Hand.remove(random);
+		for (int i=0; i<player2Battlefield.size(); i++) {
+			playable testObject = player2Battlefield.get(i);
+			testObject.battleEffect(2);
 		if (prompt.isVisible() == false) { 
 		b0.setEnabled(true);
 		b1.setEnabled(true);
@@ -417,6 +546,9 @@ public class DidntPlaytest extends JFrame {
 		cards.add(kaartNumbersEven);
 		cards.add(kaartNumbersOdd);
 		cards.add(kaartPoints);
+		cards.add(kaartSuperPoints);
+		cards.add(kaartTheEnd);
+		cards.add(kaartNoDrawing);
 		startOfGame();
 		Draw(1, 5);
 		Draw(2, 5);
@@ -429,6 +561,7 @@ public class DidntPlaytest extends JFrame {
 		b0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runCard(player1Hand.get(0).getName(), 1);
+				player2Hand.remove(0);
 			}
 		});
 		String cardInHand0 = player1Hand.get(0).getName();
@@ -445,6 +578,7 @@ public class DidntPlaytest extends JFrame {
 		b1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runCard(player1Hand.get(1).getName(), 1);
+				player2Hand.remove(1);
 			}
 		});
 		String cardInHand1 = player1Hand.get(1).getName();
@@ -462,6 +596,7 @@ public class DidntPlaytest extends JFrame {
 		b2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runCard(player1Hand.get(2).getName(), 1);
+				player2Hand.remove(2);
 			}
 		});
 		String cardInHand2 = player1Hand.get(2).getName();
@@ -479,6 +614,7 @@ public class DidntPlaytest extends JFrame {
 		b3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runCard(player1Hand.get(3).getName(), 1);
+				player2Hand.remove(3);
 			}
 		});
 		String cardInHand3 = player1Hand.get(3).getName();
@@ -496,6 +632,7 @@ public class DidntPlaytest extends JFrame {
 		b4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runCard(player1Hand.get(4).getName(), 1);
+				player2Hand.remove(4);
 			}
 		});
 		String cardInHand4 = player1Hand.get(4).getName();
