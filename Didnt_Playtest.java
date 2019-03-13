@@ -302,10 +302,12 @@ public class DidntPlaytest extends JFrame {
 	JButton b3 = new JButton("");
 	JButton b4 = new JButton("");
 	
+	boolean extraTurn= false;
 	Choice prompt = new Choice();
 	JButton confirm = new JButton("Confirm");
 	private final JButton btnTestprompt = new JButton("TESTPROMPT");
 	private JTextField test;
+	private final JButton clearlabel = new JButton("CLEAR LABEL");
 	
 	/* Basis Functies */
 	
@@ -417,6 +419,12 @@ public class DidntPlaytest extends JFrame {
 		}
 		confirm.setVisible(false);
 		prompt.setVisible(false);
+		b0.setEnabled(true);
+		b1.setEnabled(true);
+		b2.setEnabled(true);
+		b3.setEnabled(true);
+		b4.setEnabled(true);
+		Draw(1,1);
 	}
 	
 	public void Numbers(String Loses, int Player) {
@@ -443,6 +451,12 @@ public class DidntPlaytest extends JFrame {
 		}
 		confirm.setVisible(false);
 		prompt.setVisible(false);
+		b0.setEnabled(true);
+		b1.setEnabled(true);
+		b2.setEnabled(true);
+		b3.setEnabled(true);
+		b4.setEnabled(true);
+		Draw(1,1);
 	}
 	
 	/* adds all the cards to the library */
@@ -485,8 +499,19 @@ public class DidntPlaytest extends JFrame {
 				playable testObject = player1Battlefield.get(i);
 				testObject.battleEffect(1);
 			}
-			AIPlaysCard();
+			if (extraTurn) {
+				extraTurn = false;
+			}
+			else {
+				b0.setEnabled(false);
+				b1.setEnabled(false);
+				b2.setEnabled(false);
+				b3.setEnabled(false);
+				b4.setEnabled(false);
+				AIPlaysCard();
+			}
 		}
+	
 	}
 	
 	/* If you give this a card-name it will activate that cards effect */
@@ -498,6 +523,13 @@ public class DidntPlaytest extends JFrame {
 		for (int i=0; i<player2Battlefield.size(); i++) {
 			playable testObject = player2Battlefield.get(i);
 			testObject.battleEffect(2);
+		if (prompt.isVisible() == false) { 
+		b0.setEnabled(true);
+		b1.setEnabled(true);
+		b2.setEnabled(true);
+		b3.setEnabled(true);
+		b4.setEnabled(true);
+		Draw(1,1);
 		}
 	}
 	/* turnsysteem */
@@ -626,6 +658,9 @@ public class DidntPlaytest extends JFrame {
 				if (returnFunction == "Rock" || returnFunction == "Paper" || returnFunction == "Scissors") {
 					RockPaperScissorsDone(returnFunction, finalChoice);
 				}
+				if (returnFunction == "Even" || returnFunction == "Odd") {
+					NumbersDone(returnFunction, finalChoice);
+				}
 			}
 		});
 		btnTestprompt.setBounds(96, 130, 89, 23);
@@ -635,7 +670,16 @@ public class DidntPlaytest extends JFrame {
 			}
 		});
 		contentPane.setLayout(null);
-		l1.setBounds(10, 21, 768, 74);
+		
+		JButton testExtraTurnMyNigga = new JButton("xtra turn");
+		testExtraTurnMyNigga.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				extraTurn = true;
+			}
+		});
+		testExtraTurnMyNigga.setBounds(200, 308, 89, 23);
+		contentPane.add(testExtraTurnMyNigga);
+		l1.setBounds(10, 22, 768, 74);
 		contentPane.add(l1);
 		contentPane.add(b0);
 		contentPane.add(b1);
@@ -646,6 +690,14 @@ public class DidntPlaytest extends JFrame {
 		contentPane.add(prompt);
 		contentPane.add(confirm);
 		contentPane.add(btnTestprompt);
+		clearlabel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				l1.setText("");
+			}
+		});
+		clearlabel.setBounds(30, 273, 89, 23);
+		
+		contentPane.add(clearlabel);
 		
 		// main game loop //
 		
