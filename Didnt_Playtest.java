@@ -212,7 +212,6 @@ public class DidntPlaytest extends JFrame {
 	private final JButton btnTestprompt = new JButton("TESTPROMPT");
 	private JTextField test;
 	
-	boolean kaartGespeeld = false;
 	/* Basis Functies */
 	
 	/* Adds cards from the library to the hand */
@@ -265,6 +264,7 @@ public class DidntPlaytest extends JFrame {
 		Prompts.add("Paper");
 		Prompts.add("Scissors");
 		returnFunction = Loses;
+		l1.setText(l1.getText() + "ROCK PAPER SCISSORS!");
 		if (Player == 2) {
 			callPrompt();
 		}
@@ -306,6 +306,7 @@ public class DidntPlaytest extends JFrame {
 		Prompts.add("4");
 		Prompts.add("5");
 		returnFunction = Loses;
+		l1.setText(l1.getText() + "CHOOSE A NUMBER!");
 		if (Player == 2) {
 			callPrompt();
 		}
@@ -358,12 +359,18 @@ public class DidntPlaytest extends JFrame {
 				testObject.playCard(Player);
 			}
 		}
+		if (Player == 1) {
+			AIPlaysCard();
+		}
 	}
 	
 	/* If you give this a card-name it will activate that cards effect */
-	
+	public void AIPlaysCard() {
+		int random = (int) Math.random() * player2Hand.size();
+		runCard(player2Hand.get(random).getName(), 2);
+		player2Hand.remove(random);
+	}
 	/* turnsysteem */
-	
 	
 	/*Front End (Mostly) */
 	public DidntPlaytest() {
@@ -379,6 +386,7 @@ public class DidntPlaytest extends JFrame {
 		cards.add(kaartPoints);
 		startOfGame();
 		Draw(1, 5);
+		Draw(2, 5);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 895, 758);
 		contentPane = new JPanel();
