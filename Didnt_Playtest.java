@@ -22,6 +22,10 @@ import java.awt.Choice;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.SwingConstants;
+import javax.swing.JList;
+import java.awt.List;
+import java.awt.Font;
 
 /* Part of Eclipse */
 public class DidntPlaytest extends JFrame {
@@ -244,8 +248,10 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "At the end of your next turn, everyone loses.";
 		public void playCard(int Player) {
 			switch (Player) {
-			case 1 : player1Battlefield.add(kaartTheEnd);
-			case 2 : player2Battlefield.add(kaartTheEnd);
+			case 1 :	player1Battlefield.add(kaartTheEnd);
+						break;
+			case 2 :	player2Battlefield.add(kaartTheEnd);
+						break;
 			}
 				
 		}
@@ -293,21 +299,19 @@ public class DidntPlaytest extends JFrame {
 	int theEndTimer = 2;
 	int winPoints = 15;
 	boolean Drawing = true;
-	
-	/* Alles objecten predifineren */
-	JLabel l1 = new JLabel("");
+	String lastAiCard;
 	JButton b0 = new JButton("");
 	JButton b1 = new JButton("");
 	JButton b2 = new JButton("");
 	JButton b3 = new JButton("");
 	JButton b4 = new JButton("");
+	List history = new List();
 	
 	boolean extraTurn= false;
 	Choice prompt = new Choice();
 	JButton confirm = new JButton("Confirm");
 	private final JButton btnTestprompt = new JButton("TESTPROMPT");
 	private JTextField test;
-	private final JButton clearlabel = new JButton("CLEAR LABEL");
 	
 	/* Basis Functies */
 	
@@ -319,6 +323,7 @@ public class DidntPlaytest extends JFrame {
 				random = (int) (Math.random()*library.size());
 				switch (player) {
 					case 1: player1Hand.add(0, library.get(random));
+							updateButtons();
 					case 2: player2Hand.add(0, library.get(random));
 				}
 			}
@@ -358,7 +363,7 @@ public class DidntPlaytest extends JFrame {
 	public void AiChoise(String Loses) {
 		int choiceNumber = (int) (Math.random() * Prompts.size());
 		String choice = Prompts.get(choiceNumber);
-		l1.setText("Your opponent chose " + choice + ".  ");
+		history.add("Your opponent chose " + choice + ".  ");
 		if (choice == Loses || (Loses == "Even" && (choice == "2" || choice == "4")) || (Loses == "Odd" && (choice == "1" || choice == "3" || choice == "5"))) {
 			playerLoses(2);
 		}
@@ -372,7 +377,7 @@ public class DidntPlaytest extends JFrame {
 		Prompts.add("Paper");
 		Prompts.add("Scissors");
 		returnFunction = Loses;
-		l1.setText(l1.getText() + "ROCK PAPER SCISSORS!");
+		history.add("ROCK PAPER SCISSORS!");
 		if (Player == 2) {
 			callPrompt();
 		}
@@ -385,15 +390,19 @@ public class DidntPlaytest extends JFrame {
 	public void Points(int Player) {
 		switch (Player) {
 		case 1 :	player1points += 8;
+					System.out.println("player 1 got points");
 					player1Battlefield.add(kaartPoints);
 					if (player1points >= winPoints) {
 						playerWins(1);
 					}
+					break;
 		case 2 :	player2points += 8;
+					System.out.println("player 2 got points");
 					player2Battlefield.add(kaartPoints);
 					if (player2points >= winPoints) {
 						playerWins(2);
-					}
+					};
+					break;
 		}
 	}
 	
@@ -404,11 +413,13 @@ public class DidntPlaytest extends JFrame {
 					if (player1points >= winPoints) {
 						playerWins(1);
 					}
+					break;
 		case 2 :	player2points += 90;
 					player2Battlefield.add(kaartSuperPoints);
 					if (player2points >= winPoints) {
 						playerWins(2);
 					}
+					break;
 		}
 	}
 	
@@ -424,6 +435,7 @@ public class DidntPlaytest extends JFrame {
 		b2.setEnabled(true);
 		b3.setEnabled(true);
 		b4.setEnabled(true);
+		history.add("Your opponent played: " + lastAiCard + ". ");
 		Draw(1,1);
 	}
 	
@@ -435,13 +447,50 @@ public class DidntPlaytest extends JFrame {
 		Prompts.add("4");
 		Prompts.add("5");
 		returnFunction = Loses;
-		l1.setText(l1.getText() + "CHOOSE A NUMBER!");
 		if (Player == 2) {
 			callPrompt();
 		}
 		if (Player == 1) {
 			AiChoise(Loses);
 		}
+	}
+	
+	public void updateButtons() {
+		b0.setText(player1Hand.get(0).getName());
+		b1.setText(player1Hand.get(1).getName());
+		b2.setText(player1Hand.get(2).getName());
+		b3.setText(player1Hand.get(3).getName());
+		b4.setText(player1Hand.get(4).getName());
+		switch (player1Hand.get(0).getName()) {
+		case "nothing": b0.setVisible(false);
+						break;
+		default: 		b0.setVisible(true);	
+						break;
+		} 
+		switch (player1Hand.get(1).getName()) {
+		case "nothing": b1.setVisible(false);
+						break;
+		default: 		b1.setVisible(true);	
+						break;
+		} 
+		switch (player1Hand.get(2).getName()) {
+		case "nothing": b2.setVisible(false);
+						break;
+		default: 		b2.setVisible(true);	
+						break;
+		} 
+		switch (player1Hand.get(3).getName()) {
+		case "nothing": b3.setVisible(false);
+						break;
+		default: 		b3.setVisible(true);	
+						break;
+		} 
+		switch (player1Hand.get(4).getName()) {
+		case "nothing": b4.setVisible(false);
+						break;
+		default: 		b4.setVisible(true);	
+						break;
+		} 
 	}
 	
 	
@@ -456,6 +505,7 @@ public class DidntPlaytest extends JFrame {
 		b2.setEnabled(true);
 		b3.setEnabled(true);
 		b4.setEnabled(true);
+		history.add("Your opponent played: " + lastAiCard + ". ");
 		Draw(1,1);
 	}
 	
@@ -470,12 +520,12 @@ public class DidntPlaytest extends JFrame {
 	
 	/* Makes a player loses the game */
 	public void playerLoses(int player) {
-		l1.setText(l1.getText() + "player " + player + " has lost the game.  ");
+		history.add("player " + player + " has lost the game.  ");
 	}
 	
 	/* Makes a player wins the game */
 	public void playerWins(int player) {
-		l1.setText(l1.getText() + player + " has won the game.  ");
+		history.add("player " + player + " has won the game.  ");
 	}
 	
 	/* calls all functions that have to happen at the start of the game */
@@ -486,7 +536,6 @@ public class DidntPlaytest extends JFrame {
 	
 	/* If you give this a cardname it will activate that cards effect */
 	public void runCard(String Name, int Player) {
-		
 		for (int i=0; i<cards.size(); i++) {
 			playable testObject = cards.get(i);
 			String name = testObject.getName();
@@ -495,12 +544,14 @@ public class DidntPlaytest extends JFrame {
 			}
 		}
 		if (Player == 1) {
+			history.add("You played: " + Name + ". ");
 			for (int i=0; i<player1Battlefield.size(); i++) {
 				playable testObject = player1Battlefield.get(i);
 				testObject.battleEffect(1);
 			}
 			if (extraTurn) {
 				extraTurn = false;
+				Draw(1,1);
 			}
 			else {
 				b0.setEnabled(false);
@@ -518,6 +569,7 @@ public class DidntPlaytest extends JFrame {
 	public void AIPlaysCard() {
 		Draw(2, 1);
 		int random = (int) Math.random() * player2Hand.size();
+		lastAiCard = player2Hand.get(random).getName();
 		runCard(player2Hand.get(random).getName(), 2);
 		player2Hand.remove(random);
 		for (int i=0; i<player2Battlefield.size(); i++) {
@@ -525,6 +577,7 @@ public class DidntPlaytest extends JFrame {
 			testObject.battleEffect(2);
 		}
 		if (prompt.isVisible() == false) { 
+		history.add("Your opponent played: " + lastAiCard + ". ");
 		b0.setEnabled(true);
 		b1.setEnabled(true);
 		b2.setEnabled(true);
@@ -558,11 +611,12 @@ public class DidntPlaytest extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		b0.setBounds(30, 514, 125, 139);
+		b0.setBounds(30, 550, 125, 139);
 		b0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runCard(player1Hand.get(0).getName(), 1);
-				player2Hand.remove(0);
+				player1Hand.remove(0);
+				updateButtons();
 			}
 		});
 		String cardInHand0 = player1Hand.get(0).getName();
@@ -574,12 +628,13 @@ public class DidntPlaytest extends JFrame {
 		default: 		b0.setVisible(true);	
 						break;
 		}
-		b1.setBounds(200, 514, 125, 139);
+		b1.setBounds(199, 550, 125, 139);
 		
 		b1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runCard(player1Hand.get(1).getName(), 1);
-				player2Hand.remove(1);
+				player1Hand.remove(1);
+				updateButtons();
 			}
 		});
 		String cardInHand1 = player1Hand.get(1).getName();
@@ -591,13 +646,14 @@ public class DidntPlaytest extends JFrame {
 		default: 		b1.setVisible(true);	
 						break;
 		}
-		b2.setBounds(370, 514, 125, 139);
+		b2.setBounds(370, 550, 125, 139);
 		
 
 		b2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runCard(player1Hand.get(2).getName(), 1);
-				player2Hand.remove(2);
+				player1Hand.remove(2);
+				updateButtons();
 			}
 		});
 		String cardInHand2 = player1Hand.get(2).getName();
@@ -609,13 +665,14 @@ public class DidntPlaytest extends JFrame {
 		default: 		b2.setVisible(true);	
 						break;
 		}
-		b3.setBounds(540, 514, 125, 139);
+		b3.setBounds(544, 550, 125, 139);
 		
 
 		b3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runCard(player1Hand.get(3).getName(), 1);
-				player2Hand.remove(3);
+				player1Hand.remove(3);
+				updateButtons();
 			}
 		});
 		String cardInHand3 = player1Hand.get(3).getName();
@@ -627,20 +684,18 @@ public class DidntPlaytest extends JFrame {
 		default: 		b3.setVisible(true);	
 						break;
 		}
-		b4.setBounds(710, 514, 125, 139);
+		b4.setBounds(713, 550, 125, 139);
 		
 
 		b4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runCard(player1Hand.get(4).getName(), 1);
-				player2Hand.remove(4);
+				player1Hand.remove(4);
+				updateButtons();
 			}
 		});
 		String cardInHand4 = player1Hand.get(4).getName();
 		b4.setText(player1Hand.get(4).getName());
-		
-		JLabel Display = new JLabel("New label");
-		Display.setBounds(59, 164, 583, 52);
 		
 		switch (cardInHand4) {
 		case "nothing": b4.setVisible(false);
@@ -664,7 +719,7 @@ public class DidntPlaytest extends JFrame {
 				}
 			}
 		});
-		btnTestprompt.setBounds(96, 130, 89, 23);
+		btnTestprompt.setBounds(30, 22, 89, 23);
 		btnTestprompt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				callPrompt();
@@ -678,27 +733,24 @@ public class DidntPlaytest extends JFrame {
 				extraTurn = true;
 			}
 		});
-		testExtraTurnMyNigga.setBounds(200, 308, 89, 23);
+		testExtraTurnMyNigga.setBounds(146, 22, 89, 23);
 		contentPane.add(testExtraTurnMyNigga);
-		l1.setBounds(10, 22, 768, 74);
-		contentPane.add(l1);
 		contentPane.add(b0);
 		contentPane.add(b1);
 		contentPane.add(b2);
 		contentPane.add(b3);
 		contentPane.add(b4);
-		contentPane.add(Display);
 		contentPane.add(prompt);
 		contentPane.add(confirm);
 		contentPane.add(btnTestprompt);
-		clearlabel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				l1.setText("");
-			}
-		});
-		clearlabel.setBounds(30, 273, 89, 23);
 		
-		contentPane.add(clearlabel);
+		JLabel lblNewLabel = new JLabel("History");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblNewLabel.setBounds(707, 78, 90, 46);
+		contentPane.add(lblNewLabel);
+		
+		history.setBounds(631, 130, 221, 232);
+		contentPane.add(history);
 		
 		// main game loop //
 		
