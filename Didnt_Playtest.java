@@ -22,6 +22,10 @@ import java.awt.Choice;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.SwingConstants;
+import javax.swing.JList;
+import java.awt.List;
+import java.awt.Font;
 
 /* Part of Eclipse */
 public class DidntPlaytest extends JFrame {
@@ -244,8 +248,10 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "At the end of your next turn, everyone loses.";
 		public void playCard(int Player) {
 			switch (Player) {
-			case 1 : player1Battlefield.add(kaartTheEnd);
-			case 2 : player2Battlefield.add(kaartTheEnd);
+			case 1 :	player1Battlefield.add(kaartTheEnd);
+						break;
+			case 2 :	player2Battlefield.add(kaartTheEnd);
+						break;
 			}
 				
 		}
@@ -264,6 +270,289 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
+	public class cardBomb implements playable {
+		static final String name = "Bomb";
+		static final String text = "Take an extra turn. If there are 4 or more bombs face up everyone loses.";
+		public void playCard(int Player) {
+			extraTurn = true;
+			totalBattlefield.add(kaartBomb);
+			int bombCount = 0;
+			for (int i=0; i<totalBattlefield.size(); i++) {
+				if (totalBattlefield.get(i).getName() == "Bomb") {
+					bombCount++;
+				}
+			}
+			if (bombCount > 3) {
+				playerLoses(1);
+				playerLoses(2);
+			}
+				
+		}
+		public void battleEffect(int Player) {
+			
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardBombParty implements playable {
+		static final String name = "Bomb Party";
+		static final String text = "Each player puts all bomb from their hand into play, if there are 4 or more bombs face up now, you win!";
+		public void playCard(int Player) {
+			for (int i=0; i<player1Hand.size(); i++) {
+				if (player1Hand.get(i).getName() == "Bomb") {
+					totalBattlefield.add(kaartBomb);
+					player1Hand.remove(i);
+					i--;
+				}
+			}
+			for (int i=0; i<player2Hand.size(); i++) {
+				if (player2Hand.get(i).getName() == "Bomb") {
+					totalBattlefield.add(kaartBomb);
+					player2Hand.remove(i);
+					i--;
+				}
+			}
+			int bombCount = 0;
+			for (int i=0; i<totalBattlefield.size(); i++) {
+				if (totalBattlefield.get(i).getName() == "Bomb") {
+					bombCount++;
+				}
+			}
+			if (bombCount > 3) {
+				playerLoses(Player);
+			}
+		}
+		public void battleEffect(int Player) {
+			
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardDragon implements playable {
+		static final String name = "Dragon";
+		static final String text = "Place in front of your opponent. if this card is infront of you at the end of turn you lose.";
+		public void playCard(int Player) {
+			switch (Player) {
+			case 2 :	player1Battlefield.add(kaartDragon);
+						break;
+			case 1 :	player2Battlefield.add(kaartDragon);
+						break;
+			}
+				
+		}
+		public void battleEffect(int Player) {
+			playerLoses(Player);
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardArrowed implements playable {
+		static final String name = "Arrowed";
+		static final String text = "Place in front of your opponent. if this card is infront of you at the end of turn you lose.";
+		public void playCard(int Player) {
+			switch (Player) {
+			case 2 :	player1Battlefield.add(kaartArrowed);
+						break;
+			case 1 :	player2Battlefield.add(kaartArrowed);
+						break;
+			}
+				
+		}
+		public void battleEffect(int Player) {
+			playerLoses(Player);
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardLasers implements playable {
+		static final String name = "Lasers";
+		static final String text = "Place in front of your opponent. if this card is infront of you at the end of turn you lose.";
+		public void playCard(int Player) {
+			switch (Player) {
+			case 2 :	player1Battlefield.add(kaartLasers);
+						break;
+			case 1 :	player2Battlefield.add(kaartLasers);
+						break;
+			}
+				
+		}
+		public void battleEffect(int Player) {
+			playerLoses(Player);
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardBlackHole implements playable {
+		static final String name = "Black Hole";
+		static final String text = "Place in front of your opponent. if this card is infront of you at the end of turn you lose.";
+		public void playCard(int Player) {
+			switch (Player) {
+			case 2 :	player1Battlefield.add(kaartBlackHole);
+						break;
+			case 1 :	player2Battlefield.add(kaartBlackHole);
+						break;
+			}
+				
+		}
+		public void battleEffect(int Player) {
+			playerLoses(Player);
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardZoom implements playable {
+		static final String name = "Zoom!";
+		static final String text = "If there is a lasers or arrowed card in front you, give it to your opponent. Otherwise draw 2 card";
+		public void playCard(int Player) {	
+			Dodgers(Player, kaartLasers, kaartArrowed);
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardShield implements playable {
+		static final String name = "Shield";
+		static final String text = "If there is a dragon or arrowed card in front you, give it to your opponent. Otherwise draw 2 card";
+		public void playCard(int Player) {	
+			Dodgers(Player, kaartDragon, kaartArrowed);
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardScience implements playable {
+		static final String name = "Science";
+		static final String text = "If there is a dragon or black hole card in front you, give it to your opponent. Otherwise draw 2 card";
+		public void playCard(int Player) {	
+			Dodgers(Player, kaartDragon, kaartBlackHole);
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardSpaceship implements playable {
+		static final String name = "Spaceship";
+		static final String text = "If there is a lasers or black hole card in front you, give it to your opponent. Otherwise draw 2 card";
+		public void playCard(int Player) {	
+			Dodgers(Player, kaartLasers, kaartBlackHole);
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardComicSans implements playable {
+		static final String name = "Comic Sans";
+		static final String text = "Before each player plays a card on their turn, they must say \"Comic Sans is Awesome\" or they lose.";
+		public void playCard(int Player) {	
+			totalBattlefield.add(kaartComicSans);
+			comicSans();
+			textToFont("Comic Sans MS");
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardZombies implements playable {
+		static final String name = "Zombies!";
+		static final String text = "Before each player plays a card on their turn, they must say \"AHH! Zombies!\" is Awesome or they lose.";
+		public void playCard(int Player) {	
+			totalBattlefield.add(kaartZombies);
+			zombies();
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
+	public class cardNinjas implements playable {
+		static final String name = "Ninjas";
+		static final String text = "Steal a card from your opponents hand and play it.";
+		public void playCard(int Player) {	
+			ninjas(Player);
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+
+	
 	/* Make an Object for each class */
 	cardPc kaartPc = new cardPc();
 	cardILose kaartILose = new cardILose();
@@ -277,6 +566,19 @@ public class DidntPlaytest extends JFrame {
 	cardTheEnd kaartTheEnd = new cardTheEnd();
 	cardSuperPoints kaartSuperPoints = new cardSuperPoints();
 	cardNoDrawing kaartNoDrawing = new cardNoDrawing();
+	cardBomb kaartBomb = new cardBomb();
+	cardBombParty kaartBombParty = new cardBombParty();
+	cardDragon kaartDragon = new cardDragon();
+	cardArrowed kaartArrowed = new cardArrowed();
+	cardLasers kaartLasers = new cardLasers();
+	cardBlackHole kaartBlackHole = new cardBlackHole();
+	cardShield kaartShield = new cardShield();
+	cardSpaceship kaartSpaceship = new cardSpaceship();
+	cardZoom kaartZoom = new cardZoom();
+	cardScience kaartScience = new cardScience();
+	cardZombies kaartZombies = new cardZombies();
+	cardComicSans kaartComicSans = new cardComicSans();
+	cardNinjas kaartNinjas = new cardNinjas();
 	
 	/* Variablelen aanmaken */
 	ArrayList<playable> player1Hand=new ArrayList<playable>();
@@ -293,23 +595,39 @@ public class DidntPlaytest extends JFrame {
 	int theEndTimer = 2;
 	int winPoints = 15;
 	boolean Drawing = true;
-	
-	/* Alles objecten predifineren */
-	JLabel l1 = new JLabel("");
+	String lastAiCard;
+	boolean comicSans = false;
+	boolean comicSansTemp = false;
+	boolean zombies = false;
+	boolean zombiesTemp = false;
 	JButton b0 = new JButton("");
 	JButton b1 = new JButton("");
 	JButton b2 = new JButton("");
 	JButton b3 = new JButton("");
 	JButton b4 = new JButton("");
+	List history = new List();
+	JLabel questionHeader = new JLabel("");
+	JButton testExtraTurnMyNigga = new JButton("xtra turn");
+	JLabel lblNewLabel = new JLabel("History + Chat");
+	JTextField chatText = new JTextField();
 	
 	boolean extraTurn= false;
 	Choice prompt = new Choice();
 	JButton confirm = new JButton("Confirm");
 	private final JButton btnTestprompt = new JButton("TESTPROMPT");
-	private JTextField test;
-	private final JButton clearlabel = new JButton("CLEAR LABEL");
 	
 	/* Basis Functies */
+	
+	
+	public void comicSans() {
+		comicSans = true;
+		comicSansTemp = true;
+	}
+	
+	public void zombies() {
+		zombies = true;
+		zombiesTemp = true;
+	}
 	
 	/* Adds cards from the library to the hand */
 	public void Draw(int player, int amount) {
@@ -319,6 +637,7 @@ public class DidntPlaytest extends JFrame {
 				random = (int) (Math.random()*library.size());
 				switch (player) {
 					case 1: player1Hand.add(0, library.get(random));
+							updateButtons();
 					case 2: player2Hand.add(0, library.get(random));
 				}
 			}
@@ -343,6 +662,23 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
+	public void textToFont(String font) {
+		b0.setFont(new Font(font, Font.PLAIN, 11));
+		b1.setFont(new Font(font, Font.PLAIN, 11));
+		b2.setFont(new Font(font, Font.PLAIN, 11));
+		b3.setFont(new Font(font, Font.PLAIN, 11));
+		b4.setFont(new Font(font, Font.PLAIN, 11));
+		history.setFont(new Font(font, Font.PLAIN, 11));
+		questionHeader.setFont(new Font(font, Font.PLAIN, 17));
+		testExtraTurnMyNigga.setFont(new Font(font, Font.PLAIN, 11));
+		lblNewLabel.setFont(new Font(font, Font.PLAIN, 17));
+		chatText.setFont(new Font(font, Font.PLAIN, 11));
+		prompt.setFont(new Font(font, Font.PLAIN, 11));
+		confirm.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnTestprompt.setFont(new Font(font, Font.PLAIN, 11));
+	}
+	
+	
 	/* Fills a dropdown with options and makes it visible*/
 	public void callPrompt() {
 		prompt.removeAll();
@@ -358,7 +694,7 @@ public class DidntPlaytest extends JFrame {
 	public void AiChoise(String Loses) {
 		int choiceNumber = (int) (Math.random() * Prompts.size());
 		String choice = Prompts.get(choiceNumber);
-		l1.setText("Your opponent chose " + choice + ".  ");
+		history.add("Your opponent chose " + choice + ".  ");
 		if (choice == Loses || (Loses == "Even" && (choice == "2" || choice == "4")) || (Loses == "Odd" && (choice == "1" || choice == "3" || choice == "5"))) {
 			playerLoses(2);
 		}
@@ -372,14 +708,47 @@ public class DidntPlaytest extends JFrame {
 		Prompts.add("Paper");
 		Prompts.add("Scissors");
 		returnFunction = Loses;
-		l1.setText(l1.getText() + "ROCK PAPER SCISSORS!");
 		if (Player == 2) {
 			callPrompt();
+			questionHeader.setText("Rock, Paper or Scissors.");
 		}
 		if (Player == 1) {
 			AiChoise(Loses);
 		}
 		
+	}
+	
+	public void ninjas(int Player) {
+		int number;
+		String name;
+		int testVar = 0;
+		switch (Player) {
+		case 1:
+			for (int i=0; i < player2Hand.size(); i++) {
+				if (player2Hand.get(i).getName() == "nothing") {
+					break;
+				}
+				testVar++;
+			}
+			extraTurn = true;
+			number = (int) (Math.random() * testVar);
+			name = player2Hand.get(number).getName();
+			player2Hand.remove(number);
+			runCard(name, 1, false);
+			break;
+		case 2:
+			for (int i=0; i < player1Hand.size(); i++) {
+				if (player1Hand.get(i).getName() == "nothing") {
+					break;
+				}
+				testVar++;
+			}
+			number = (int) (Math.random() * testVar);
+			name = player1Hand.get(number).getName();
+			player1Hand.remove(number);
+			runCard(name, 2, false);
+			break;
+		}
 	}
 	
 	public void Points(int Player) {
@@ -389,12 +758,46 @@ public class DidntPlaytest extends JFrame {
 					if (player1points >= winPoints) {
 						playerWins(1);
 					}
+					break;
 		case 2 :	player2points += 8;
 					player2Battlefield.add(kaartPoints);
 					if (player2points >= winPoints) {
 						playerWins(2);
-					}
+					};
+					break;
 		}
+	}
+	
+	public void Dodgers(int Player, playable card1, playable card2) {
+		ArrayList<playable> casterBattlefield = new ArrayList<playable>();
+		ArrayList<playable> resiverBattlefield = new ArrayList<playable>();
+		switch (Player) {
+		case 1 :
+			casterBattlefield = player1Battlefield;
+			resiverBattlefield = player2Battlefield;
+			break;
+		case 2 :
+			casterBattlefield = player2Battlefield;
+			resiverBattlefield = player1Battlefield;
+			break;
+		}
+		
+		for (int i=0; i<casterBattlefield.size(); i++) {
+			if (casterBattlefield.get(i).getName() == card1.getName()) {
+				resiverBattlefield.add(card1);
+				casterBattlefield.remove(i);
+				break;
+			}
+		}
+		for (int i=0; i<casterBattlefield.size(); i++) {
+			if (casterBattlefield.get(i).getName() == card2.getName()) {
+				resiverBattlefield.add(card2);
+				casterBattlefield.remove(i);
+				break;
+			}
+		}
+		Draw(Player, 2);
+			
 	}
 	
 	public void superPoints(int Player) {
@@ -404,11 +807,13 @@ public class DidntPlaytest extends JFrame {
 					if (player1points >= winPoints) {
 						playerWins(1);
 					}
+					break;
 		case 2 :	player2points += 90;
 					player2Battlefield.add(kaartSuperPoints);
 					if (player2points >= winPoints) {
 						playerWins(2);
 					}
+					break;
 		}
 	}
 	
@@ -417,14 +822,32 @@ public class DidntPlaytest extends JFrame {
 		if (Loses == Picked) {
 			playerLoses(1);
 		}
+		questionHeader.setText("");
 		confirm.setVisible(false);
 		prompt.setVisible(false);
-		b0.setEnabled(true);
-		b1.setEnabled(true);
-		b2.setEnabled(true);
-		b3.setEnabled(true);
-		b4.setEnabled(true);
-		Draw(1,1);
+		history.add("Your opponent played: " + lastAiCard + ". ");
+		for (int i=0; i<player2Battlefield.size(); i++) {
+			playable testObject = player2Battlefield.get(i);
+			testObject.battleEffect(2);
+		}
+		if (extraTurn) {
+			AIPlaysCard();
+		}
+		else {
+			b0.setEnabled(true);
+			b1.setEnabled(true);
+			b2.setEnabled(true);
+			b3.setEnabled(true);
+			b4.setEnabled(true);
+			Draw(1,1);
+			if (comicSans == true) {
+				comicSansTemp = true;
+			}
+			if (zombies == true) {
+				zombiesTemp = true;
+			}
+		}
+
 	}
 	
 	public void Numbers(String Loses, int Player) {
@@ -435,13 +858,51 @@ public class DidntPlaytest extends JFrame {
 		Prompts.add("4");
 		Prompts.add("5");
 		returnFunction = Loses;
-		l1.setText(l1.getText() + "CHOOSE A NUMBER!");
 		if (Player == 2) {
 			callPrompt();
+			questionHeader.setText("Choose a number between 1 and 5.");
 		}
 		if (Player == 1) {
 			AiChoise(Loses);
 		}
+	}
+	
+	public void updateButtons() {
+		b0.setText(player1Hand.get(0).getName());
+		b1.setText(player1Hand.get(1).getName());
+		b2.setText(player1Hand.get(2).getName());
+		b3.setText(player1Hand.get(3).getName());
+		b4.setText(player1Hand.get(4).getName());
+		switch (player1Hand.get(0).getName()) {
+		case "nothing": b0.setVisible(false);
+						break;
+		default: 		b0.setVisible(true);	
+						break;
+		} 
+		switch (player1Hand.get(1).getName()) {
+		case "nothing": b1.setVisible(false);
+						break;
+		default: 		b1.setVisible(true);	
+						break;
+		} 
+		switch (player1Hand.get(2).getName()) {
+		case "nothing": b2.setVisible(false);
+						break;
+		default: 		b2.setVisible(true);	
+						break;
+		} 
+		switch (player1Hand.get(3).getName()) {
+		case "nothing": b3.setVisible(false);
+						break;
+		default: 		b3.setVisible(true);	
+						break;
+		} 
+		switch (player1Hand.get(4).getName()) {
+		case "nothing": b4.setVisible(false);
+						break;
+		default: 		b4.setVisible(true);	
+						break;
+		} 
 	}
 	
 	
@@ -449,14 +910,32 @@ public class DidntPlaytest extends JFrame {
 		if ((Loses == "Even" && (Picked == "2" || Picked == "4")) || (Loses == "Odd" && (Picked == "1" || Picked == "3" || Picked == "5"))) {
 			playerLoses(1);
 		}
+		questionHeader.setText("");
 		confirm.setVisible(false);
 		prompt.setVisible(false);
-		b0.setEnabled(true);
-		b1.setEnabled(true);
-		b2.setEnabled(true);
-		b3.setEnabled(true);
-		b4.setEnabled(true);
-		Draw(1,1);
+		history.add("Your opponent played: " + lastAiCard + ". ");
+		for (int i=0; i<player2Battlefield.size(); i++) {
+			playable testObject = player2Battlefield.get(i);
+			testObject.battleEffect(2);
+		}
+		if (extraTurn) {
+			AIPlaysCard();
+		}
+		else {
+			b0.setEnabled(true);
+			b1.setEnabled(true);
+			b2.setEnabled(true);
+			b3.setEnabled(true);
+			b4.setEnabled(true);
+			Draw(1,1);
+			if (comicSans == true) {
+				comicSansTemp = true;
+			}
+			if (zombies == true) {
+				zombiesTemp = true;
+			}
+		}
+
 	}
 	
 	/* adds all the cards to the library */
@@ -470,12 +949,12 @@ public class DidntPlaytest extends JFrame {
 	
 	/* Makes a player loses the game */
 	public void playerLoses(int player) {
-		l1.setText(l1.getText() + "player " + player + " has lost the game.  ");
+		history.add("player " + player + " has lost the game.  ");
 	}
 	
 	/* Makes a player wins the game */
 	public void playerWins(int player) {
-		l1.setText(l1.getText() + player + " has won the game.  ");
+		history.add("player " + player + " has won the game.  ");
 	}
 	
 	/* calls all functions that have to happen at the start of the game */
@@ -485,8 +964,39 @@ public class DidntPlaytest extends JFrame {
 	}
 	
 	/* If you give this a cardname it will activate that cards effect */
-	public void runCard(String Name, int Player) {
-		
+	public void runCard(String Name, int Player, boolean special) {
+		if (Player == 1) {
+			if (comicSansTemp == true) {
+				playerLoses(1);
+			}
+			if (zombiesTemp == true) {
+				playerLoses(1);
+			}
+		}
+		if (special == true) {
+			switch (Player) {
+			case 1:
+				for (int i=0; i<player1Hand.size(); i++) {
+					playable testObject = player1Hand.get(i);
+					String name = testObject.getName();
+					if (Name == name) {
+						player1Hand.remove(i);
+						break;
+					}
+				}
+				break;
+			case 2:
+				for (int i=0; i<player2Hand.size(); i++) {
+					playable testObject = player2Hand.get(i);
+					String name = testObject.getName();
+					if (Name == name) {
+						player2Hand.remove(i);
+						break;
+					}
+				}
+				break;
+			}
+		}
 		for (int i=0; i<cards.size(); i++) {
 			playable testObject = cards.get(i);
 			String name = testObject.getName();
@@ -495,12 +1005,17 @@ public class DidntPlaytest extends JFrame {
 			}
 		}
 		if (Player == 1) {
+			history.add("You played: " + Name + ". ");
 			for (int i=0; i<player1Battlefield.size(); i++) {
 				playable testObject = player1Battlefield.get(i);
 				testObject.battleEffect(1);
 			}
 			if (extraTurn) {
 				extraTurn = false;
+				if (special == false) {
+					Draw(1,1);
+				}
+				updateButtons();
 			}
 			else {
 				b0.setEnabled(false);
@@ -517,20 +1032,39 @@ public class DidntPlaytest extends JFrame {
 	/* If you give this a card-name it will activate that cards effect */
 	public void AIPlaysCard() {
 		Draw(2, 1);
-		int random = (int) Math.random() * player2Hand.size();
-		runCard(player2Hand.get(random).getName(), 2);
-		player2Hand.remove(random);
-		for (int i=0; i<player2Battlefield.size(); i++) {
-			playable testObject = player2Battlefield.get(i);
-			testObject.battleEffect(2);
+		if (comicSans == true) {
+			history.add("Comic Sans is awesome");
 		}
+		if (zombies == true) {
+			history.add("AHH! Zombies!");
+		}
+		int random = (int) Math.random() * player2Hand.size();
+		lastAiCard = player2Hand.get(random).getName();
+		runCard(player2Hand.get(random).getName(), 2, true);
 		if (prompt.isVisible() == false) { 
-		b0.setEnabled(true);
-		b1.setEnabled(true);
-		b2.setEnabled(true);
-		b3.setEnabled(true);
-		b4.setEnabled(true);
-		Draw(1,1);
+			history.add("Your opponent played: " + lastAiCard + ". ");
+			for (int i=0; i<player2Battlefield.size(); i++) {
+				playable testObject = player2Battlefield.get(i);
+				testObject.battleEffect(2);
+			}
+			if (extraTurn) {
+				extraTurn = false;
+				AIPlaysCard();
+			}
+			else {
+				b0.setEnabled(true);
+				b1.setEnabled(true);
+				b2.setEnabled(true);
+				b3.setEnabled(true);
+				b4.setEnabled(true);
+				Draw(1,1);
+				if (comicSans == true) {
+					comicSansTemp = true;
+				}
+				if (zombies == true) {
+					zombiesTemp = true;
+				}
+			}
 		}
 	}
 	/* turnsysteem */
@@ -550,19 +1084,32 @@ public class DidntPlaytest extends JFrame {
 		cards.add(kaartSuperPoints);
 		cards.add(kaartTheEnd);
 		cards.add(kaartNoDrawing);
+		cards.add(kaartBomb);
+		cards.add(kaartBombParty);
+		cards.add(kaartBlackHole);
+		cards.add(kaartArrowed);
+		cards.add(kaartDragon);
+		cards.add(kaartLasers);
+		cards.add(kaartComicSans);
+		cards.add(kaartZombies);
+		cards.add(kaartZoom);
+		cards.add(kaartScience);
+		cards.add(kaartSpaceship);
+		cards.add(kaartShield);
+		cards.add(kaartNinjas);
 		startOfGame();
-		Draw(1, 5);
-		Draw(2, 5);
+		Draw(1, 3);
+		Draw(2, 2);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 895, 758);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		b0.setBounds(30, 514, 125, 139);
+		b0.setBounds(30, 550, 125, 139);
 		b0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				runCard(player1Hand.get(0).getName(), 1);
-				player2Hand.remove(0);
+				runCard(player1Hand.get(0).getName(), 1, true);
+				updateButtons();
 			}
 		});
 		String cardInHand0 = player1Hand.get(0).getName();
@@ -574,12 +1121,12 @@ public class DidntPlaytest extends JFrame {
 		default: 		b0.setVisible(true);	
 						break;
 		}
-		b1.setBounds(200, 514, 125, 139);
+		b1.setBounds(199, 550, 125, 139);
 		
 		b1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				runCard(player1Hand.get(1).getName(), 1);
-				player2Hand.remove(1);
+				runCard(player1Hand.get(1).getName(), 1, true);
+				updateButtons();
 			}
 		});
 		String cardInHand1 = player1Hand.get(1).getName();
@@ -591,13 +1138,13 @@ public class DidntPlaytest extends JFrame {
 		default: 		b1.setVisible(true);	
 						break;
 		}
-		b2.setBounds(370, 514, 125, 139);
+		b2.setBounds(370, 550, 125, 139);
 		
 
 		b2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				runCard(player1Hand.get(2).getName(), 1);
-				player2Hand.remove(2);
+				runCard(player1Hand.get(2).getName(), 1, true);
+				updateButtons();
 			}
 		});
 		String cardInHand2 = player1Hand.get(2).getName();
@@ -609,13 +1156,13 @@ public class DidntPlaytest extends JFrame {
 		default: 		b2.setVisible(true);	
 						break;
 		}
-		b3.setBounds(540, 514, 125, 139);
+		b3.setBounds(544, 550, 125, 139);
 		
 
 		b3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				runCard(player1Hand.get(3).getName(), 1);
-				player2Hand.remove(3);
+				runCard(player1Hand.get(3).getName(), 1, true);
+				updateButtons();
 			}
 		});
 		String cardInHand3 = player1Hand.get(3).getName();
@@ -627,20 +1174,17 @@ public class DidntPlaytest extends JFrame {
 		default: 		b3.setVisible(true);	
 						break;
 		}
-		b4.setBounds(710, 514, 125, 139);
+		b4.setBounds(713, 550, 125, 139);
 		
 
 		b4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				runCard(player1Hand.get(4).getName(), 1);
-				player2Hand.remove(4);
+				runCard(player1Hand.get(4).getName(), 1, true);
+				updateButtons();
 			}
 		});
 		String cardInHand4 = player1Hand.get(4).getName();
 		b4.setText(player1Hand.get(4).getName());
-		
-		JLabel Display = new JLabel("New label");
-		Display.setBounds(59, 164, 583, 52);
 		
 		switch (cardInHand4) {
 		case "nothing": b4.setVisible(false);
@@ -648,7 +1192,7 @@ public class DidntPlaytest extends JFrame {
 		default: 		b4.setVisible(true);	
 						break;
 		}
-		prompt.setBounds(382, 276, 113, 20);
+		prompt.setBounds(370, 275, 137, 20);
 		prompt.setVisible(false);
 		
 
@@ -664,7 +1208,7 @@ public class DidntPlaytest extends JFrame {
 				}
 			}
 		});
-		btnTestprompt.setBounds(96, 130, 89, 23);
+		btnTestprompt.setBounds(30, 22, 89, 23);
 		btnTestprompt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				callPrompt();
@@ -672,35 +1216,79 @@ public class DidntPlaytest extends JFrame {
 		});
 		contentPane.setLayout(null);
 		
-		JButton testExtraTurnMyNigga = new JButton("xtra turn");
 		testExtraTurnMyNigga.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				extraTurn = true;
 			}
 		});
-		testExtraTurnMyNigga.setBounds(200, 308, 89, 23);
+		testExtraTurnMyNigga.setBounds(146, 22, 89, 23);
 		contentPane.add(testExtraTurnMyNigga);
-		l1.setBounds(10, 22, 768, 74);
-		contentPane.add(l1);
 		contentPane.add(b0);
 		contentPane.add(b1);
 		contentPane.add(b2);
 		contentPane.add(b3);
 		contentPane.add(b4);
-		contentPane.add(Display);
 		contentPane.add(prompt);
 		contentPane.add(confirm);
 		contentPane.add(btnTestprompt);
-		clearlabel.addActionListener(new ActionListener() {
+		
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(631, 78, 221, 46);
+		contentPane.add(lblNewLabel);
+		
+		history.setBounds(631, 130, 221, 232);
+		contentPane.add(history);
+		
+		questionHeader.setHorizontalAlignment(SwingConstants.CENTER);
+		questionHeader.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		questionHeader.setBounds(305, 208, 275, 37);
+		contentPane.add(questionHeader);
+		
+		chatText.setBounds(631, 368, 165, 20);
+		contentPane.add(chatText);
+		chatText.setColumns(10);
+		
+		JButton chatConfirm = new JButton("->");
+		chatConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				l1.setText("");
+				history.add("P1: " + chatText.getText());
+				if (chatText.getText().toLowerCase().equals("comic sans is awesome")) {
+					comicSansTemp = false;
+				}
+				if (chatText.getText().toLowerCase().equals("ahh zombies") || chatText.getText().toLowerCase().equals("ahh! zombies!") || chatText.getText().toLowerCase().equals("ahh zombies!") || chatText.getText().toLowerCase().equals("ahh! zombies")) {
+					zombiesTemp = false;
+				}
+				if (chatText.getText().toLowerCase().equals("/redraw")) {
+					for (int i = 0; i < player1Hand.size(); i++) {
+						player1Hand.set(i, kaartNone);
+					}
+					Draw(1, 2);
+				}
+				if (chatText.getText().toLowerCase().matches("/redraw .*")) {
+					for (int i = 0; i < player1Hand.size(); i++) {
+						player1Hand.set(i, kaartNone);
+					}
+					Draw(1, Integer.parseInt(chatText.getText().substring(8)));
+				}
+				if (chatText.getText().toLowerCase().matches("/draw .*")) {
+					Draw(1, Integer.parseInt(chatText.getText().substring(6)));
+				}
+				if (chatText.getText().toLowerCase().matches("/givecard .*")) {
+					for (int i = 0; i < cards.size(); i++) {
+						if (chatText.getText().toLowerCase().substring(10).equals(cards.get(i).getName().toLowerCase())) {
+							player1Hand.add(0, cards.get(i));
+							updateButtons();
+						}
+					}
+				}
+				chatText.setText("");
 			}
 		});
-		clearlabel.setBounds(30, 273, 89, 23);
-		
-		contentPane.add(clearlabel);
+		chatConfirm.setBounds(806, 367, 46, 23);
+		contentPane.add(chatConfirm);
 		
 		// main game loop //
-		
+		textToFont("Tahoma");
 	}
 }
