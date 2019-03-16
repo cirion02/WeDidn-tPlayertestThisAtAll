@@ -616,7 +616,34 @@ public class DidntPlaytest extends JFrame {
 	boolean extraTurn= false;
 	Choice prompt = new Choice();
 	JButton confirm = new JButton("Confirm");
-	private final JButton btnTestprompt = new JButton("TESTPROMPT");
+	JButton btnTestprompt = new JButton("TESTPROMPT");
+	
+
+	JLabel fieldplayer2 = new JLabel("");
+	JLabel fieldplayer1 = new JLabel("");
+	JLabel fieldplayer6 = new JLabel("");
+	JLabel fieldplayer7 = new JLabel("");
+	JLabel fieldplayer8 = new JLabel("");
+	JLabel fieldplayer3 = new JLabel("");
+	JLabel fieldplayer4 = new JLabel("");
+	JLabel fieldplayer5 = new JLabel("");
+	JLabel fieldplayer10 = new JLabel("");
+	JLabel fieldplayer9 = new JLabel("");
+	JLabel fieldAI2 = new JLabel("");
+	JLabel fieldAI1 = new JLabel("");
+	JLabel fieldAI6 = new JLabel("");
+	JLabel fieldAI7 = new JLabel("");
+	JLabel fieldAI8 = new JLabel("");
+	JLabel fieldAI3 = new JLabel("");
+	JLabel fieldAI4 = new JLabel("");
+	JLabel fieldAI5 = new JLabel("");
+	JLabel fieldAI10 = new JLabel("");
+	JLabel fieldAI9 = new JLabel("");
+	JLabel fieldneutral1 = new JLabel("");
+	JLabel fieldneutral2 = new JLabel("");
+	JLabel fieldneutral3 = new JLabel("");
+	JLabel fieldneutral4 = new JLabel("");
+	JLabel fieldneutral5 = new JLabel("");
 	
 	/* Basis Functies */
 	
@@ -917,6 +944,34 @@ public class DidntPlaytest extends JFrame {
 		default: 		b4.setVisible(true);	
 						break;
 		} 
+		
+		fieldplayer1.setText(player1Battlefield.get(0).getName());
+		fieldplayer2.setText(player1Battlefield.get(1).getName());
+		fieldplayer3.setText(player1Battlefield.get(2).getName());
+		fieldplayer4.setText(player1Battlefield.get(3).getName());
+		fieldplayer5.setText(player1Battlefield.get(4).getName());
+		fieldplayer6.setText(player1Battlefield.get(5).getName());
+		fieldplayer7.setText(player1Battlefield.get(6).getName());
+		fieldplayer8.setText(player1Battlefield.get(7).getName());
+		fieldplayer9.setText(player1Battlefield.get(8).getName());
+		fieldplayer10.setText(player1Battlefield.get(9).getName());
+		
+		fieldneutral1.setText(totalBattlefield.get(0).getName());
+		fieldneutral2.setText(totalBattlefield.get(1).getName());
+		fieldneutral3.setText(totalBattlefield.get(2).getName());
+		fieldneutral4.setText(totalBattlefield.get(3).getName());
+		fieldneutral5.setText(totalBattlefield.get(4).getName());
+		
+		fieldAI1.setText(player2Battlefield.get(0).getName());
+		fieldAI2.setText(player2Battlefield.get(1).getName());
+		fieldAI3.setText(player2Battlefield.get(2).getName());
+		fieldAI4.setText(player2Battlefield.get(3).getName());
+		fieldAI5.setText(player2Battlefield.get(4).getName());
+		fieldAI6.setText(player2Battlefield.get(5).getName());
+		fieldAI7.setText(player2Battlefield.get(6).getName());
+		fieldAI8.setText(player2Battlefield.get(7).getName());
+		fieldAI9.setText(player2Battlefield.get(8).getName());
+		fieldAI10.setText(player2Battlefield.get(9).getName());
 	}
 	
 	
@@ -1098,7 +1153,7 @@ public class DidntPlaytest extends JFrame {
 	/*Front End (Mostly) */
 	public DidntPlaytest() {
 		setTitle("We Didn't Playtest This At All");
-		confirm.setBounds(382, 301, 113, 37);
+		confirm.setBounds(1173, 671, 113, 37);
 		confirm.setVisible(false);
 		cards.add(kaartPc);
 		cards.add(kaartILose);
@@ -1128,11 +1183,11 @@ public class DidntPlaytest extends JFrame {
 		Draw(1, 3);
 		Draw(2, 2);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 895, 758);
+		setBounds(100, 100, 1410, 1004);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		b0.setBounds(30, 550, 125, 139);
+		b0.setBounds(30, 800, 125, 139);
 		b0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runCard(player1Hand.get(0).getName(), 1, true);
@@ -1148,7 +1203,7 @@ public class DidntPlaytest extends JFrame {
 		default: 		b0.setVisible(true);	
 						break;
 		}
-		b1.setBounds(199, 550, 125, 139);
+		b1.setBounds(165, 800, 125, 139);
 		
 		b1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1165,7 +1220,7 @@ public class DidntPlaytest extends JFrame {
 		default: 		b1.setVisible(true);	
 						break;
 		}
-		b2.setBounds(370, 550, 125, 139);
+		b2.setBounds(300, 800, 125, 139);
 		
 
 		b2.addActionListener(new ActionListener() {
@@ -1183,7 +1238,7 @@ public class DidntPlaytest extends JFrame {
 		default: 		b2.setVisible(true);	
 						break;
 		}
-		b3.setBounds(544, 550, 125, 139);
+		b3.setBounds(435, 800, 125, 139);
 		
 
 		b3.addActionListener(new ActionListener() {
@@ -1201,7 +1256,7 @@ public class DidntPlaytest extends JFrame {
 		default: 		b3.setVisible(true);	
 						break;
 		}
-		b4.setBounds(713, 550, 125, 139);
+		b4.setBounds(570, 800, 125, 139);
 		
 
 		b4.addActionListener(new ActionListener() {
@@ -1219,7 +1274,7 @@ public class DidntPlaytest extends JFrame {
 		default: 		b4.setVisible(true);	
 						break;
 		}
-		prompt.setBounds(370, 275, 137, 20);
+		prompt.setBounds(1163, 645, 137, 20);
 		prompt.setVisible(false);
 		
 
@@ -1235,7 +1290,7 @@ public class DidntPlaytest extends JFrame {
 				}
 			}
 		});
-		btnTestprompt.setBounds(30, 22, 89, 23);
+		btnTestprompt.setBounds(1163, 231, 89, 23);
 		btnTestprompt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				callPrompt();
@@ -1248,7 +1303,7 @@ public class DidntPlaytest extends JFrame {
 				extraTurn = true;
 			}
 		});
-		testExtraTurnMyNigga.setBounds(146, 22, 89, 23);
+		testExtraTurnMyNigga.setBounds(1163, 264, 89, 23);
 		contentPane.add(testExtraTurnMyNigga);
 		contentPane.add(b0);
 		contentPane.add(b1);
@@ -1261,10 +1316,10 @@ public class DidntPlaytest extends JFrame {
 		
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(631, 78, 221, 46);
+		lblNewLabel.setBounds(1163, 298, 221, 46);
 		contentPane.add(lblNewLabel);
 		
-		history.setBounds(631, 130, 221, 232);
+		history.setBounds(1163, 350, 221, 232);
 		contentPane.add(history);
 		
 		questionHeader.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1272,7 +1327,7 @@ public class DidntPlaytest extends JFrame {
 		questionHeader.setBounds(305, 208, 275, 37);
 		contentPane.add(questionHeader);
 		
-		chatText.setBounds(631, 368, 165, 20);
+		chatText.setBounds(1163, 588, 165, 20);
 		contentPane.add(chatText);
 		chatText.setColumns(10);
 		
@@ -1312,8 +1367,89 @@ public class DidntPlaytest extends JFrame {
 				chatText.setText("");
 			}
 		});
-		chatConfirm.setBounds(806, 367, 46, 23);
+		chatConfirm.setBounds(1338, 587, 46, 23);
 		contentPane.add(chatConfirm);
+		
+		JLabel fieldplayer2 = new JLabel("");
+		fieldplayer2.setBounds(285, 533, 181, 50);
+		contentPane.add(fieldplayer2);
+		
+		JLabel fieldplayer1 = new JLabel("");
+		fieldplayer1.setBounds(96, 533, 181, 50);
+		contentPane.add(fieldplayer1);
+		
+		JLabel fieldplayer6 = new JLabel("");
+		fieldplayer6.setBounds(96, 609, 181, 50);
+		contentPane.add(fieldplayer6);
+		
+		JLabel fieldplayer7 = new JLabel("");
+		fieldplayer7.setBounds(285, 609, 181, 50);
+		contentPane.add(fieldplayer7);
+		
+		JLabel fieldplayer8 = new JLabel("");
+		fieldplayer8.setBounds(476, 609, 181, 50);
+		contentPane.add(fieldplayer8);
+		
+		JLabel fieldplayer3 = new JLabel("");
+		fieldplayer3.setBounds(476, 533, 181, 50);
+		contentPane.add(fieldplayer3);
+		fieldplayer4.setBounds(667, 533, 181, 50);
+		
+		contentPane.add(fieldplayer4);
+		fieldplayer5.setBounds(856, 533, 181, 50);
+		
+		contentPane.add(fieldplayer5);
+		fieldplayer10.setBounds(856, 609, 181, 50);
+		
+		contentPane.add(fieldplayer10);
+		fieldplayer9.setBounds(667, 609, 181, 50);
+		
+		contentPane.add(fieldplayer9);
+		fieldAI2.setBounds(285, 332, 181, 50);
+		
+		contentPane.add(fieldAI2);
+		fieldAI1.setBounds(96, 332, 181, 50);
+		
+		contentPane.add(fieldAI1);
+		fieldAI6.setBounds(96, 408, 181, 50);
+		
+		contentPane.add(fieldAI6);
+		fieldAI7.setBounds(285, 408, 181, 50);
+		
+		contentPane.add(fieldAI7);
+		fieldAI8.setBounds(476, 408, 181, 50);
+		
+		contentPane.add(fieldAI8);
+		fieldAI3.setBounds(476, 332, 181, 50);
+		
+		contentPane.add(fieldAI3);
+		fieldAI4.setBounds(667, 332, 181, 50);
+		
+		contentPane.add(fieldAI4);
+		fieldAI5.setBounds(856, 332, 181, 50);
+		
+		contentPane.add(fieldAI5);
+		fieldAI10.setBounds(856, 408, 181, 50);
+		
+		contentPane.add(fieldAI10);
+		fieldAI9.setBounds(667, 408, 181, 50);
+		
+		contentPane.add(fieldAI9);
+		fieldneutral1.setBounds(96, 469, 181, 50);
+		
+		contentPane.add(fieldneutral1);
+		fieldneutral2.setBounds(285, 469, 181, 50);
+		
+		contentPane.add(fieldneutral2);
+		fieldneutral3.setBounds(476, 469, 181, 50);
+		
+		contentPane.add(fieldneutral3);
+		fieldneutral4.setBounds(667, 469, 181, 50);
+		
+		contentPane.add(fieldneutral4);
+		fieldneutral5.setBounds(856, 469, 181, 50);
+		
+		contentPane.add(fieldneutral5);
 		
 		// main game loop //
 		textToFont("Tahoma");
