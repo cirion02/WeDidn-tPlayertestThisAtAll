@@ -211,7 +211,7 @@ public class DidntPlaytest extends JFrame {
 		static final String name = "No Drawing!";
 		static final String text = "PLayers can't draw cards, if they have no card to play they lose.";
 		public void playCard(int Player) {
-			totalBattlefield.add(kaartNoDrawing);
+			totalBattlefield.add(0, kaartNoDrawing);
 			Drawing = false;
 		}
 		public void battleEffect(int Player) {
@@ -248,9 +248,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "At the end of your next turn, everyone loses.";
 		public void playCard(int Player) {
 			switch (Player) {
-			case 1 :	player1Battlefield.add(kaartTheEnd);
+			case 1 :	player1Battlefield.add(0, kaartTheEnd);
 						break;
-			case 2 :	player2Battlefield.add(kaartTheEnd);
+			case 2 :	player2Battlefield.add(0, kaartTheEnd);
 						break;
 			}
 				
@@ -275,7 +275,7 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "Take an extra turn. If there are 4 or more bombs face up everyone loses.";
 		public void playCard(int Player) {
 			extraTurn = true;
-			totalBattlefield.add(kaartBomb);
+			totalBattlefield.add(0, kaartBomb);
 			int bombCount = 0;
 			for (int i=0; i<totalBattlefield.size(); i++) {
 				if (totalBattlefield.get(i).getName() == "Bomb") {
@@ -305,14 +305,14 @@ public class DidntPlaytest extends JFrame {
 		public void playCard(int Player) {
 			for (int i=0; i<player1Hand.size(); i++) {
 				if (player1Hand.get(i).getName() == "Bomb") {
-					totalBattlefield.add(kaartBomb);
+					totalBattlefield.add(0, kaartBomb);
 					player1Hand.remove(i);
 					i--;
 				}
 			}
 			for (int i=0; i<player2Hand.size(); i++) {
 				if (player2Hand.get(i).getName() == "Bomb") {
-					totalBattlefield.add(kaartBomb);
+					totalBattlefield.add(0, kaartBomb);
 					player2Hand.remove(i);
 					i--;
 				}
@@ -343,9 +343,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "Place in front of your opponent. if this card is infront of you at the end of turn you lose.";
 		public void playCard(int Player) {
 			switch (Player) {
-			case 2 :	player1Battlefield.add(kaartDragon);
+			case 2 :	player1Battlefield.add(0, kaartDragon);
 						break;
-			case 1 :	player2Battlefield.add(kaartDragon);
+			case 1 :	player2Battlefield.add(0, kaartDragon);
 						break;
 			}
 				
@@ -366,9 +366,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "Place in front of your opponent. if this card is infront of you at the end of turn you lose.";
 		public void playCard(int Player) {
 			switch (Player) {
-			case 2 :	player1Battlefield.add(kaartArrowed);
+			case 2 :	player1Battlefield.add(0, kaartArrowed);
 						break;
-			case 1 :	player2Battlefield.add(kaartArrowed);
+			case 1 :	player2Battlefield.add(0, kaartArrowed);
 						break;
 			}
 				
@@ -389,9 +389,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "Place in front of your opponent. if this card is infront of you at the end of turn you lose.";
 		public void playCard(int Player) {
 			switch (Player) {
-			case 2 :	player1Battlefield.add(kaartLasers);
+			case 2 :	player1Battlefield.add(0, kaartLasers);
 						break;
-			case 1 :	player2Battlefield.add(kaartLasers);
+			case 1 :	player2Battlefield.add(0, kaartLasers);
 						break;
 			}
 				
@@ -412,9 +412,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "Place in front of your opponent. if this card is infront of you at the end of turn you lose.";
 		public void playCard(int Player) {
 			switch (Player) {
-			case 2 :	player1Battlefield.add(kaartBlackHole);
+			case 2 :	player1Battlefield.add(0, kaartBlackHole);
 						break;
-			case 1 :	player2Battlefield.add(kaartBlackHole);
+			case 1 :	player2Battlefield.add(0, kaartBlackHole);
 						break;
 			}
 				
@@ -502,7 +502,7 @@ public class DidntPlaytest extends JFrame {
 		static final String name = "Comic Sans";
 		static final String text = "Before each player plays a card on their turn, they must say \"Comic Sans is Awesome\" or they lose.";
 		public void playCard(int Player) {	
-			totalBattlefield.add(kaartComicSans);
+			totalBattlefield.add(0, kaartComicSans);
 			comicSans();
 			textToFont("Comic Sans MS");
 		}
@@ -521,7 +521,7 @@ public class DidntPlaytest extends JFrame {
 		static final String name = "Zombies!";
 		static final String text = "Before each player plays a card on their turn, they must say \"AHH! Zombies!\" is Awesome or they lose.";
 		public void playCard(int Player) {	
-			totalBattlefield.add(kaartZombies);
+			totalBattlefield.add(0, kaartZombies);
 			zombies();
 		}
 		public void battleEffect(int Player) {
@@ -686,6 +686,9 @@ public class DidntPlaytest extends JFrame {
 		for (int i=0; i<20; i++) {
 			player1Hand.add(kaartNone);
 			player2Hand.add(kaartNone);
+			player1Battlefield.add(kaartNone);
+			player2Battlefield.add(kaartNone);
+			totalBattlefield.add(kaartNone);
 		}
 	}
 	
@@ -781,13 +784,13 @@ public class DidntPlaytest extends JFrame {
 	public void Points(int Player) {
 		switch (Player) {
 		case 1 :	player1points += 8;
-					player1Battlefield.add(kaartPoints);
+					player1Battlefield.add(0, kaartPoints);
 					if (player1points >= winPoints) {
 						playerWins(1);
 					}
 					break;
 		case 2 :	player2points += 8;
-					player2Battlefield.add(kaartPoints);
+					player2Battlefield.add(0, kaartPoints);
 					if (player2points >= winPoints) {
 						playerWins(2);
 					};
@@ -811,14 +814,14 @@ public class DidntPlaytest extends JFrame {
 		
 		for (int i=0; i<casterBattlefield.size(); i++) {
 			if (casterBattlefield.get(i).getName() == card1.getName()) {
-				resiverBattlefield.add(card1);
+				resiverBattlefield.add(0, card1);
 				casterBattlefield.remove(i);
 				break;
 			}
 		}
 		for (int i=0; i<casterBattlefield.size(); i++) {
 			if (casterBattlefield.get(i).getName() == card2.getName()) {
-				resiverBattlefield.add(card2);
+				resiverBattlefield.add(0, card2);
 				casterBattlefield.remove(i);
 				break;
 			}
@@ -830,13 +833,13 @@ public class DidntPlaytest extends JFrame {
 	public void superPoints(int Player) {
 		switch (Player) {
 		case 1 :	player1points += 90;
-					player1Battlefield.add(kaartSuperPoints);
+					player1Battlefield.add(0, kaartSuperPoints);
 					if (player1points >= winPoints) {
 						playerWins(1);
 					}
 					break;
 		case 2 :	player2points += 90;
-					player2Battlefield.add(kaartSuperPoints);
+					player2Battlefield.add(0, kaartSuperPoints);
 					if (player2points >= winPoints) {
 						playerWins(2);
 					}
