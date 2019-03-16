@@ -26,6 +26,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JList;
 import java.awt.List;
 import java.awt.Font;
+import java.awt.Color;
 
 /* Part of Eclipse */
 public class DidntPlaytest extends JFrame {
@@ -898,11 +899,12 @@ public class DidntPlaytest extends JFrame {
 	}
 	
 	public void updateButtons() {
-		b0.setText(player1Hand.get(0).getName());
-		b1.setText(player1Hand.get(1).getName());
-		b2.setText(player1Hand.get(2).getName());
-		b3.setText(player1Hand.get(3).getName());
-		b4.setText(player1Hand.get(4).getName());
+		b0.setText("<html> <b>" + player1Hand.get(0).getName() + "</b> <br />" + player1Hand.get(0).getText() + "  </html>");
+		b1.setText("<html> <b>" + player1Hand.get(1).getName() + "</b> <br />" + player1Hand.get(1).getText() + "  </html>");
+		b2.setText("<html> <b>" + player1Hand.get(2).getName() + "</b> <br />" + player1Hand.get(2).getText() + "  </html>");
+		b3.setText("<html> <b>" + player1Hand.get(3).getName() + "</b> <br />" + player1Hand.get(3).getText() + "  </html>");
+		b4.setText("<html> <b>" + player1Hand.get(4).getName() + "</b> <br />" + player1Hand.get(4).getText() + "  </html>");
+		
 		switch (player1Hand.get(0).getName()) {
 		case "nothing": b0.setVisible(false);
 						break;
@@ -1342,7 +1344,7 @@ public class DidntPlaytest extends JFrame {
 			}
 		});
 		String cardInHand1 = player1Hand.get(1).getName();
-		b1.setText(player1Hand.get(1).getName());
+		b1.setText("<html> <b>" + player1Hand.get(1).getName() + "</b> <br />" + player1Hand.get(1).getText() + "  </html>");
 		
 		switch (cardInHand1) {
 		case "nothing": b1.setVisible(false);
@@ -1360,7 +1362,7 @@ public class DidntPlaytest extends JFrame {
 			}
 		});
 		String cardInHand2 = player1Hand.get(2).getName();
-		b2.setText(player1Hand.get(2).getName());
+		b2.setText("<html> <b>" + player1Hand.get(2).getName() + "</b> <br />" + player1Hand.get(2).getText() + "  </html>");
 		
 		switch (cardInHand2) {
 		case "nothing": b2.setVisible(false);
@@ -1378,7 +1380,7 @@ public class DidntPlaytest extends JFrame {
 			}
 		});
 		String cardInHand3 = player1Hand.get(3).getName();
-		b3.setText(player1Hand.get(3).getName());
+		b3.setText("<html> <b>" + player1Hand.get(3).getName() + "</b> <br />" + player1Hand.get(3).getText() + "  </html>");
 		
 		switch (cardInHand3) {
 		case "nothing": b3.setVisible(false);
@@ -1396,7 +1398,7 @@ public class DidntPlaytest extends JFrame {
 			}
 		});
 		String cardInHand4 = player1Hand.get(4).getName();
-		b4.setText(player1Hand.get(4).getName());
+		b4.setText("<html> <b>" + player1Hand.get(4).getName() + "</b> <br />" + player1Hand.get(4).getText() + "  </html>");
 		
 		switch (cardInHand4) {
 		case "nothing": b4.setVisible(false);
@@ -1499,70 +1501,65 @@ public class DidntPlaytest extends JFrame {
 		});
 		chatConfirm.setBounds(1338, 587, 46, 23);
 		contentPane.add(chatConfirm);
-		
-		JLabel fieldplayer2 = new JLabel("");
-		fieldplayer2.setBounds(285, 533, 181, 50);
+			
+		fieldplayer2.setBounds(285, 645, 181, 50);
 		contentPane.add(fieldplayer2);
 		
-		JLabel fieldplayer1 = new JLabel("");
-		fieldplayer1.setBounds(96, 533, 181, 50);
+		fieldplayer1.setBounds(96, 645, 181, 50);
 		contentPane.add(fieldplayer1);
 		
-		JLabel fieldplayer6 = new JLabel("");
-		fieldplayer6.setBounds(96, 609, 181, 50);
+		fieldplayer6.setBounds(96, 721, 181, 50);
 		contentPane.add(fieldplayer6);
 		
-		JLabel fieldplayer7 = new JLabel("");
-		fieldplayer7.setBounds(285, 609, 181, 50);
+		fieldplayer7.setBounds(285, 721, 181, 50);
 		contentPane.add(fieldplayer7);
 		
-		JLabel fieldplayer8 = new JLabel("");
-		fieldplayer8.setBounds(476, 609, 181, 50);
+		fieldplayer8.setBounds(476, 721, 181, 50);
 		contentPane.add(fieldplayer8);
 		
-		JLabel fieldplayer3 = new JLabel("");
-		fieldplayer3.setBounds(476, 533, 181, 50);
+		fieldplayer3.setBounds(476, 645, 181, 50);
 		contentPane.add(fieldplayer3);
-		fieldplayer4.setBounds(667, 533, 181, 50);
+		
+		fieldplayer4.setBounds(667, 645, 181, 50);
 		
 		contentPane.add(fieldplayer4);
-		fieldplayer5.setBounds(856, 533, 181, 50);
+		fieldplayer5.setBounds(856, 645, 181, 50);
 		
 		contentPane.add(fieldplayer5);
-		fieldplayer10.setBounds(856, 609, 181, 50);
+		fieldplayer10.setBounds(856, 721, 181, 50);
 		
 		contentPane.add(fieldplayer10);
-		fieldplayer9.setBounds(667, 609, 181, 50);
+		fieldplayer9.setBounds(667, 721, 181, 50);
 		
 		contentPane.add(fieldplayer9);
-		fieldAI2.setBounds(285, 332, 181, 50);
+		fieldAI2.setBounds(285, 208, 181, 50);
 		
 		contentPane.add(fieldAI2);
-		fieldAI1.setBounds(96, 332, 181, 50);
+		fieldAI1.setBounds(96, 208, 181, 50);
 		
 		contentPane.add(fieldAI1);
-		fieldAI6.setBounds(96, 408, 181, 50);
+		fieldAI6.setBounds(96, 284, 181, 50);
 		
 		contentPane.add(fieldAI6);
-		fieldAI7.setBounds(285, 408, 181, 50);
+		fieldAI7.setBounds(285, 284, 181, 50);
 		
 		contentPane.add(fieldAI7);
-		fieldAI8.setBounds(476, 408, 181, 50);
+		fieldAI8.setBounds(476, 284, 181, 50);
 		
 		contentPane.add(fieldAI8);
-		fieldAI3.setBounds(476, 332, 181, 50);
+		fieldAI3.setBounds(476, 208, 181, 50);
 		
 		contentPane.add(fieldAI3);
-		fieldAI4.setBounds(667, 332, 181, 50);
+		fieldAI4.setBounds(667, 208, 181, 50);
 		
 		contentPane.add(fieldAI4);
-		fieldAI5.setBounds(856, 332, 181, 50);
+		fieldAI5.setBounds(856, 208, 181, 50);
 		
 		contentPane.add(fieldAI5);
-		fieldAI10.setBounds(856, 408, 181, 50);
+		fieldAI10.setBounds(856, 284, 181, 50);
 		
 		contentPane.add(fieldAI10);
-		fieldAI9.setBounds(667, 408, 181, 50);
+		fieldAI9.setBounds(667, 284, 181, 50);
 		
 		contentPane.add(fieldAI9);
 		fieldneutral1.setBounds(96, 469, 181, 50);
@@ -1580,6 +1577,8 @@ public class DidntPlaytest extends JFrame {
 		fieldneutral5.setBounds(856, 469, 181, 50);
 		
 		contentPane.add(fieldneutral5);
+		
+		
 		
 		// main game loop //
 		textToFont("Tahoma");
