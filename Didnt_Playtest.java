@@ -13,7 +13,6 @@ import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
@@ -212,7 +211,7 @@ public class DidntPlaytest extends JFrame {
 		static final String name = "No Drawing!";
 		static final String text = "PLayers can't draw cards, if they have no card to play they lose.";
 		public void playCard(int Player) {
-			totalBattlefield.add(0, kaartNoDrawing);
+			totalBattlefield.add(kaartNoDrawing);
 			Drawing = false;
 		}
 		public void battleEffect(int Player) {
@@ -249,9 +248,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "At the end of your next turn, everyone loses.";
 		public void playCard(int Player) {
 			switch (Player) {
-			case 1 :	player1Battlefield.add(0, kaartTheEnd);
+			case 1 :	player1Battlefield.add(kaartTheEnd);
 						break;
-			case 2 :	player2Battlefield.add(0, kaartTheEnd);
+			case 2 :	player2Battlefield.add(kaartTheEnd);
 						break;
 			}
 				
@@ -276,7 +275,7 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "Take an extra turn. If there are 4 or more bombs face up everyone loses.";
 		public void playCard(int Player) {
 			extraTurn = true;
-			totalBattlefield.add(0, kaartBomb);
+			totalBattlefield.add(kaartBomb);
 			int bombCount = 0;
 			for (int i=0; i<totalBattlefield.size(); i++) {
 				if (totalBattlefield.get(i).getName() == "Bomb") {
@@ -306,14 +305,14 @@ public class DidntPlaytest extends JFrame {
 		public void playCard(int Player) {
 			for (int i=0; i<player1Hand.size(); i++) {
 				if (player1Hand.get(i).getName() == "Bomb") {
-					totalBattlefield.add(0, kaartBomb);
+					totalBattlefield.add(kaartBomb);
 					player1Hand.remove(i);
 					i--;
 				}
 			}
 			for (int i=0; i<player2Hand.size(); i++) {
 				if (player2Hand.get(i).getName() == "Bomb") {
-					totalBattlefield.add(0, kaartBomb);
+					totalBattlefield.add(kaartBomb);
 					player2Hand.remove(i);
 					i--;
 				}
@@ -344,9 +343,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "Place in front of your opponent. if this card is infront of you at the end of turn you lose.";
 		public void playCard(int Player) {
 			switch (Player) {
-			case 2 :	player1Battlefield.add(0, kaartDragon);
+			case 2 :	player1Battlefield.add(kaartDragon);
 						break;
-			case 1 :	player2Battlefield.add(0, kaartDragon);
+			case 1 :	player2Battlefield.add(kaartDragon);
 						break;
 			}
 				
@@ -367,9 +366,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "Place in front of your opponent. if this card is infront of you at the end of turn you lose.";
 		public void playCard(int Player) {
 			switch (Player) {
-			case 2 :	player1Battlefield.add(0, kaartArrowed);
+			case 2 :	player1Battlefield.add(kaartArrowed);
 						break;
-			case 1 :	player2Battlefield.add(0, kaartArrowed);
+			case 1 :	player2Battlefield.add(kaartArrowed);
 						break;
 			}
 				
@@ -390,9 +389,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "Place in front of your opponent. if this card is infront of you at the end of turn you lose.";
 		public void playCard(int Player) {
 			switch (Player) {
-			case 2 :	player1Battlefield.add(0, kaartLasers);
+			case 2 :	player1Battlefield.add(kaartLasers);
 						break;
-			case 1 :	player2Battlefield.add(0, kaartLasers);
+			case 1 :	player2Battlefield.add(kaartLasers);
 						break;
 			}
 				
@@ -413,9 +412,9 @@ public class DidntPlaytest extends JFrame {
 		static final String text = "Place in front of your opponent. if this card is infront of you at the end of turn you lose.";
 		public void playCard(int Player) {
 			switch (Player) {
-			case 2 :	player1Battlefield.add(0, kaartBlackHole);
+			case 2 :	player1Battlefield.add(kaartBlackHole);
 						break;
-			case 1 :	player2Battlefield.add(0, kaartBlackHole);
+			case 1 :	player2Battlefield.add(kaartBlackHole);
 						break;
 			}
 				
@@ -503,7 +502,7 @@ public class DidntPlaytest extends JFrame {
 		static final String name = "Comic Sans";
 		static final String text = "Before each player plays a card on their turn, they must say \"Comic Sans is Awesome\" or they lose.";
 		public void playCard(int Player) {	
-			totalBattlefield.add(0, kaartComicSans);
+			totalBattlefield.add(kaartComicSans);
 			comicSans();
 			textToFont("Comic Sans MS");
 		}
@@ -522,7 +521,7 @@ public class DidntPlaytest extends JFrame {
 		static final String name = "Zombies!";
 		static final String text = "Before each player plays a card on their turn, they must say \"AHH! Zombies!\" is Awesome or they lose.";
 		public void playCard(int Player) {	
-			totalBattlefield.add(0, kaartZombies);
+			totalBattlefield.add(kaartZombies);
 			zombies();
 		}
 		public void battleEffect(int Player) {
@@ -601,7 +600,6 @@ public class DidntPlaytest extends JFrame {
 	boolean comicSansTemp = false;
 	boolean zombies = false;
 	boolean zombiesTemp = false;
-	boolean done = false;
 	JButton b0 = new JButton("");
 	JButton b1 = new JButton("");
 	JButton b2 = new JButton("");
@@ -658,18 +656,6 @@ public class DidntPlaytest extends JFrame {
 		zombiesTemp = true;
 	}
 	
-	public void done() {
-		if (done == false) {
-			history.add("P2: GG");
-		}
-		done = true;
-		b0.setEnabled(false);
-		b1.setEnabled(false);
-		b2.setEnabled(false);
-		b3.setEnabled(false);
-		b4.setEnabled(false);
-	}
-	
 	/* Adds cards from the library to the hand */
 	public void Draw(int player, int amount) {
 		if (Drawing == true) {
@@ -700,9 +686,6 @@ public class DidntPlaytest extends JFrame {
 		for (int i=0; i<20; i++) {
 			player1Hand.add(kaartNone);
 			player2Hand.add(kaartNone);
-			player2Battlefield.add(kaartNone);
-			player1Battlefield.add(kaartNone);
-			totalBattlefield.add(kaartNone);
 		}
 	}
 	
@@ -798,13 +781,13 @@ public class DidntPlaytest extends JFrame {
 	public void Points(int Player) {
 		switch (Player) {
 		case 1 :	player1points += 8;
-					player1Battlefield.add(0, kaartPoints);
+					player1Battlefield.add(kaartPoints);
 					if (player1points >= winPoints) {
 						playerWins(1);
 					}
 					break;
 		case 2 :	player2points += 8;
-					player2Battlefield.add(0, kaartPoints);
+					player2Battlefield.add(kaartPoints);
 					if (player2points >= winPoints) {
 						playerWins(2);
 					};
@@ -828,14 +811,14 @@ public class DidntPlaytest extends JFrame {
 		
 		for (int i=0; i<casterBattlefield.size(); i++) {
 			if (casterBattlefield.get(i).getName() == card1.getName()) {
-				resiverBattlefield.add(0, card1);
+				resiverBattlefield.add(card1);
 				casterBattlefield.remove(i);
 				break;
 			}
 		}
 		for (int i=0; i<casterBattlefield.size(); i++) {
 			if (casterBattlefield.get(i).getName() == card2.getName()) {
-				resiverBattlefield.add(0, card2);
+				resiverBattlefield.add(card2);
 				casterBattlefield.remove(i);
 				break;
 			}
@@ -847,13 +830,13 @@ public class DidntPlaytest extends JFrame {
 	public void superPoints(int Player) {
 		switch (Player) {
 		case 1 :	player1points += 90;
-					player1Battlefield.add(0, kaartSuperPoints);
+					player1Battlefield.add(kaartSuperPoints);
 					if (player1points >= winPoints) {
 						playerWins(1);
 					}
 					break;
 		case 2 :	player2points += 90;
-					player2Battlefield.add(0, kaartSuperPoints);
+					player2Battlefield.add(kaartSuperPoints);
 					if (player2points >= winPoints) {
 						playerWins(2);
 					}
@@ -975,6 +958,159 @@ public class DidntPlaytest extends JFrame {
 		fieldAI8.setText(player2Battlefield.get(7).getName());
 		fieldAI9.setText(player2Battlefield.get(8).getName());
 		fieldAI10.setText(player2Battlefield.get(9).getName());
+		
+		switch (player1Battlefield.get(0).getName()) {
+		case "nothing": fieldplayer1.setVisible(false);
+						break;
+		default: 		fieldplayer1.setVisible(true);	
+						break;
+		} 
+		switch (player1Battlefield.get(1).getName()) {
+		case "nothing": fieldplayer2.setVisible(false);
+						break;
+		default: 		fieldplayer2.setVisible(true);	
+						break;
+		}
+		switch (player1Battlefield.get(2).getName()) {
+		case "nothing": fieldplayer3.setVisible(false);
+						break;
+		default: 		fieldplayer3.setVisible(true);	
+						break;
+		}
+		switch (player1Battlefield.get(3).getName()) {
+		case "nothing": fieldplayer4.setVisible(false);
+						break;
+		default: 		fieldplayer4.setVisible(true);	
+						break;
+		}
+		switch (player1Battlefield.get(4).getName()) {
+		case "nothing": fieldplayer5.setVisible(false);
+						break;
+		default: 		fieldplayer5.setVisible(true);	
+						break;
+		}
+		switch (player1Battlefield.get(5).getName()) {
+		case "nothing": fieldplayer6.setVisible(false);
+						break;
+		default: 		fieldplayer6.setVisible(true);	
+						break;
+		}
+		switch (player1Battlefield.get(6).getName()) {
+		case "nothing": fieldplayer7.setVisible(false);
+						break;
+		default: 		fieldplayer7.setVisible(true);	
+						break;
+		}
+		switch (player1Battlefield.get(7).getName()) {
+		case "nothing": fieldplayer8.setVisible(false);
+						break;
+		default: 		fieldplayer8.setVisible(true);	
+						break;
+		}
+		switch (player1Battlefield.get(8).getName()) {
+		case "nothing": fieldplayer9.setVisible(false);
+						break;
+		default: 		fieldplayer9.setVisible(true);	
+						break;
+		}
+		switch (player1Battlefield.get(9).getName()) {
+		case "nothing": fieldplayer10.setVisible(false);
+						break;
+		default: 		fieldplayer10.setVisible(true);	
+						break;
+		}
+		
+		switch (player2Battlefield.get(0).getName()) {
+		case "nothing": fieldAI1.setVisible(false);
+						break;
+		default: 		fieldAI1.setVisible(true);	
+						break;
+		} 
+		switch (player2Battlefield.get(1).getName()) {
+		case "nothing": fieldAI2.setVisible(false);
+						break;
+		default: 		fieldAI2.setVisible(true);	
+						break;
+		}
+		switch (player2Battlefield.get(2).getName()) {
+		case "nothing": fieldAI3.setVisible(false);
+						break;
+		default: 		fieldAI3.setVisible(true);	
+						break;
+		}
+		switch (player2Battlefield.get(3).getName()) {
+		case "nothing": fieldAI4.setVisible(false);
+						break;
+		default: 		fieldAI4.setVisible(true);	
+						break;
+		}
+		switch (player2Battlefield.get(4).getName()) {
+		case "nothing": fieldAI5.setVisible(false);
+						break;
+		default: 		fieldAI5.setVisible(true);	
+						break;
+		}
+		switch (player2Battlefield.get(5).getName()) {
+		case "nothing": fieldAI6.setVisible(false);
+						break;
+		default: 		fieldAI6.setVisible(true);	
+						break;
+		}
+		switch (player2Battlefield.get(6).getName()) {
+		case "nothing": fieldAI7.setVisible(false);
+						break;
+		default: 		fieldAI7.setVisible(true);	
+						break;
+		}
+		switch (player2Battlefield.get(7).getName()) {
+		case "nothing": fieldAI8.setVisible(false);
+						break;
+		default: 		fieldAI8.setVisible(true);	
+						break;
+		}
+		switch (player2Battlefield.get(8).getName()) {
+		case "nothing": fieldAI9.setVisible(false);
+						break;
+		default: 		fieldAI9.setVisible(true);	
+						break;
+		}
+		switch (player2Battlefield.get(9).getName()) {
+		case "nothing": fieldAI10.setVisible(false);
+						break;
+		default: 		fieldAI10.setVisible(true);	
+						break;
+		}
+		
+		switch (totalBattlefield.get(0).getName()) {
+		case "nothing": fieldneutral1.setVisible(false);
+						break;
+		default: 		fieldneutral1.setVisible(true);	
+						break;
+		} 
+		switch (totalBattlefield.get(1).getName()) {
+		case "nothing": fieldneutral2.setVisible(false);
+						break;
+		default: 		fieldneutral2.setVisible(true);	
+						break;
+		}
+		switch (totalBattlefield.get(2).getName()) {
+		case "nothing": fieldneutral3.setVisible(false);
+						break;
+		default: 		fieldneutral3.setVisible(true);	
+						break;
+		}
+		switch (totalBattlefield.get(3).getName()) {
+		case "nothing": fieldneutral4.setVisible(false);
+						break;
+		default: 		fieldneutral4.setVisible(true);	
+						break;
+		}
+		switch (totalBattlefield.get(4).getName()) {
+		case "nothing": fieldneutral5.setVisible(false);
+						break;
+		default: 		fieldneutral5.setVisible(true);	
+						break;
+		}
 	}
 	
 	
@@ -1020,15 +1156,13 @@ public class DidntPlaytest extends JFrame {
 	}
 	
 	/* Makes a player loses the game */
-	public void playerLoses(int player){
+	public void playerLoses(int player) {
 		history.add("player " + player + " has lost the game.  ");
-		done();
 	}
 	
 	/* Makes a player wins the game */
-	public void playerWins(int player){
+	public void playerWins(int player) {
 		history.add("player " + player + " has won the game.  ");
-		done();
 	}
 	
 	/* calls all functions that have to happen at the start of the game */
@@ -1039,10 +1173,6 @@ public class DidntPlaytest extends JFrame {
 	
 	/* If you give this a cardname it will activate that cards effect */
 	public void runCard(String Name, int Player, boolean special) {
-		if (done == true) {
-			done();
-			return;
-		}
 		if (Player == 1) {
 			if (comicSansTemp == true) {
 				playerLoses(1);
@@ -1104,17 +1234,11 @@ public class DidntPlaytest extends JFrame {
 				AIPlaysCard();
 			}
 		}
-		if (done == true) {
-			done();
-			return;
-		}
+	
 	}
 	
 	/* If you give this a card-name it will activate that cards effect */
 	public void AIPlaysCard() {
-		if (done == true) {
-			return;
-		}
 		Draw(2, 1);
 		if (comicSans == true) {
 			history.add("Comic Sans is awesome");
@@ -1155,7 +1279,6 @@ public class DidntPlaytest extends JFrame {
 	
 	/*Front End (Mostly) */
 	public DidntPlaytest() {
-		setTitle("We Didn't Playtest This At All");
 		confirm.setBounds(1173, 671, 113, 37);
 		confirm.setVisible(false);
 		cards.add(kaartPc);
@@ -1198,7 +1321,8 @@ public class DidntPlaytest extends JFrame {
 			}
 		});
 		String cardInHand0 = player1Hand.get(0).getName();
-		b0.setText(player1Hand.get(0).getName());
+		b0.setText("<html> <b>" + player1Hand.get(0).getName() + "</b> <br />" + player1Hand.get(0).getText() + "  </html>");
+		
 		
 		switch (cardInHand0) {
 		case "nothing": b0.setVisible(false);
