@@ -13,6 +13,7 @@ import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
@@ -600,6 +601,7 @@ public class DidntPlaytest extends JFrame {
 	boolean comicSansTemp = false;
 	boolean zombies = false;
 	boolean zombiesTemp = false;
+	boolean done = false;
 	JButton b0 = new JButton("");
 	JButton b1 = new JButton("");
 	JButton b2 = new JButton("");
@@ -654,6 +656,18 @@ public class DidntPlaytest extends JFrame {
 	public void zombies() {
 		zombies = true;
 		zombiesTemp = true;
+	}
+	
+	public void done() {
+		if (done == false) {
+			history.add("P2: GG");
+		}
+		done = true;
+		b0.setEnabled(false);
+		b1.setEnabled(false);
+		b2.setEnabled(false);
+		b3.setEnabled(false);
+		b4.setEnabled(false);
 	}
 	
 	/* Adds cards from the library to the hand */
@@ -1003,13 +1017,15 @@ public class DidntPlaytest extends JFrame {
 	}
 	
 	/* Makes a player loses the game */
-	public void playerLoses(int player) {
+	public void playerLoses(int player){
 		history.add("player " + player + " has lost the game.  ");
+		done();
 	}
 	
 	/* Makes a player wins the game */
-	public void playerWins(int player) {
+	public void playerWins(int player){
 		history.add("player " + player + " has won the game.  ");
+		done();
 	}
 	
 	/* calls all functions that have to happen at the start of the game */
@@ -1020,6 +1036,10 @@ public class DidntPlaytest extends JFrame {
 	
 	/* If you give this a cardname it will activate that cards effect */
 	public void runCard(String Name, int Player, boolean special) {
+		if (done == true) {
+			done();
+			return;
+		}
 		if (Player == 1) {
 			if (comicSansTemp == true) {
 				playerLoses(1);
@@ -1081,11 +1101,17 @@ public class DidntPlaytest extends JFrame {
 				AIPlaysCard();
 			}
 		}
-	
+		if (done == true) {
+			done();
+			return;
+		}
 	}
 	
 	/* If you give this a card-name it will activate that cards effect */
 	public void AIPlaysCard() {
+		if (done == true) {
+			return;
+		}
 		Draw(2, 1);
 		if (comicSans == true) {
 			history.add("Comic Sans is awesome");
@@ -1126,6 +1152,7 @@ public class DidntPlaytest extends JFrame {
 	
 	/*Front End (Mostly) */
 	public DidntPlaytest() {
+		setTitle("We Didn't Playtest This At All");
 		confirm.setBounds(1173, 671, 113, 37);
 		confirm.setVisible(false);
 		cards.add(kaartPc);
