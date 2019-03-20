@@ -29,14 +29,14 @@ import java.awt.Font;
 import java.awt.Color;
 
 /* Part of Eclipse */
-public class DidntPlaytest extends JFrame {
+public class Didnt_Playtest extends JFrame {
 
 	private JPanel contentPane;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DidntPlaytest frame = new DidntPlaytest();
+					Didnt_Playtest frame = new Didnt_Playtest();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -612,11 +612,12 @@ public class DidntPlaytest extends JFrame {
 	JLabel lblNewLabel = new JLabel("History + Chat");
 	JTextField chatText = new JTextField();
 	
+	boolean gameEnd = false;
 	boolean extraTurn= false;
 	Choice prompt = new Choice();
 	JButton confirm = new JButton("Confirm");
 	JButton btnTestprompt = new JButton("TESTPROMPT");
-	
+	JButton chatConfirm = new JButton("->");
 
 	JLabel fieldplayer2 = new JLabel("");
 	JLabel fieldplayer1 = new JLabel("");
@@ -864,6 +865,18 @@ public class DidntPlaytest extends JFrame {
 		if (extraTurn) {
 			AIPlaysCard();
 		}
+		else if (gameEnd) {
+			b0.setEnabled(false);
+			b1.setEnabled(false);
+			b2.setEnabled(false);
+			b3.setEnabled(false);
+			b4.setEnabled(false);
+			prompt.setEnabled(false);
+			btnTestprompt.setEnabled(false);
+			confirm.setEnabled(false);
+			chatConfirm.setEnabled(false);
+			testExtraTurnMyNigga.setEnabled(false);
+	}
 		else {
 			b0.setEnabled(true);
 			b1.setEnabled(true);
@@ -1134,6 +1147,18 @@ public class DidntPlaytest extends JFrame {
 		if (extraTurn) {
 			AIPlaysCard();
 		}
+		else if (gameEnd) {
+			b0.setEnabled(false);
+			b1.setEnabled(false);
+			b2.setEnabled(false);
+			b3.setEnabled(false);
+			b4.setEnabled(false);
+			prompt.setEnabled(false);
+			btnTestprompt.setEnabled(false);
+			confirm.setEnabled(false);
+			chatConfirm.setEnabled(false);
+			testExtraTurnMyNigga.setEnabled(false);
+	}
 		else {
 			b0.setEnabled(true);
 			b1.setEnabled(true);
@@ -1163,6 +1188,7 @@ public class DidntPlaytest extends JFrame {
 	/* Makes a player loses the game */
 	public void playerLoses(int player) {
 		history.add("player " + player + " has lost the game.  ");
+		gameEnd = true;
 	}
 	
 	/* Makes a player wins the game */
@@ -1230,6 +1256,18 @@ public class DidntPlaytest extends JFrame {
 				}
 				updateButtons();
 			}
+			else if (gameEnd) {
+				b0.setEnabled(false);
+				b1.setEnabled(false);
+				b2.setEnabled(false);
+				b3.setEnabled(false);
+				b4.setEnabled(false);
+				prompt.setEnabled(false);
+				btnTestprompt.setEnabled(false);
+				confirm.setEnabled(false);
+				chatConfirm.setEnabled(false);
+				testExtraTurnMyNigga.setEnabled(false);
+			}
 			else {
 				b0.setEnabled(false);
 				b1.setEnabled(false);
@@ -1264,6 +1302,18 @@ public class DidntPlaytest extends JFrame {
 				extraTurn = false;
 				AIPlaysCard();
 			}
+			else if (gameEnd) {
+					b0.setEnabled(false);
+					b1.setEnabled(false);
+					b2.setEnabled(false);
+					b3.setEnabled(false);
+					b4.setEnabled(false);
+					prompt.setEnabled(false);
+					btnTestprompt.setEnabled(false);
+					confirm.setEnabled(false);
+					chatConfirm.setEnabled(false);
+					testExtraTurnMyNigga.setEnabled(false);
+			}
 			else {
 				b0.setEnabled(true);
 				b1.setEnabled(true);
@@ -1280,11 +1330,13 @@ public class DidntPlaytest extends JFrame {
 			}
 		}
 	}
-	/* turnsysteem */
+	/* bruh bruh stopper */
+	
+	
 	
 	/*Front End (Mostly) */
-	public DidntPlaytest() {
-		confirm.setBounds(1173, 671, 113, 37);
+	public Didnt_Playtest() {
+		confirm.setBounds(893, 673, 113, 37);
 		confirm.setVisible(false);
 		cards.add(kaartPc);
 		cards.add(kaartILose);
@@ -1406,7 +1458,7 @@ public class DidntPlaytest extends JFrame {
 		default: 		b4.setVisible(true);	
 						break;
 		}
-		prompt.setBounds(1163, 645, 137, 20);
+		prompt.setBounds(883, 647, 137, 20);
 		prompt.setVisible(false);
 		
 
@@ -1422,7 +1474,7 @@ public class DidntPlaytest extends JFrame {
 				}
 			}
 		});
-		btnTestprompt.setBounds(1163, 231, 89, 23);
+		btnTestprompt.setBounds(883, 233, 89, 23);
 		btnTestprompt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				callPrompt();
@@ -1435,7 +1487,7 @@ public class DidntPlaytest extends JFrame {
 				extraTurn = true;
 			}
 		});
-		testExtraTurnMyNigga.setBounds(1163, 264, 89, 23);
+		testExtraTurnMyNigga.setBounds(883, 266, 89, 23);
 		contentPane.add(testExtraTurnMyNigga);
 		contentPane.add(b0);
 		contentPane.add(b1);
@@ -1448,10 +1500,10 @@ public class DidntPlaytest extends JFrame {
 		
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(1163, 298, 221, 46);
+		lblNewLabel.setBounds(883, 300, 221, 46);
 		contentPane.add(lblNewLabel);
 		
-		history.setBounds(1163, 350, 221, 232);
+		history.setBounds(883, 352, 221, 232);
 		contentPane.add(history);
 		
 		questionHeader.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1459,11 +1511,11 @@ public class DidntPlaytest extends JFrame {
 		questionHeader.setBounds(305, 208, 275, 37);
 		contentPane.add(questionHeader);
 		
-		chatText.setBounds(1163, 588, 165, 20);
+		chatText.setBounds(883, 590, 165, 20);
 		contentPane.add(chatText);
 		chatText.setColumns(10);
 		
-		JButton chatConfirm = new JButton("->");
+		
 		chatConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				history.add("P1: " + chatText.getText());
@@ -1499,7 +1551,7 @@ public class DidntPlaytest extends JFrame {
 				chatText.setText("");
 			}
 		});
-		chatConfirm.setBounds(1338, 587, 46, 23);
+		chatConfirm.setBounds(1058, 590, 46, 23);
 		contentPane.add(chatConfirm);
 			
 		fieldplayer2.setBounds(285, 645, 181, 50);
