@@ -611,6 +611,7 @@ public class Didnt_Playtest extends JFrame {
 	JButton testExtraTurnMyNigga = new JButton("xtra turn");
 	JLabel lblNewLabel = new JLabel("History + Chat");
 	JTextField chatText = new JTextField();
+	JLabel opponentsCards = new JLabel("");
 	
 	boolean gameEnd = false;
 	boolean extraTurn= false;
@@ -1129,6 +1130,9 @@ public class Didnt_Playtest extends JFrame {
 		default: 		fieldneutral5.setVisible(true);	
 						break;
 		}
+		
+		int counter = 0; 
+		opponentsCards.setText("Your opponent has " + String.valueOf(player2Hand.size()) + " cards.");
 	}
 	
 	
@@ -1629,6 +1633,10 @@ public class Didnt_Playtest extends JFrame {
 		fieldneutral5.setBounds(856, 469, 181, 50);
 		
 		contentPane.add(fieldneutral5);
+		
+		opponentsCards.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		opponentsCards.setBounds(316, 26, 403, 81);
+		contentPane.add(opponentsCards);
 		
 		
 		
