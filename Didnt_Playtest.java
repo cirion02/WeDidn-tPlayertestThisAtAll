@@ -1,3 +1,5 @@
+package jhlbfds;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -55,6 +57,7 @@ public class Didnt_Playtest extends JFrame {
 		public void battleEffect(int player);
 		public String getName();
 		public String getText();
+		public int getScore();
 	}
 	
 	/* Make all the cards ass classes*/
@@ -70,6 +73,9 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return "nothing";
+		}
+		public int getScore() {
+			return -1;
 		}
 	}
 	
@@ -88,6 +94,9 @@ public class Didnt_Playtest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 20;
+		}
 	}
 	
 	public class cardILose implements playable {
@@ -104,6 +113,9 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 1;
 		}
 	}
 	
@@ -122,6 +134,9 @@ public class Didnt_Playtest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 33;
+		}
 	}
 	
 	public class cardBattlePaper implements playable {
@@ -138,6 +153,9 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 33;
 		}
 	}
 	
@@ -156,6 +174,9 @@ public class Didnt_Playtest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 33;
+		}
 	}
 	
 	public class cardNumbersEven implements playable {
@@ -172,6 +193,9 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 50;
 		}
 	}
 	
@@ -190,6 +214,9 @@ public class Didnt_Playtest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 50;
+		}
 	}
 	
 	public class cardPoints implements playable {
@@ -206,6 +233,24 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			if (winPoints - player2points <= 8) {
+				return 100;
+			}
+
+			else if (winPoints - player2points <= 13) {
+				return 75;
+			}
+
+			else if (winPoints - player2points <= 16) {
+				return 50;
+			}
+
+			else {
+				return 30;
+			}
+
 		}
 	}
 	
@@ -225,6 +270,9 @@ public class Didnt_Playtest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 30;
+		}
 	}
 	
 	public class cardSuperPoints implements playable {
@@ -242,6 +290,24 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			if (winPoints - player2points <= 5) {
+				return 100;
+			}
+
+			else if (winPoints - player2points <= 10) {
+				return 75;
+			}
+
+			else if (winPoints - player2points <= 13) {
+				return 50;
+			}
+
+			else {
+				return 30;
+			}
+
 		}
 	}
 	
@@ -268,6 +334,9 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 20;
 		}
 	}
 	
@@ -296,6 +365,9 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 50;
 		}
 	}
 	
@@ -336,6 +408,20 @@ public class Didnt_Playtest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			int bombCounter = 0;
+			for (int i = 0; i < player2Battlefield.size(); i++) {
+				if (player2Battlefield.get(i).getName() == "Bomb") {
+					bombCounter++;
+				}
+			}
+			for (int i = 0; i < player2Hand.size(); i++) {
+				if (player2Hand.get(i).getName() == "Bomb") {
+					bombCounter++;
+				}
+			}
+			return bombCounter * 20 + 20;
+		}
 	}
 	
 	public class cardDragon implements playable {
@@ -358,6 +444,9 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 80;
 		}
 	}
 	
@@ -382,6 +471,9 @@ public class Didnt_Playtest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 80;
+		}
 	}
 	
 	public class cardLasers implements playable {
@@ -404,6 +496,9 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 80;
 		}
 	}
 	
@@ -428,6 +523,9 @@ public class Didnt_Playtest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 80;
+		}
 	}
 	
 	public class cardZoom implements playable {
@@ -445,6 +543,15 @@ public class Didnt_Playtest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			if (player2Battlefield.contains(kaartLasers) || player2Battlefield.contains(kaartArrowed)) {
+				return 95;
+			}
+			else {
+				return 30;
+			}
+		}
+		
 	}
 	
 	public class cardShield implements playable {
@@ -461,6 +568,14 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			if (player2Battlefield.contains(kaartDragon) || player2Battlefield.contains(kaartArrowed)) {
+				return 95;
+			}
+			else {
+				return 30;
+			}
 		}
 	}
 	
@@ -479,6 +594,14 @@ public class Didnt_Playtest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			if (player2Battlefield.contains(kaartDragon) || player2Battlefield.contains(kaartBlackHole)) {
+				return 95;
+			}
+			else {
+				return 30;
+			}
+		}
 	}
 	
 	public class cardSpaceship implements playable {
@@ -495,6 +618,14 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			if (player2Battlefield.contains(kaartLasers) || player2Battlefield.contains(kaartBlackHole)) {
+				return 95;
+			}
+			else {
+				return 30;
+			}
 		}
 	}
 	
@@ -515,6 +646,9 @@ public class Didnt_Playtest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 61;
+		}
 	}
 	
 	public class cardZombies implements playable {
@@ -533,6 +667,9 @@ public class Didnt_Playtest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 60;
+		}
 	}
 	
 	public class cardNinjas implements playable {
@@ -549,6 +686,9 @@ public class Didnt_Playtest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 50;
 		}
 	}
 
@@ -692,7 +832,7 @@ public class Didnt_Playtest extends JFrame {
 	}
 	
 	public void addHistory(String text) {
-		if (!(gameEnd == true && text.matches("player * has * the game.  "))) {
+		if (!(gameEnd == true && text.matches("player(.*)has(.*)the game(.*)"))) {
 			history.add(text);
 		}
 	}
@@ -882,7 +1022,8 @@ public class Didnt_Playtest extends JFrame {
 			b2.setEnabled(true);
 			b3.setEnabled(true);
 			b4.setEnabled(true);
-			Draw(1,1);
+
+
 			if (comicSans == true) {
 				comicSansTemp = true;
 			}
@@ -1261,9 +1402,7 @@ public class Didnt_Playtest extends JFrame {
 			}
 			if (extraTurn) {
 				extraTurn = false;
-				if (special == false) {
-					Draw(1,1);
-				}
+				Draw(1,1);
 				updateButtons();
 			}
 			else if (gameEnd) {
