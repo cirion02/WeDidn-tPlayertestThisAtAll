@@ -1436,9 +1436,21 @@ public class Didnt_Playtest extends JFrame {
 		if (zombies == true) {
 			addHistory("AHH! Zombies!");
 		}
-		int random = (int) Math.random() * player2Hand.size();
-		lastAiCard = player2Hand.get(random).getName();
-		runCard(player2Hand.get(random).getName(), 2, true);
+		AIHandPoints.clear();
+		int highestScore = 0;
+		for (int i = 0; i < player2Hand.size(); i++) {
+			if (player2Hand.get(i).getScore() == highestScore) {
+				AIHandPoints.add(player2Hand.get(i));
+			}
+			if (player2Hand.get(i).getScore() > highestScore) {
+				AIHandPoints.clear();
+				AIHandPoints.add(player2Hand.get(i));
+				highestScore = player2Hand.get(i).getScore();
+			}
+		}
+		int random = (int) Math.random() * AIHandPoints.size();
+		lastAiCard = AIHandPoints.get(random).getName();
+		runCard(AIHandPoints.get(random).getName(), 2, true);
 		if (prompt.isVisible() == false) { 
 			addHistory("Your opponent played: " + lastAiCard + ". ");
 			for (int i=0; i<player2Battlefield.size(); i++) {
