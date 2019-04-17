@@ -1336,6 +1336,7 @@ public class Didnt_Playtest extends JFrame {
 	
 	/*Front End (Mostly) */
 	public Didnt_Playtest() {
+		/* adding all elements to public (panel)*/
 		confirm.setBounds(893, 673, 113, 37);
 		confirm.setVisible(false);
 		cards.add(kaartPc);
@@ -1362,14 +1363,19 @@ public class Didnt_Playtest extends JFrame {
 		cards.add(kaartSpaceship);
 		cards.add(kaartShield);
 		cards.add(kaartNinjas);
+		/* starting the game by adding cards to hands and filling the draw library */
 		startOfGame();
 		Draw(1, 3);
 		Draw(2, 2);
+		
+		/* defining contentPane */
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1410, 1004);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
+		/* defining card buttons & listeners which call for runCard & updateButtons */
 		b0.setBounds(30, 800, 125, 139);
 		b0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1377,10 +1383,12 @@ public class Didnt_Playtest extends JFrame {
 				updateButtons();
 			}
 		});
+		
+		/* setting button text to the card text (fun html!) */
 		String cardInHand0 = player1Hand.get(0).getName();
 		b0.setText("<html> <b>" + player1Hand.get(0).getName() + "</b> <br />" + player1Hand.get(0).getText() + "  </html>");
 		
-		
+		/* switch that makes the buttons appear if there is a card in that spot */
 		switch (cardInHand0) {
 		case "nothing": b0.setVisible(false);
 						break;
@@ -1389,6 +1397,7 @@ public class Didnt_Playtest extends JFrame {
 		}
 		b1.setBounds(165, 800, 125, 139);
 		
+		/* the same thing x4 */
 		b1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runCard(player1Hand.get(1).getName(), 1, true);
@@ -1458,11 +1467,13 @@ public class Didnt_Playtest extends JFrame {
 		default: 		b4.setVisible(true);	
 						break;
 		}
+		
+		/* defining prompt label */
 		prompt.setBounds(883, 647, 137, 20);
 		prompt.setVisible(false);
 		
 
-
+		
 		confirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String finalChoice = prompt.getSelectedItem();
@@ -1474,13 +1485,17 @@ public class Didnt_Playtest extends JFrame {
 				}
 			}
 		});
+		
+		/* prompt button */
 		btnTestprompt.setBounds(883, 233, 89, 23);
 		btnTestprompt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				callPrompt();
 			}
 		});
+		
 		contentPane.setLayout(null);
+		
 		
 		testExtraTurnMyNigga.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1488,6 +1503,8 @@ public class Didnt_Playtest extends JFrame {
 			}
 		});
 		testExtraTurnMyNigga.setBounds(883, 266, 89, 23);
+		
+		/* adding stuff to contentPane */
 		contentPane.add(testExtraTurnMyNigga);
 		contentPane.add(b0);
 		contentPane.add(b1);
@@ -1498,6 +1515,7 @@ public class Didnt_Playtest extends JFrame {
 		contentPane.add(confirm);
 		contentPane.add(btnTestprompt);
 		
+		/* more basic defining */
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(883, 300, 221, 46);
@@ -1515,7 +1533,7 @@ public class Didnt_Playtest extends JFrame {
 		contentPane.add(chatText);
 		chatText.setColumns(10);
 		
-		
+		/* chatConfirm, adds current text in chatText to history, if statements define commands by checking chatText */
 		chatConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				history.add("P1: " + chatText.getText());
@@ -1525,21 +1543,25 @@ public class Didnt_Playtest extends JFrame {
 				if (chatText.getText().toLowerCase().equals("ahh zombies") || chatText.getText().toLowerCase().equals("ahh! zombies!") || chatText.getText().toLowerCase().equals("ahh zombies!") || chatText.getText().toLowerCase().equals("ahh! zombies")) {
 					zombiesTemp = false;
 				}
+				/* basically restarts the game in terms of hands up to 2 */
 				if (chatText.getText().toLowerCase().equals("/redraw")) {
 					for (int i = 0; i < player1Hand.size(); i++) {
 						player1Hand.set(i, kaartNone);
 					}
 					Draw(1, 2);
 				}
+				/* basically restarts the game in terms of hands up to set parameter */
 				if (chatText.getText().toLowerCase().matches("/redraw .*")) {
 					for (int i = 0; i < player1Hand.size(); i++) {
 						player1Hand.set(i, kaartNone);
 					}
 					Draw(1, Integer.parseInt(chatText.getText().substring(8)));
 				}
+				/* draws set amount for human player */
 				if (chatText.getText().toLowerCase().matches("/draw .*")) {
 					Draw(1, Integer.parseInt(chatText.getText().substring(6)));
 				}
+				/* gives a set card to human player */
 				if (chatText.getText().toLowerCase().matches("/givecard .*")) {
 					for (int i = 0; i < cards.size(); i++) {
 						if (chatText.getText().toLowerCase().substring(10).equals(cards.get(i).getName().toLowerCase())) {
@@ -1553,7 +1575,8 @@ public class Didnt_Playtest extends JFrame {
 		});
 		chatConfirm.setBounds(1058, 590, 46, 23);
 		contentPane.add(chatConfirm);
-			
+		
+		/* more fun label defining (for the playing field */
 		fieldplayer2.setBounds(285, 645, 181, 50);
 		contentPane.add(fieldplayer2);
 		
@@ -1632,7 +1655,7 @@ public class Didnt_Playtest extends JFrame {
 		
 		
 		
-		// main game loop //
+		/* set main font */
 		textToFont("Tahoma");
 	}
 }
