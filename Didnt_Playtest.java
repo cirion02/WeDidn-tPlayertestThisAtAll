@@ -30,7 +30,8 @@ import java.awt.Color;
 
 /* Part of Eclipse */
 public class Didnt_Playtest extends JFrame {
-
+	
+	/* main loop niet gebruikt */
 	private JPanel contentPane;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -48,6 +49,8 @@ public class Didnt_Playtest extends JFrame {
 	
 	
 	/* Make the thing that all the cards are */
+	/* This is why the cards have empty functions */
+	/* This is used so that java knows that if we have a list of card that they can then all run these functions */
 	public interface playable {
 		public void playCard(int player);
 		public void battleEffect(int player);
@@ -55,7 +58,9 @@ public class Didnt_Playtest extends JFrame {
 		public String getText();
 	}
 	
-	/* Make all the cards ass classes*/
+	/* Makes all the cards classes*/
+	
+	/* card that does nothing to make the players hand long enough to not crash */
 	public class cardNone implements playable {
 		public void playCard(int Player) {
 			
@@ -71,15 +76,19 @@ public class Didnt_Playtest extends JFrame {
 		}
 	}
 	
+	/* all classes below here are our reprensation of cards */
+	/* for all of them you can look at the String text to get a idea what they are seposed to do. */
+	/* The comments in this card aply to all cards */
 	public class cardPc implements playable {
 		static final String name = "PC";
 		static final String text = "Everybody wins";
 		public void playCard(int Player) {
+			/* what the card does when it is played */
 			playerWins(1);
 			playerWins(2);
 		}
 		public void battleEffect(int Player) {
-			
+			/* what the card does when it's in play */
 		}
 		public String getName() {
 			return name;
@@ -248,6 +257,7 @@ public class Didnt_Playtest extends JFrame {
 		static final String name = "The End";
 		static final String text = "At the end of your next turn, everyone loses.";
 		public void playCard(int Player) {
+			/* adds the card to the apropirate battlefield */
 			switch (Player) {
 			case 1 :	player1Battlefield.add(0, kaartTheEnd);
 						break;
@@ -257,6 +267,7 @@ public class Didnt_Playtest extends JFrame {
 				
 		}
 		public void battleEffect(int Player) {
+			/* tiks down from 1 to 0 on 0 everyone dies */
 			theEndTimer -= 1;
 			if (theEndTimer == 0) {
 				playerLoses(1);
@@ -278,6 +289,7 @@ public class Didnt_Playtest extends JFrame {
 			extraTurn = true;
 			totalBattlefield.add(0, kaartBomb);
 			int bombCount = 0;
+			/* Counts the number on bombs in play, if it's more than 3 everyone loses */
 			for (int i=0; i<totalBattlefield.size(); i++) {
 				if (totalBattlefield.get(i).getName() == "Bomb") {
 					bombCount++;
@@ -304,6 +316,7 @@ public class Didnt_Playtest extends JFrame {
 		static final String name = "Bomb Party";
 		static final String text = "Each player puts all bomb from their hand into play, if there are 4 or more bombs face up now, you win!";
 		public void playCard(int Player) {
+			/* Puts all bombs from each players hand into play */
 			for (int i=0; i<player1Hand.size(); i++) {
 				if (player1Hand.get(i).getName() == "Bomb") {
 					totalBattlefield.add(0, kaartBomb);
@@ -318,6 +331,7 @@ public class Didnt_Playtest extends JFrame {
 					i--;
 				}
 			}
+			/* Counts the number on bombs in play, if it's more than 3 the player who played this card loses */
 			int bombCount = 0;
 			for (int i=0; i<totalBattlefield.size(); i++) {
 				if (totalBattlefield.get(i).getName() == "Bomb") {
@@ -325,7 +339,7 @@ public class Didnt_Playtest extends JFrame {
 				}
 			}
 			if (bombCount > 3) {
-				playerLoses(Player);
+				playerWins(Player);
 			}
 		}
 		public void battleEffect(int Player) {
@@ -554,7 +568,7 @@ public class Didnt_Playtest extends JFrame {
 	}
 
 	
-	/* Make an Object for each class */
+	/* Make an Object for each card/class */
 	cardPc kaartPc = new cardPc();
 	cardILose kaartILose = new cardILose();
 	cardNone kaartNone = new cardNone();
@@ -581,12 +595,12 @@ public class Didnt_Playtest extends JFrame {
 	cardComicSans kaartComicSans = new cardComicSans();
 	cardNinjas kaartNinjas = new cardNinjas();
 	
-	/* Variablelen aanmaken */
+	/* Makes variablelen, bottons, labels and arraylists */
 	ArrayList<playable> player1Hand=new ArrayList<playable>();
 	ArrayList<playable> player2Hand=new ArrayList<playable>();
 	ArrayList<playable> library=new ArrayList<playable>(); 
 	ArrayList<String> Prompts = new ArrayList<String>();
-	ArrayList<playable> cards = new ArrayList<playable>();
+	ArrayList<playable> cards = new ArrayList<playable>(); /* Contains all cards */
 	ArrayList<playable> totalBattlefield = new ArrayList<playable>();
 	ArrayList<playable> player1Battlefield = new ArrayList<playable>();
 	ArrayList<playable> player2Battlefield = new ArrayList<playable>();
@@ -597,7 +611,7 @@ public class Didnt_Playtest extends JFrame {
 	int winPoints = 15;
 	boolean Drawing = true;
 	String lastAiCard;
-	boolean comicSans = false;
+	boolean comicSans = false; /* For now */
 	boolean comicSansTemp = false;
 	boolean zombies = false;
 	boolean zombiesTemp = false;
@@ -671,7 +685,9 @@ public class Didnt_Playtest extends JFrame {
 				}
 			}
 		}
+		/* If the card No Drawing has been played this will happen */
 		else {
+			/* Checks if the player drawing cards has no cards in hand, if the don't they lose */
 			if (player == 1 && player1Hand.size() == 0) {
 				playerLoses(1);
 			}
@@ -685,6 +701,8 @@ public class Didnt_Playtest extends JFrame {
 	
 	/* Fill the player's starting hand with empty card to check against*/
 	public void fillHand() {
+		/* Fills all list with cards that do nothing and make things invisible. */
+		/* This is to prevent Index out of bounds errors */
 		for (int i=0; i<20; i++) {
 			player1Hand.add(kaartNone);
 			player2Hand.add(kaartNone);
@@ -694,6 +712,7 @@ public class Didnt_Playtest extends JFrame {
 		}
 	}
 	
+	/* Set all text to a font */
 	public void textToFont(String font) {
 		b0.setFont(new Font(font, Font.PLAIN, 11));
 		b1.setFont(new Font(font, Font.PLAIN, 11));
