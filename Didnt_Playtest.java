@@ -910,14 +910,16 @@ public class Didnt_Playtest extends JFrame {
 			AiChoise(Loses);
 		}
 	}
-	
+	/* Updates everything on the frontend side of things, spaghetti time */
 	public void updateButtons() {
+		/* Update text on buttons */
 		b0.setText("<html> <b>" + player1Hand.get(0).getName() + "</b> <br />" + player1Hand.get(0).getText() + "  </html>");
 		b1.setText("<html> <b>" + player1Hand.get(1).getName() + "</b> <br />" + player1Hand.get(1).getText() + "  </html>");
 		b2.setText("<html> <b>" + player1Hand.get(2).getName() + "</b> <br />" + player1Hand.get(2).getText() + "  </html>");
 		b3.setText("<html> <b>" + player1Hand.get(3).getName() + "</b> <br />" + player1Hand.get(3).getText() + "  </html>");
 		b4.setText("<html> <b>" + player1Hand.get(4).getName() + "</b> <br />" + player1Hand.get(4).getText() + "  </html>");
 		
+		/* switchcases that make the buttons appear if there is a card in that spot */
 		switch (player1Hand.get(0).getName()) {
 		case "nothing": b0.setVisible(false);
 						break;
@@ -949,6 +951,7 @@ public class Didnt_Playtest extends JFrame {
 						break;
 		} 
 		
+		/* updating all field labels */
 		fieldplayer1.setText(player1Battlefield.get(0).getName());
 		fieldplayer2.setText(player1Battlefield.get(1).getName());
 		fieldplayer3.setText(player1Battlefield.get(2).getName());
@@ -977,6 +980,7 @@ public class Didnt_Playtest extends JFrame {
 		fieldAI9.setText(player2Battlefield.get(8).getName());
 		fieldAI10.setText(player2Battlefield.get(9).getName());
 		
+		/* swithcases that make the field labels appear */
 		switch (player1Battlefield.get(0).getName()) {
 		case "nothing": fieldplayer1.setVisible(false);
 						break;
