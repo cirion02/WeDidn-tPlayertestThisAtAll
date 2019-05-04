@@ -27,6 +27,8 @@ import javax.swing.JList;
 import java.awt.List;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 /* Part of Eclipse */
 public class DidntPlaytest extends JFrame {
@@ -677,7 +679,21 @@ public class DidntPlaytest extends JFrame {
 	JButton confirm = new JButton("Confirm");
 	JButton btnTestprompt = new JButton("TESTPROMPT");
 	JButton chatConfirm = new JButton("->");
-
+	
+	int heightPlayer;
+	boolean malePlayer;
+	boolean bluePlayer;
+	String monthPlayer;
+	
+	JPanel startpanel = new JPanel();
+	JButton bConfirmQuestions = new JButton("Confirm!");
+	JTextField tHeight = new JTextField();
+	JLabel lWelcome = new JLabel("Welcome to We Didn't Playtest This at All! First, a few questions.");
+	JLabel lLength = new JLabel("How tall are you? (in cm)");
+	JRadioButton rGenderMale = new JRadioButton("Male");
+	JRadioButton rGenderFemale = new JRadioButton("Female");
+	JLabel lGender = new JLabel("What gender are you?");
+	
 	JLabel fieldplayer2 = new JLabel("");
 	JLabel fieldplayer1 = new JLabel("");
 	JLabel fieldplayer6 = new JLabel("");
@@ -703,6 +719,16 @@ public class DidntPlaytest extends JFrame {
 	JLabel fieldneutral3 = new JLabel("");
 	JLabel fieldneutral4 = new JLabel("");
 	JLabel fieldneutral5 = new JLabel("");
+	private JTextField tLength;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private final JLabel lBlue = new JLabel("Are you wearing blue right now?");
+	private final JRadioButton bYes = new JRadioButton("Yes");
+	private final JRadioButton bNo = new JRadioButton("No");
+	private final JLabel lMonth = new JLabel("What month were you born in?");
+	private final JComboBox cbMonth = new JComboBox();
+	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
+	
+
 	
 	/* Basis Functies */
 	
@@ -974,6 +1000,30 @@ public class DidntPlaytest extends JFrame {
 		if (Player == 1) {
 			AiChoise(Loses);
 		}
+	}
+	
+	public void confirmQuestions() {
+		startpanel.setVisible(false);
+		b0.setVisible(true);
+		b1.setVisible(true);
+		b2.setVisible(true);
+		confirm.setVisible(true);
+		chatConfirm.setVisible(true);
+		heightPlayer = Integer.parseInt(tHeight.getText());
+		monthPlayer = (String)cbMonth.getSelectedItem();
+		if (rGenderMale.isSelected()) {
+			malePlayer = true;
+		}
+		else {
+			malePlayer = false;
+		}
+		if (bYes.isSelected()) {
+			bluePlayer = true;
+		}
+		else {
+			bluePlayer = false;
+		}
+		
 	}
 	
 	public void updateButtons() {
@@ -1403,6 +1453,8 @@ public class DidntPlaytest extends JFrame {
 	
 	/*Front End (Mostly) */
 	public DidntPlaytest() {
+		
+		
 		confirm.setBounds(893, 673, 113, 37);
 		confirm.setVisible(false);
 		cards.add(kaartPc);
@@ -1557,6 +1609,76 @@ public class DidntPlaytest extends JFrame {
 				extraTurn = true;
 			}
 		});
+		
+
+		b0.setVisible(false);
+		b1.setVisible(false);
+		b2.setVisible(false);
+		confirm.setVisible(false);
+		chatConfirm.setVisible(false);
+		
+		
+		
+		startpanel.setBounds(0, 128, 1394, 837);
+		contentPane.add(startpanel);
+		startpanel.setLayout(null);
+		
+		
+		bConfirmQuestions.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				confirmQuestions();
+			}
+		});
+		bConfirmQuestions.setBounds(645, 272, 89, 23);
+		startpanel.add(bConfirmQuestions);
+		
+	
+		tHeight.setBounds(523, 170, 86, 20);
+		startpanel.add(tHeight);
+		tHeight.setColumns(10);
+		
+		
+		lWelcome.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lWelcome.setBounds(364, 79, 643, 43);
+		startpanel.add(lWelcome);
+		
+		
+		lLength.setBounds(509, 145, 137, 14);
+		startpanel.add(lLength);
+		
+		
+		buttonGroup.add(rGenderMale);
+		rGenderMale.setBounds(377, 169, 109, 23);
+		startpanel.add(rGenderMale);
+		
+		
+		buttonGroup.add(rGenderFemale);
+		rGenderFemale.setBounds(377, 200, 109, 23);
+		startpanel.add(rGenderFemale);
+		
+		
+		
+		
+		lGender.setBounds(349, 145, 137, 14);
+		startpanel.add(lGender);
+		lBlue.setBounds(875, 147, 181, 14);
+		
+		startpanel.add(lBlue);
+		buttonGroup_1.add(bYes);
+		bYes.setBounds(934, 172, 109, 23);
+		
+		startpanel.add(bYes);
+		buttonGroup_1.add(bNo);
+		bNo.setBounds(934, 203, 109, 23);
+		
+		startpanel.add(bNo);
+		lMonth.setBounds(680, 147, 154, 14);
+		
+		startpanel.add(lMonth);
+		cbMonth.setModel(new DefaultComboBoxModel(new String[] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}));
+		cbMonth.setBounds(705, 170, 110, 20);
+		
+		startpanel.add(cbMonth);
 		testExtraTurnMyNigga.setBounds(883, 266, 89, 23);
 		contentPane.add(testExtraTurnMyNigga);
 		contentPane.add(b0);
