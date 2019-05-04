@@ -398,6 +398,9 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 90;
+		}
 	}
 	
 	public class cardBombParty implements playable {
@@ -746,8 +749,37 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		
+		public int getScore() {
+			int totalScore = 0;
+			for (int i=0; i < player2Hand.size(); i++) {
+				totalScore += player2Hand.get(i).getScore();
+			}
+			int opponentScore = player1Hand.size()*50;
+			return (opponentScore/(opponentScore+totalScore))*100;
+		}
 	}
 
+	public class cardExtraLife implements playable {
+		static final String name = "Extra Life";
+		static final String text = "If you would lose instead you don't. Or if you didn't lose, draw 2 cards.";
+		public void playCard(int Player) {	
+			Draw(Player, 2);
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+		
+		public int getScore() {
+			return 23;
+		}
+	}
 	
 	/* Make an Object for each card/class */
 	cardPc kaartPc = new cardPc();
@@ -777,6 +809,7 @@ public class DidntPlaytest extends JFrame {
 	cardNinjas kaartNinjas = new cardNinjas();
 	cardMadTeaParty kaartMadTeaParty = new cardMadTeaParty();
 	cardCheater kaartCheater = new cardCheater();
+	cardExtraLife kaartExtraLife = new cardExtraLife();
 	
 	/* Makes variablelen, bottons, labels and arraylists */
 	ArrayList<playable> player1Hand=new ArrayList<playable>();
@@ -787,6 +820,7 @@ public class DidntPlaytest extends JFrame {
 	ArrayList<playable> totalBattlefield = new ArrayList<playable>();
 	ArrayList<playable> player1Battlefield = new ArrayList<playable>();
 	ArrayList<playable> player2Battlefield = new ArrayList<playable>();
+	ArrayList<playable> aiChoices=new ArrayList<playable>();
 	String returnFunction = "";
 	int player1points = 0;
 	int player2points = 0;
@@ -1396,7 +1430,88 @@ public class DidntPlaytest extends JFrame {
 		else {
 			addHistory("player " + player + " has lost the game.  ");
 		}
-		gameEnd = true;
+		switch (player) {
+		case 1:
+			if (player1Hand.contains(kaartExtraLife)) {
+				addHistory("But player 1 used an extra life.");
+				for (int i=0; i<player1Hand.size(); i++) {
+					playable testObject = player1Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player1Hand.remove(i);
+						break;
+					}
+				}
+			}
+			else {
+				gameEnd = true;
+			}
+		case 2:
+			if (player2Hand.contains(kaartExtraLife)) {
+				addHistory("But player 2 used an extra life.");
+				for (int i=0; i<player2Hand.size(); i++) {
+					playable testObject = player2Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player2Hand.remove(i);
+						break;
+					}
+				}
+			}
+			else {
+				gameEnd = true;
+			}
+		case 3:
+			if (player2Hand.contains(kaartExtraLife) && player1Hand.contains(kaartExtraLife)) {
+				addHistory("But both players used an extra life.");
+				for (int i=0; i<player1Hand.size(); i++) {
+					playable testObject = player1Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player1Hand.remove(i);
+						break;
+					}
+				}
+				for (int i=0; i<player2Hand.size(); i++) {
+					playable testObject = player2Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player2Hand.remove(i);
+						break;
+					}
+				}
+			}
+			else if (player2Hand.contains(kaartExtraLife)) {
+				addHistory("But players 2 used an extra life.");
+				addHistory("So player 2 wins.");
+				for (int i=0; i<player2Hand.size(); i++) {
+					playable testObject = player2Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player2Hand.remove(i);
+						break;
+					}
+				}
+				gameEnd = true;
+			}
+			else if (player1Hand.contains(kaartExtraLife)) {
+				addHistory("But players 1 used an extra life.");
+				addHistory("So player 1 wins.");
+				gameEnd = true;
+				for (int i=0; i<player1Hand.size(); i++) {
+					playable testObject = player1Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player1Hand.remove(i);
+						break;
+					}
+				}
+			}
+			else {
+				addHistory("Both players lost the game.");
+				gameEnd = true;
+			}
+		}
 	}
 	
 	/* Makes a player wins the game */
@@ -1501,9 +1616,20 @@ public class DidntPlaytest extends JFrame {
 			addHistory("AHH! Zombies!");
 		}
 		/* Plays a random card */
-		int random = (int) Math.random() * player2Hand.size();
-		lastAiCard = player2Hand.get(random).getName();
-		runCard(player2Hand.get(random).getName(), 2, true);
+		aiChoices.clear();
+		int maxScore = 0;
+		for (int i=0; i<player2Hand.size(); i++) {
+			if (player2Hand.get(i).getScore() > maxScore) {
+				aiChoices.clear();
+				aiChoices.add(player2Hand.get(i));
+			}
+			if (player2Hand.get(i).getScore() == maxScore) {
+				aiChoices.add(player2Hand.get(i));
+			}
+		}
+		int random = (int) Math.random() * aiChoices.size();
+		lastAiCard = aiChoices.get(random).getName();
+		runCard(aiChoices.get(random).getName(), 2, true);
 		/* Only happens if the AI's turn ends here */
 		if (prompt.isVisible() == false) { 
 			addHistory("Your opponent played: " + lastAiCard + ". ");
@@ -1575,6 +1701,7 @@ public class DidntPlaytest extends JFrame {
 		cards.add(kaartNinjas);
 		cards.add(kaartMadTeaParty);
 		cards.add(kaartCheater);
+		cards.add(kaartExtraLife);
 		startOfGame();
 		Draw(1, 3);
 		Draw(2, 2);
