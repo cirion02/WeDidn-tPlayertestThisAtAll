@@ -29,7 +29,8 @@ import java.awt.Font;
 import java.awt.Color;
 
 /* Part of Eclipse */
-public class Didnt_Playtest extends JFrame {
+
+public class DidntPlaytest extends JFrame {
 	
 	/* main loop niet gebruikt */
 	private JPanel contentPane;
@@ -37,7 +38,7 @@ public class Didnt_Playtest extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Didnt_Playtest frame = new Didnt_Playtest();
+					DidntPlaytest frame = new DidntPlaytest();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -312,6 +313,24 @@ public class Didnt_Playtest extends JFrame {
 		}
 	}
 	
+	public class cardCheater implements playable {
+		static final String name = "Cheater";
+		static final String text = "Take an extra turn. Draw 2 cards.";
+		public void playCard(int Player) {
+			extraTurn = true;
+			Draw(Player, 2);				
+		}
+		public void battleEffect(int Player) {
+			
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
+	
 	public class cardBombParty implements playable {
 		static final String name = "Bomb Party";
 		static final String text = "Each player puts all bomb from their hand into play, if there are 4 or more bombs face up now, you win!";
@@ -566,6 +585,31 @@ public class Didnt_Playtest extends JFrame {
 			return text;
 		}
 	}
+	
+	public class cardMadTeaParty implements playable {
+		static final String name = "Mad Tea Party";
+		static final String text = "Switch seats with you opponent. Take an extra turn in your new posision";
+		public void playCard(int Player) {	
+			ArrayList<playable> testArray=new ArrayList<playable>();
+			testArray = player1Hand;
+			player1Hand = player2Hand;
+			player2Hand = testArray;
+			testArray = player1Battlefield;
+			player1Battlefield = player2Battlefield;
+			player2Battlefield = testArray;
+			updateButtons();
+			extraTurn = true;
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+	}
 
 	
 	/* Make an Object for each card/class */
@@ -594,6 +638,8 @@ public class Didnt_Playtest extends JFrame {
 	cardZombies kaartZombies = new cardZombies();
 	cardComicSans kaartComicSans = new cardComicSans();
 	cardNinjas kaartNinjas = new cardNinjas();
+	cardMadTeaParty kaartMadTeaParty = new cardMadTeaParty();
+	cardCheater kaartCheater = new cardCheater();
 	
 	/* Makes variablelen, bottons, labels and arraylists */
 	ArrayList<playable> player1Hand=new ArrayList<playable>();
@@ -681,6 +727,7 @@ public class Didnt_Playtest extends JFrame {
 				switch (player) {
 					case 1: player1Hand.add(0, library.get(random));
 							updateButtons();
+							break;
 					case 2: player2Hand.add(0, library.get(random));
 				}
 			}
@@ -1299,7 +1346,7 @@ public class Didnt_Playtest extends JFrame {
 	
 	}
 	
-	/* If you give this a card-name it will activate that cards effect */
+	/* Does the Ai's turn */
 	public void AIPlaysCard() {
 		Draw(2, 1);
 		if (comicSans == true) {
@@ -1308,9 +1355,11 @@ public class Didnt_Playtest extends JFrame {
 		if (zombies == true) {
 			history.add("AHH! Zombies!");
 		}
+		/* Plays a random card */
 		int random = (int) Math.random() * player2Hand.size();
 		lastAiCard = player2Hand.get(random).getName();
 		runCard(player2Hand.get(random).getName(), 2, true);
+		/* Only happens if the AI's turn ends here */
 		if (prompt.isVisible() == false) { 
 			history.add("Your opponent played: " + lastAiCard + ". ");
 			for (int i=0; i<player2Battlefield.size(); i++) {
@@ -1354,7 +1403,7 @@ public class Didnt_Playtest extends JFrame {
 	
 	
 	/*Front End (Mostly) */
-	public Didnt_Playtest() {
+	public DidntPlaytest() {
 		confirm.setBounds(893, 673, 113, 37);
 		confirm.setVisible(false);
 		cards.add(kaartPc);
@@ -1381,9 +1430,12 @@ public class Didnt_Playtest extends JFrame {
 		cards.add(kaartSpaceship);
 		cards.add(kaartShield);
 		cards.add(kaartNinjas);
+		cards.add(kaartMadTeaParty);
+		cards.add(kaartCheater);
 		startOfGame();
 		Draw(1, 3);
 		Draw(2, 2);
+		updateButtons();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1410, 1004);
 		contentPane = new JPanel();
@@ -1550,6 +1602,27 @@ public class Didnt_Playtest extends JFrame {
 					}
 					Draw(1, 2);
 				}
+				if (chatText.getText().toLowerCase().equals("/aihand")) {
+					for (int i = 0; i < player2Hand.size(); i++) {
+						String cardName = player2Hand.get(i).getName();
+						if (cardName.equals("nothing")) {
+							break;
+						}
+						history.add("Console: " + cardName);
+					}
+				}
+				
+				if (chatText.getText().toLowerCase().equals("/aihandsize")) {
+					int handSize = 0;
+					for (int i = 0; i < player2Hand.size(); i++) {
+						if (player2Hand.get(i).getName().equals("nothing")) {
+							break;
+						}
+						handSize++;
+					}
+					history.add("Console: Handsize = " + handSize);
+				}
+				
 				if (chatText.getText().toLowerCase().matches("/redraw .*")) {
 					for (int i = 0; i < player1Hand.size(); i++) {
 						player1Hand.set(i, kaartNone);
@@ -1567,6 +1640,7 @@ public class Didnt_Playtest extends JFrame {
 						}
 					}
 				}
+				
 				chatText.setText("");
 			}
 		});
