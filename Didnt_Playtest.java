@@ -29,6 +29,7 @@ import java.awt.Font;
 import java.awt.Color;
 
 /* Part of Eclipse */
+
 public class DidntPlaytest extends JFrame {
 	
 	/* main loop niet gebruikt */
