@@ -6,11 +6,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -58,6 +60,7 @@ public class DidntPlaytest extends JFrame {
 		public void battleEffect(int player);
 		public String getName();
 		public String getText();
+		public int getScore();
 	}
 	
 	/* Makes all the cards classes*/
@@ -76,6 +79,9 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return "nothing";
 		}
+		public int getScore() {
+			return -1;
+		}
 	}
 	
 	/* all classes below here are our reprensation of cards */
@@ -85,9 +91,9 @@ public class DidntPlaytest extends JFrame {
 		static final String name = "PC";
 		static final String text = "Everybody wins";
 		public void playCard(int Player) {
+			playerWins(3);
 			/* what the card does when it is played */
-			playerWins(1);
-			playerWins(2);
+
 		}
 		public void battleEffect(int Player) {
 			/* what the card does when it's in play */
@@ -97,6 +103,9 @@ public class DidntPlaytest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 20;
 		}
 	}
 	
@@ -115,6 +124,9 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 1;
+		}
 	}
 	
 	public class cardBattleRock implements playable {
@@ -131,6 +143,9 @@ public class DidntPlaytest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 33;
 		}
 	}
 	
@@ -149,6 +164,9 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 33;
+		}
 	}
 	
 	public class cardBattleScissors implements playable {
@@ -165,6 +183,9 @@ public class DidntPlaytest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 33;
 		}
 	}
 	
@@ -183,6 +204,9 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 50;
+		}
 	}
 	
 	public class cardNumbersOdd implements playable {
@@ -200,6 +224,9 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 50;
+		}
 	}
 	
 	public class cardPoints implements playable {
@@ -216,6 +243,24 @@ public class DidntPlaytest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			if (winPoints - player2points <= 8) {
+				return 100;
+			}
+
+			else if (winPoints - player2points <= 13) {
+				return 75;
+			}
+
+			else if (winPoints - player2points <= 16) {
+				return 50;
+			}
+
+			else {
+				return 30;
+			}
+
 		}
 	}
 	
@@ -235,6 +280,9 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 30;
+		}
 	}
 	
 	public class cardSuperPoints implements playable {
@@ -252,6 +300,24 @@ public class DidntPlaytest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			if (winPoints - player2points <= 5) {
+				return 100;
+			}
+
+			else if (winPoints - player2points <= 10) {
+				return 75;
+			}
+
+			else if (winPoints - player2points <= 13) {
+				return 50;
+			}
+
+			else {
+				return 30;
+			}
+
 		}
 	}
 	
@@ -272,8 +338,7 @@ public class DidntPlaytest extends JFrame {
 			/* tiks down from 1 to 0 on 0 everyone dies */
 			theEndTimer -= 1;
 			if (theEndTimer == 0) {
-				playerLoses(1);
-				playerLoses(2);
+				playerLoses(3);
 			}
 		}
 		public String getName() {
@@ -281,6 +346,9 @@ public class DidntPlaytest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 20;
 		}
 	}
 	
@@ -298,8 +366,7 @@ public class DidntPlaytest extends JFrame {
 				}
 			}
 			if (bombCount > 3) {
-				playerLoses(1);
-				playerLoses(2);
+				playerLoses(3);
 			}
 				
 		}
@@ -311,6 +378,9 @@ public class DidntPlaytest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 50;
 		}
 	}
 	
@@ -371,6 +441,20 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			int bombCounter = 0;
+			for (int i = 0; i < player2Battlefield.size(); i++) {
+				if (player2Battlefield.get(i).getName() == "Bomb") {
+					bombCounter++;
+				}
+			}
+			for (int i = 0; i < player2Hand.size(); i++) {
+				if (player2Hand.get(i).getName() == "Bomb") {
+					bombCounter++;
+				}
+			}
+			return bombCounter * 20 + 20;
+		}
 	}
 	
 	public class cardDragon implements playable {
@@ -393,6 +477,9 @@ public class DidntPlaytest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 80;
 		}
 	}
 	
@@ -417,6 +504,9 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 80;
+		}
 	}
 	
 	public class cardLasers implements playable {
@@ -439,6 +529,9 @@ public class DidntPlaytest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 80;
 		}
 	}
 	
@@ -463,6 +556,9 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 80;
+		}
 	}
 	
 	public class cardZoom implements playable {
@@ -480,6 +576,15 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			if (player2Battlefield.contains(kaartLasers) || player2Battlefield.contains(kaartArrowed)) {
+				return 95;
+			}
+			else {
+				return 30;
+			}
+		}
+		
 	}
 	
 	public class cardShield implements playable {
@@ -496,6 +601,14 @@ public class DidntPlaytest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			if (player2Battlefield.contains(kaartDragon) || player2Battlefield.contains(kaartArrowed)) {
+				return 95;
+			}
+			else {
+				return 30;
+			}
 		}
 	}
 	
@@ -514,6 +627,14 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			if (player2Battlefield.contains(kaartDragon) || player2Battlefield.contains(kaartBlackHole)) {
+				return 95;
+			}
+			else {
+				return 30;
+			}
+		}
 	}
 	
 	public class cardSpaceship implements playable {
@@ -530,6 +651,14 @@ public class DidntPlaytest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			if (player2Battlefield.contains(kaartLasers) || player2Battlefield.contains(kaartBlackHole)) {
+				return 95;
+			}
+			else {
+				return 30;
+			}
 		}
 	}
 	
@@ -550,6 +679,9 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 61;
+		}
 	}
 	
 	public class cardZombies implements playable {
@@ -568,6 +700,9 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		public int getScore() {
+			return 60;
+		}
 	}
 	
 	public class cardNinjas implements playable {
@@ -584,6 +719,9 @@ public class DidntPlaytest extends JFrame {
 		}
 		public String getText() {
 			return text;
+		}
+		public int getScore() {
+			return 50;
 		}
 	}
 	
@@ -669,7 +807,6 @@ public class DidntPlaytest extends JFrame {
 	JButton b4 = new JButton("");
 	List history = new List();
 	JLabel questionHeader = new JLabel("");
-	JButton testExtraTurnMyNigga = new JButton("xtra turn");
 	JLabel lblNewLabel = new JLabel("History + Chat");
 	JTextField chatText = new JTextField();
 	
@@ -677,7 +814,6 @@ public class DidntPlaytest extends JFrame {
 	boolean extraTurn= false;
 	Choice prompt = new Choice();
 	JButton confirm = new JButton("Confirm");
-	JButton btnTestprompt = new JButton("TESTPROMPT");
 	JButton chatConfirm = new JButton("->");
 	
 	int heightPlayer;
@@ -784,6 +920,12 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
+	public void addHistory(String text) {
+		if (!(gameEnd == true && text.matches("player(.*)has(.*)the game(.*)"))) {
+			history.add(text);
+		}
+	}
+	
 	/* Set all text to a font */
 	public void textToFont(String font) {
 		b0.setFont(new Font(font, Font.PLAIN, 11));
@@ -793,12 +935,10 @@ public class DidntPlaytest extends JFrame {
 		b4.setFont(new Font(font, Font.PLAIN, 11));
 		history.setFont(new Font(font, Font.PLAIN, 11));
 		questionHeader.setFont(new Font(font, Font.PLAIN, 17));
-		testExtraTurnMyNigga.setFont(new Font(font, Font.PLAIN, 11));
 		lblNewLabel.setFont(new Font(font, Font.PLAIN, 17));
 		chatText.setFont(new Font(font, Font.PLAIN, 11));
 		prompt.setFont(new Font(font, Font.PLAIN, 11));
 		confirm.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnTestprompt.setFont(new Font(font, Font.PLAIN, 11));
 	}
 	
 	
@@ -817,7 +957,7 @@ public class DidntPlaytest extends JFrame {
 	public void AiChoise(String Loses) {
 		int choiceNumber = (int) (Math.random() * Prompts.size());
 		String choice = Prompts.get(choiceNumber);
-		history.add("Your opponent chose " + choice + ".  ");
+		addHistory("Your opponent chose " + choice + ".  ");
 		if (choice == Loses || (Loses == "Even" && (choice == "2" || choice == "4")) || (Loses == "Odd" && (choice == "1" || choice == "3" || choice == "5"))) {
 			playerLoses(2);
 		}
@@ -948,7 +1088,7 @@ public class DidntPlaytest extends JFrame {
 		questionHeader.setText("");
 		confirm.setVisible(false);
 		prompt.setVisible(false);
-		history.add("Your opponent played: " + lastAiCard + ". ");
+		addHistory("Your opponent played: " + lastAiCard + ". ");
 		for (int i=0; i<player2Battlefield.size(); i++) {
 			playable testObject = player2Battlefield.get(i);
 			testObject.battleEffect(2);
@@ -963,10 +1103,8 @@ public class DidntPlaytest extends JFrame {
 			b3.setEnabled(false);
 			b4.setEnabled(false);
 			prompt.setEnabled(false);
-			btnTestprompt.setEnabled(false);
 			confirm.setEnabled(false);
 			chatConfirm.setEnabled(false);
-			testExtraTurnMyNigga.setEnabled(false);
 	}
 		else {
 			b0.setEnabled(true);
@@ -974,7 +1112,8 @@ public class DidntPlaytest extends JFrame {
 			b2.setEnabled(true);
 			b3.setEnabled(true);
 			b4.setEnabled(true);
-			Draw(1,1);
+
+
 			if (comicSans == true) {
 				comicSansTemp = true;
 			}
@@ -1254,7 +1393,7 @@ public class DidntPlaytest extends JFrame {
 		questionHeader.setText("");
 		confirm.setVisible(false);
 		prompt.setVisible(false);
-		history.add("Your opponent played: " + lastAiCard + ". ");
+		addHistory("Your opponent played: " + lastAiCard + ". ");
 		for (int i=0; i<player2Battlefield.size(); i++) {
 			playable testObject = player2Battlefield.get(i);
 			testObject.battleEffect(2);
@@ -1269,10 +1408,8 @@ public class DidntPlaytest extends JFrame {
 			b3.setEnabled(false);
 			b4.setEnabled(false);
 			prompt.setEnabled(false);
-			btnTestprompt.setEnabled(false);
 			confirm.setEnabled(false);
 			chatConfirm.setEnabled(false);
-			testExtraTurnMyNigga.setEnabled(false);
 	}
 		else {
 			b0.setEnabled(true);
@@ -1302,13 +1439,26 @@ public class DidntPlaytest extends JFrame {
 	
 	/* Makes a player loses the game */
 	public void playerLoses(int player) {
-		history.add("player " + player + " has lost the game.  ");
+		if (player == 3) {
+			addHistory("player 1 has lost the game.  ");
+			addHistory("player 2 has lost the game.  ");
+		}
+		else {
+			addHistory("player " + player + " has lost the game.  ");
+		}
 		gameEnd = true;
 	}
 	
 	/* Makes a player wins the game */
 	public void playerWins(int player) {
-		history.add("player " + player + " has won the game.  ");
+		if (player == 3) {
+			addHistory("player 1 has win the game.  ");
+			addHistory("player 2 has win the game.  ");
+		}
+		else {
+			addHistory("player " + player + " has win the game.  ");
+		}
+		gameEnd = true;
 	}
 	
 	/* calls all functions that have to happen at the start of the game */
@@ -1359,16 +1509,14 @@ public class DidntPlaytest extends JFrame {
 			}
 		}
 		if (Player == 1) {
-			history.add("You played: " + Name + ". ");
+			addHistory("You played: " + Name + ". ");
 			for (int i=0; i<player1Battlefield.size(); i++) {
 				playable testObject = player1Battlefield.get(i);
 				testObject.battleEffect(1);
 			}
 			if (extraTurn) {
 				extraTurn = false;
-				if (special == false) {
-					Draw(1,1);
-				}
+				Draw(1,1);
 				updateButtons();
 			}
 			else if (gameEnd) {
@@ -1378,10 +1526,8 @@ public class DidntPlaytest extends JFrame {
 				b3.setEnabled(false);
 				b4.setEnabled(false);
 				prompt.setEnabled(false);
-				btnTestprompt.setEnabled(false);
 				confirm.setEnabled(false);
 				chatConfirm.setEnabled(false);
-				testExtraTurnMyNigga.setEnabled(false);
 			}
 			else {
 				b0.setEnabled(false);
@@ -1399,10 +1545,10 @@ public class DidntPlaytest extends JFrame {
 	public void AIPlaysCard() {
 		Draw(2, 1);
 		if (comicSans == true) {
-			history.add("Comic Sans is awesome");
+			addHistory("Comic Sans is awesome");
 		}
 		if (zombies == true) {
-			history.add("AHH! Zombies!");
+			addHistory("AHH! Zombies!");
 		}
 		/* Plays a random card */
 		int random = (int) Math.random() * player2Hand.size();
@@ -1410,7 +1556,7 @@ public class DidntPlaytest extends JFrame {
 		runCard(player2Hand.get(random).getName(), 2, true);
 		/* Only happens if the AI's turn ends here */
 		if (prompt.isVisible() == false) { 
-			history.add("Your opponent played: " + lastAiCard + ". ");
+			addHistory("Your opponent played: " + lastAiCard + ". ");
 			for (int i=0; i<player2Battlefield.size(); i++) {
 				playable testObject = player2Battlefield.get(i);
 				testObject.battleEffect(2);
@@ -1426,10 +1572,8 @@ public class DidntPlaytest extends JFrame {
 					b3.setEnabled(false);
 					b4.setEnabled(false);
 					prompt.setEnabled(false);
-					btnTestprompt.setEnabled(false);
 					confirm.setEnabled(false);
 					chatConfirm.setEnabled(false);
-					testExtraTurnMyNigga.setEnabled(false);
 			}
 			else {
 				b0.setEnabled(true);
@@ -1596,14 +1740,7 @@ public class DidntPlaytest extends JFrame {
 				}
 			}
 		});
-		btnTestprompt.setBounds(883, 233, 89, 23);
-		btnTestprompt.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				callPrompt();
-			}
-		});
-		contentPane.setLayout(null);
-		
+		contentPane.setLayout(null);		
 		testExtraTurnMyNigga.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				extraTurn = true;
@@ -1688,7 +1825,6 @@ public class DidntPlaytest extends JFrame {
 		contentPane.add(b4);
 		contentPane.add(prompt);
 		contentPane.add(confirm);
-		contentPane.add(btnTestprompt);
 		
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1710,7 +1846,7 @@ public class DidntPlaytest extends JFrame {
 		
 		chatConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				history.add("P1: " + chatText.getText());
+				addHistory("P1: " + chatText.getText());
 				if (chatText.getText().toLowerCase().equals("comic sans is awesome")) {
 					comicSansTemp = false;
 				}
