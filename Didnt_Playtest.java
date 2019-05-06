@@ -1028,7 +1028,10 @@ public class DidntPlaytest extends JFrame {
 	private final JComboBox cbMonth = new JComboBox();
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
 	
-
+	JLabel lAIMonth = new JLabel("");
+	JLabel lAIBlue = new JLabel("");
+	JLabel lAIHeight = new JLabel("");
+	JLabel lAIGender = new JLabel("");
 	
 	/* Basis Functies */
 	
@@ -1363,6 +1366,21 @@ public class DidntPlaytest extends JFrame {
 		b2.setText("<html> <b>" + player1Hand.get(2).getName() + "</b> <br />" + player1Hand.get(2).getText() + "  </html>");
 		b3.setText("<html> <b>" + player1Hand.get(3).getName() + "</b> <br />" + player1Hand.get(3).getText() + "  </html>");
 		b4.setText("<html> <b>" + player1Hand.get(4).getName() + "</b> <br />" + player1Hand.get(4).getText() + "  </html>");
+		
+		if (maleAi) {
+			lAIGender.setText("The enemy is male.");
+		}
+		else {
+			lAIGender.setText("The enemy is female.");
+		}
+		if (blueAi) {
+			lAIBlue.setText("The enemy is wearing blue.");
+		}
+		else {
+			lAIBlue.setText("The enemy is not wearing bluee.");
+		}
+		lAIHeight.setText("The enemy is " + String.valueOf(heightAi) + " cm tall.");
+		lAIMonth.setText("The enemy was born in " + monthAi + ".");
 		
 		switch (player1Hand.get(0).getName()) {
 		case "nothing": b0.setVisible(false);
@@ -1965,7 +1983,7 @@ public class DidntPlaytest extends JFrame {
 		
 		
 		
-		startpanel.setBounds(0, 128, 1394, 837);
+		startpanel.setBounds(0, 0, 1394, 965);
 		contentPane.add(startpanel);
 		startpanel.setLayout(null);
 		
@@ -1975,54 +1993,54 @@ public class DidntPlaytest extends JFrame {
 				confirmQuestions();
 			}
 		});
-		bConfirmQuestions.setBounds(645, 272, 89, 23);
+		bConfirmQuestions.setBounds(643, 340, 89, 23);
 		startpanel.add(bConfirmQuestions);
 		
 	
-		tHeight.setBounds(523, 170, 86, 20);
+		tHeight.setBounds(521, 238, 86, 20);
 		startpanel.add(tHeight);
 		tHeight.setColumns(10);
 		
 		
 		lWelcome.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lWelcome.setBounds(364, 79, 643, 43);
+		lWelcome.setBounds(362, 147, 643, 43);
 		startpanel.add(lWelcome);
 		
 		
-		lLength.setBounds(509, 145, 137, 14);
+		lLength.setBounds(507, 213, 161, 14);
 		startpanel.add(lLength);
 		
 		
 		buttonGroup.add(rGenderMale);
-		rGenderMale.setBounds(377, 169, 109, 23);
+		rGenderMale.setBounds(375, 237, 109, 23);
 		startpanel.add(rGenderMale);
 		
 		
 		buttonGroup.add(rGenderFemale);
-		rGenderFemale.setBounds(377, 200, 109, 23);
+		rGenderFemale.setBounds(375, 268, 109, 23);
 		startpanel.add(rGenderFemale);
 		
 		
 		
 		
-		lGender.setBounds(349, 145, 137, 14);
+		lGender.setBounds(347, 213, 137, 14);
 		startpanel.add(lGender);
-		lBlue.setBounds(875, 147, 181, 14);
+		lBlue.setBounds(873, 215, 212, 14);
 		
 		startpanel.add(lBlue);
 		buttonGroup_1.add(bYes);
-		bYes.setBounds(934, 172, 109, 23);
+		bYes.setBounds(932, 240, 109, 23);
 		
 		startpanel.add(bYes);
 		buttonGroup_1.add(bNo);
-		bNo.setBounds(934, 203, 109, 23);
+		bNo.setBounds(932, 271, 109, 23);
 		
 		startpanel.add(bNo);
-		lMonth.setBounds(680, 147, 154, 14);
+		lMonth.setBounds(678, 215, 185, 14);
 		
 		startpanel.add(lMonth);
 		cbMonth.setModel(new DefaultComboBoxModel(new String[] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}));
-		cbMonth.setBounds(705, 170, 110, 20);
+		cbMonth.setBounds(703, 238, 110, 20);
 		
 		startpanel.add(cbMonth);
 		contentPane.add(b0);
@@ -2186,6 +2204,19 @@ public class DidntPlaytest extends JFrame {
 		fieldneutral5.setBounds(856, 469, 181, 50);
 		
 		contentPane.add(fieldneutral5);
+		
+		
+		lAIMonth.setBounds(189, 66, 343, 20);
+		contentPane.add(lAIMonth);
+		lAIBlue.setBounds(189, 86, 343, 20);
+		
+		contentPane.add(lAIBlue);
+		lAIHeight.setBounds(189, 47, 343, 20);
+		
+		contentPane.add(lAIHeight);
+		lAIGender.setBounds(189, 27, 343, 20);
+		
+		contentPane.add(lAIGender);
 		
 		
 		
