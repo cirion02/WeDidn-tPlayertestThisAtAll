@@ -718,6 +718,7 @@ public class DidntPlaytest extends JFrame {
 				else {
 					winPoints(1);
 				}
+				break;
 			case 2:
 				if (monthAi == getMonth()) {
 					playerWins(2);
@@ -771,6 +772,7 @@ public class DidntPlaytest extends JFrame {
 				else {
 					winPoints(1);
 				}
+				break;
 			case 2:
 				if (heightPlayer > heightAi) {
 					playerWins(2);
@@ -867,6 +869,7 @@ public class DidntPlaytest extends JFrame {
 				else {
 					winPoints(1);
 				}
+				break;
 			case 2:
 				if (malePlayer == true && maleAi == false) {
 					playerWins(2);
@@ -908,6 +911,82 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
+	public class cardCheater implements playable {
+		static final String name = "Cheater";
+		static final String text = "Take an extra turn. Draw 2 cards.";
+		public void playCard(int Player) {
+			extraTurn = true;
+			Draw(Player, 2);				
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+		public int getScore() {
+			return 90;
+		}
+	}
+	
+	public class cardMadTeaParty implements playable {
+		static final String name = "Mad Tea Party";
+		static final String text = "Switch seats with you opponent. Take an extra turn in your new posision";
+		public void playCard(int Player) {	
+			ArrayList<playable> testArray=new ArrayList<playable>();
+			testArray = player1Hand;
+			player1Hand = player2Hand;
+			player2Hand = testArray;
+			testArray = player1Battlefield;
+			player1Battlefield = player2Battlefield;
+			player2Battlefield = testArray;
+			updateButtons();
+			extraTurn = true;
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+		
+		public int getScore() {
+			int totalScore = 0;
+			for (int i=0; i < player2Hand.size(); i++) {
+				totalScore += player2Hand.get(i).getScore();
+			}
+			int opponentScore = player1Hand.size()*50;
+			return (opponentScore/(opponentScore+totalScore))*100;
+		}
+	}
+	
+	public class cardExtraLife implements playable {
+		static final String name = "Extra Life";
+		static final String text = "If you would lose instead you don't. Or if you didn't lose, draw 2 cards.";
+		public void playCard(int Player) {	
+			Draw(Player, 2);
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+		
+		public int getScore() {
+			return 23;
+		}
+	}
+	
 	/* Make an Object for each card/class */
 	cardPc kaartPc = new cardPc();
 	cardILose kaartILose = new cardILose();
@@ -938,6 +1017,9 @@ public class DidntPlaytest extends JFrame {
 	cardYouWinGirl kaartYouWinGirl = new cardYouWinGirl();
 	cardYouWinHeight kaartYouWinHeight = new cardYouWinHeight();
 	cardYouWinBlue kaartYouWinBlue = new cardYouWinBlue();
+	cardMadTeaParty kaartMadTeaParty = new cardMadTeaParty();
+	cardCheater kaartCheater = new cardCheater();
+	cardExtraLife kaartExtraLife = new cardExtraLife();
 	
 	/* Makes variablelen, bottons, labels and arraylists */
 	ArrayList<playable> player1Hand=new ArrayList<playable>();
@@ -948,6 +1030,7 @@ public class DidntPlaytest extends JFrame {
 	ArrayList<playable> totalBattlefield = new ArrayList<playable>();
 	ArrayList<playable> player1Battlefield = new ArrayList<playable>();
 	ArrayList<playable> player2Battlefield = new ArrayList<playable>();
+	ArrayList<playable> aiChoices = new ArrayList<playable>();
 	String returnFunction = "";
 	int player1points = 0;
 	int player2points = 0;
@@ -1377,7 +1460,7 @@ public class DidntPlaytest extends JFrame {
 			lAIBlue.setText("The enemy is wearing blue.");
 		}
 		else {
-			lAIBlue.setText("The enemy is not wearing bluee.");
+			lAIBlue.setText("The enemy is not wearing blue.");
 		}
 		lAIHeight.setText("The enemy is " + String.valueOf(heightAi) + " cm tall.");
 		lAIMonth.setText("The enemy was born in " + monthAi + ".");
@@ -1649,14 +1732,91 @@ public class DidntPlaytest extends JFrame {
 	
 	/* Makes a player loses the game */
 	public void playerLoses(int player) {
-		if (player == 3) {
-			addHistory("player 1 has lost the game.  ");
-			addHistory("player 2 has lost the game.  ");
+		addHistory("Player " + Integer.toString(player) + " has lost the game.");
+		switch (player) {
+		case 1:
+			if (player1Hand.contains(kaartExtraLife)) {
+				addHistory("But player 1 used an extra life.");
+				for (int i=0; i<player1Hand.size(); i++) {
+					playable testObject = player1Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player1Hand.remove(i);
+						break;
+					}
+				}
+			}
+			else {
+				gameEnd = true;
+			}
+			break;
+		case 2:
+			if (player2Hand.contains(kaartExtraLife)) {
+				addHistory("But player 2 used an extra life.");
+				for (int i=0; i<player2Hand.size(); i++) {
+					playable testObject = player2Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player2Hand.remove(i);
+						break;
+					}
+				}
+			}
+			else {
+				gameEnd = true;
+			}
+			break;
+		case 3:
+			if (player2Hand.contains(kaartExtraLife) && player1Hand.contains(kaartExtraLife)) {
+				addHistory("But both players used an extra life.");
+				for (int i=0; i<player1Hand.size(); i++) {
+					playable testObject = player1Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player1Hand.remove(i);
+						break;
+					}
+				}
+				for (int i=0; i<player2Hand.size(); i++) {
+					playable testObject = player2Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player2Hand.remove(i);
+						break;
+					}
+				}
+			}
+			else if (player2Hand.contains(kaartExtraLife)) {
+				addHistory("But players 2 used an extra life.");
+				addHistory("So player 2 wins.");
+				for (int i=0; i<player2Hand.size(); i++) {
+					playable testObject = player2Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player2Hand.remove(i);
+						break;
+					}
+				}
+				gameEnd = true;
+			}
+			else if (player1Hand.contains(kaartExtraLife)) {
+				addHistory("But players 1 used an extra life.");
+				addHistory("So player 1 wins.");
+				gameEnd = true;
+				for (int i=0; i<player1Hand.size(); i++) {
+					playable testObject = player1Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player1Hand.remove(i);
+						break;
+					}
+				}
+			}
+			else {
+				addHistory("Both players lost the game.");
+				gameEnd = true;
+			}
 		}
-		else {
-			addHistory("player " + player + " has lost the game.  ");
-		}
-		gameEnd = true;
 	}
 	
 	/* Makes a player wins the game */
@@ -1675,21 +1835,21 @@ public class DidntPlaytest extends JFrame {
 	public void startOfGame() {
 		fillLibrary(10);
 		fillHand();
-		int random = (int) Math.random() * 2;
+		int random = (int) (Math.random() * 2);
 		switch (random) {
 		case 0: maleAi = true;
 				break;
 		case 1: maleAi = false;
 		}
-		random = (int) Math.random() * 2;
+		random = (int) (Math.random() * 2);
 		switch (random) {
 		case 0: blueAi = true;
 				break;
 		case 1: blueAi = false;
 		}
-		random = (int) Math.random() * 100 + 120;
+		random = (int) (Math.random() * 100 + 120);
 		heightAi = random;
-		random = (int) Math.random() * 11;
+		random = (int) (Math.random() * 11);
 		String[] monthName = {"January", "February",
                 "March", "April", "May", "June", "July",
                 "August", "September", "October", "November",
@@ -1780,10 +1940,21 @@ public class DidntPlaytest extends JFrame {
 		if (zombies == true) {
 			addHistory("AHH! Zombies!");
 		}
-		/* Plays a random card */
-		int random = (int) Math.random() * player2Hand.size();
-		lastAiCard = player2Hand.get(random).getName();
-		runCard(player2Hand.get(random).getName(), 2, true);
+		aiChoices.clear();
+		int maxScore = 0;
+		for (int i=0; i<player2Hand.size(); i++) {
+			if (player2Hand.get(i).getScore() > maxScore) {
+				aiChoices.clear();
+				aiChoices.add(player2Hand.get(i));
+				maxScore = player2Hand.get(i).getScore();
+			}
+			if (player2Hand.get(i).getScore() == maxScore) {
+				aiChoices.add(player2Hand.get(i));
+			}
+		}
+		int random = (int) Math.random() * aiChoices.size();
+		lastAiCard = aiChoices.get(random).getName();
+		runCard(aiChoices.get(random).getName(), 2, true);
 		/* Only happens if the AI's turn ends here */
 		if (prompt.isVisible() == false) { 
 			addHistory("Your opponent played: " + lastAiCard + ". ");
@@ -1859,6 +2030,9 @@ public class DidntPlaytest extends JFrame {
 		cards.add(kaartYouWinGirl);
 		cards.add(kaartYouWinHeight);
 		cards.add(kaartYouWinBlue);
+		cards.add(kaartCheater);
+		cards.add(kaartMadTeaParty);
+		cards.add(kaartExtraLife);
 		startOfGame();
 		Draw(1, 3);
 		Draw(2, 2);
