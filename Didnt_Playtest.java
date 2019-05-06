@@ -1,10 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
-import java.util.Calendar;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
@@ -27,8 +29,6 @@ import javax.swing.JList;
 import java.awt.List;
 import java.awt.Font;
 import java.awt.Color;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
 
 /* Part of Eclipse */
 public class DidntPlaytest extends JFrame {
@@ -382,6 +382,26 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
+	public class cardCheater implements playable {
+		static final String name = "Cheater";
+		static final String text = "Take an extra turn. Draw 2 cards.";
+		public void playCard(int Player) {
+			extraTurn = true;
+			Draw(Player, 2);				
+		}
+		public void battleEffect(int Player) {
+			
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+		public int getScore() {
+			return 90;
+		}
+	}
 	
 	public class cardBombParty implements playable {
 		static final String name = "Bomb Party";
@@ -706,26 +726,19 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
-	public class cardYouWinMonth implements playable {
-		static final String name = "You Win!";
-		static final String text = "If your birthday is in this month you win, otherwise you get 5 points.";
+	public class cardMadTeaParty implements playable {
+		static final String name = "Mad Tea Party";
+		static final String text = "Switch seats with you opponent. Take an extra turn in your new posision";
 		public void playCard(int Player) {	
-			switch (Player) {
-			case 1:
-				if (monthPlayer == getMonth()) {
-					playerWins(1);
-				}
-				else {
-					winPoints(1);
-				}
-			case 2:
-				if (monthAi == getMonth()) {
-					playerWins(2);
-				}
-				else {
-					winPoints(2);
-				}
-			}
+			ArrayList<playable> testArray=new ArrayList<playable>();
+			testArray = player1Hand;
+			player1Hand = player2Hand;
+			player2Hand = testArray;
+			testArray = player1Battlefield;
+			player1Battlefield = player2Battlefield;
+			player2Battlefield = testArray;
+			updateButtons();
+			extraTurn = true;
 		}
 		public void battleEffect(int Player) {
 
@@ -736,49 +749,22 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		
 		public int getScore() {
-			if (monthAi == getMonth()) {
-				return 100;
+			int totalScore = 0;
+			for (int i=0; i < player2Hand.size(); i++) {
+				totalScore += player2Hand.get(i).getScore();
 			}
-			
-			else if (winPoints - player2points <= 5) {
-				return 100;
-			}
-
-			else if (winPoints - player2points <= 10) {
-				return 75;
-			}
-
-			else if (winPoints - player2points <= 13) {
-				return 50;
-			}
-
-			else {
-				return 30;
-			}
+			int opponentScore = player1Hand.size()*50;
+			return (opponentScore/(opponentScore+totalScore))*100;
 		}
 	}
-	
-	public class cardYouWinHeight implements playable {
-		static final String name = "You Win!";
-		static final String text = "If you are the shortest player in the game you win, otherwise you get 5 points.";
+
+	public class cardExtraLife implements playable {
+		static final String name = "Extra Life";
+		static final String text = "If you would lose instead you don't. Or if you didn't lose, draw 2 cards.";
 		public void playCard(int Player) {	
-			switch (Player) {
-			case 1:
-				if (heightPlayer < heightAi) {
-					playerWins(1);
-				}
-				else {
-					winPoints(1);
-				}
-			case 2:
-				if (heightPlayer > heightAi) {
-					playerWins(2);
-				}
-				else {
-					winPoints(2);
-				}
-			}
+			Draw(Player, 2);
 		}
 		public void battleEffect(int Player) {
 
@@ -789,122 +775,9 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
+		
 		public int getScore() {
-			if (heightPlayer > heightAi) {
-				return 100;
-			}
-			
-			else if (winPoints - player2points <= 5) {
-				return 100;
-			}
-
-			else if (winPoints - player2points <= 10) {
-				return 75;
-			}
-
-			else if (winPoints - player2points <= 13) {
-				return 50;
-			}
-
-			else {
-				return 30;
-			}
-		}
-	}
-	
-	public class cardYouWinBlue implements playable {
-		static final String name = "You Win!";
-		static final String text = "If both players are wearing blue you win, otherwise you get 5 points.";
-		public void playCard(int Player) {	
-			if (bluePlayer == true && blueAi == true) {
-				playerWins(Player);
-			}
-			else {
-				winPoints(Player);
-			}
-		}
-		public void battleEffect(int Player) {
-
-		}
-		public String getName() {
-			return name;
-		}
-		public String getText() {
-			return text;
-		}
-		public int getScore() {
-			if (bluePlayer == true && blueAi == true) {
-				return 100;
-			}
-			
-			else if (winPoints - player2points <= 5) {
-				return 100;
-			}
-
-			else if (winPoints - player2points <= 10) {
-				return 75;
-			}
-
-			else if (winPoints - player2points <= 13) {
-				return 50;
-			}
-
-			else {
-				return 30;
-			}
-		}
-	}
-	
-	public class cardYouWinGirl implements playable {
-		static final String name = "You Win!";
-		static final String text = "If you are the only girl in the game you win, otherwise you get 5 points.";
-		public void playCard(int Player) {	
-			switch (Player) {
-			case 1:
-				if (malePlayer == false && maleAi == true) {
-					playerWins(1);
-				}
-				else {
-					winPoints(1);
-				}
-			case 2:
-				if (malePlayer == true && maleAi == false) {
-					playerWins(2);
-				}
-				else {
-					winPoints(2);
-				}
-			}
-		}
-		public void battleEffect(int Player) {
-
-		}
-		public String getName() {
-			return name;
-		}
-		public String getText() {
-			return text;
-		}
-		public int getScore() {
-			if (malePlayer == true && maleAi == false) {
-				return 100;
-			}
-			
-			else if (winPoints - player2points <= 5) {
-				return 100;
-			}
-
-			else if (winPoints - player2points <= 10) {
-				return 75;
-			}
-
-			else if (winPoints - player2points <= 13) {
-				return 50;
-			}
-
-			else {
-				return 30;
-			}
+			return 23;
 		}
 	}
 	
@@ -934,10 +807,9 @@ public class DidntPlaytest extends JFrame {
 	cardZombies kaartZombies = new cardZombies();
 	cardComicSans kaartComicSans = new cardComicSans();
 	cardNinjas kaartNinjas = new cardNinjas();
-	cardYouWinMonth kaartYouWinMonth = new cardYouWinMonth();
-	cardYouWinGirl kaartYouWinGirl = new cardYouWinGirl();
-	cardYouWinHeight kaartYouWinHeight = new cardYouWinHeight();
-	cardYouWinBlue kaartYouWinBlue = new cardYouWinBlue();
+	cardMadTeaParty kaartMadTeaParty = new cardMadTeaParty();
+	cardCheater kaartCheater = new cardCheater();
+	cardExtraLife kaartExtraLife = new cardExtraLife();
 	
 	/* Makes variablelen, bottons, labels and arraylists */
 	ArrayList<playable> player1Hand=new ArrayList<playable>();
@@ -948,6 +820,7 @@ public class DidntPlaytest extends JFrame {
 	ArrayList<playable> totalBattlefield = new ArrayList<playable>();
 	ArrayList<playable> player1Battlefield = new ArrayList<playable>();
 	ArrayList<playable> player2Battlefield = new ArrayList<playable>();
+	ArrayList<playable> aiChoices=new ArrayList<playable>();
 	String returnFunction = "";
 	int player1points = 0;
 	int player2points = 0;
@@ -974,26 +847,7 @@ public class DidntPlaytest extends JFrame {
 	Choice prompt = new Choice();
 	JButton confirm = new JButton("Confirm");
 	JButton chatConfirm = new JButton("->");
-	
-	int heightPlayer;
-	boolean malePlayer;
-	boolean bluePlayer;
-	String monthPlayer;
-	
-	int heightAi;
-	boolean maleAi;
-	boolean blueAi;
-	String monthAi;
-	
-	JPanel startpanel = new JPanel();
-	JButton bConfirmQuestions = new JButton("Confirm!");
-	JTextField tHeight = new JTextField();
-	JLabel lWelcome = new JLabel("Welcome to We Didn't Playtest This at All! First, a few questions.");
-	JLabel lLength = new JLabel("How tall are you? (in cm)");
-	JRadioButton rGenderMale = new JRadioButton("Male");
-	JRadioButton rGenderFemale = new JRadioButton("Female");
-	JLabel lGender = new JLabel("What gender are you?");
-	
+
 	JLabel fieldplayer2 = new JLabel("");
 	JLabel fieldplayer1 = new JLabel("");
 	JLabel fieldplayer6 = new JLabel("");
@@ -1019,19 +873,6 @@ public class DidntPlaytest extends JFrame {
 	JLabel fieldneutral3 = new JLabel("");
 	JLabel fieldneutral4 = new JLabel("");
 	JLabel fieldneutral5 = new JLabel("");
-	private JTextField tLength;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private final JLabel lBlue = new JLabel("Are you wearing blue right now?");
-	private final JRadioButton bYes = new JRadioButton("Yes");
-	private final JRadioButton bNo = new JRadioButton("No");
-	private final JLabel lMonth = new JLabel("What month were you born in?");
-	private final JComboBox cbMonth = new JComboBox();
-	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
-	
-	JLabel lAIMonth = new JLabel("");
-	JLabel lAIBlue = new JLabel("");
-	JLabel lAIHeight = new JLabel("");
-	JLabel lAIGender = new JLabel("");
 	
 	/* Basis Functies */
 	
@@ -1073,17 +914,6 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
-	public static String getMonth() {
-        String[] monthName = {"January", "February",
-                "March", "April", "May", "June", "July",
-                "August", "September", "October", "November",
-                "December"};
-
-        Calendar cal = Calendar.getInstance();
-        String month = monthName[cal.get(Calendar.MONTH)];
-
-        return month;
-    }
 	
 	/* Fill the player's starting hand with empty card to check against*/
 	public void fillHand() {
@@ -1209,26 +1039,10 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
-	public void winPoints(int Player) {
-		switch (Player) {
-		case 1 :	player1points += 5;
-					player1Battlefield.add(0, kaartYouWinMonth);
-					if (player1points >= winPoints) {
-						playerWins(1);
-					}
-					break;
-		case 2 :	player2points += 5;
-					player2Battlefield.add(0, kaartYouWinMonth);
-					if (player2points >= winPoints) {
-						playerWins(2);
-					};
-					break;
-		}
-	}
-	
 	public void Dodgers(int Player, playable card1, playable card2) {
 		ArrayList<playable> casterBattlefield = new ArrayList<playable>();
 		ArrayList<playable> resiverBattlefield = new ArrayList<playable>();
+		boolean worked = false;
 		switch (Player) {
 		case 1 :
 			casterBattlefield = player1Battlefield;
@@ -1244,18 +1058,21 @@ public class DidntPlaytest extends JFrame {
 			if (casterBattlefield.get(i).getName() == card1.getName()) {
 				resiverBattlefield.add(0, card1);
 				casterBattlefield.remove(i);
+				worked = true;
 				break;
 			}
 		}
 		for (int i=0; i<casterBattlefield.size(); i++) {
-			if (casterBattlefield.get(i).getName() == card2.getName()) {
+			if (casterBattlefield.get(i).getName() == card2.getName() && worked == false) {
 				resiverBattlefield.add(0, card2);
 				casterBattlefield.remove(i);
+				worked = true;
 				break;
 			}
 		}
-		Draw(Player, 2);
-			
+		if (worked == false) {
+			Draw(Player, 2);
+		}
 	}
 	
 	public void superPoints(int Player) {
@@ -1299,7 +1116,6 @@ public class DidntPlaytest extends JFrame {
 			b4.setEnabled(false);
 			prompt.setEnabled(false);
 			confirm.setEnabled(false);
-			chatConfirm.setEnabled(false);
 	}
 		else {
 			b0.setEnabled(true);
@@ -1336,51 +1152,12 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
-	public void confirmQuestions() {
-		startpanel.setVisible(false);
-		b0.setVisible(true);
-		b1.setVisible(true);
-		b2.setVisible(true);
-		confirm.setVisible(true);
-		chatConfirm.setVisible(true);
-		heightPlayer = Integer.parseInt(tHeight.getText());
-		monthPlayer = (String)cbMonth.getSelectedItem();
-		if (rGenderMale.isSelected()) {
-			malePlayer = true;
-		}
-		else {
-			malePlayer = false;
-		}
-		if (bYes.isSelected()) {
-			bluePlayer = true;
-		}
-		else {
-			bluePlayer = false;
-		}
-		
-	}
-	
 	public void updateButtons() {
 		b0.setText("<html> <b>" + player1Hand.get(0).getName() + "</b> <br />" + player1Hand.get(0).getText() + "  </html>");
 		b1.setText("<html> <b>" + player1Hand.get(1).getName() + "</b> <br />" + player1Hand.get(1).getText() + "  </html>");
 		b2.setText("<html> <b>" + player1Hand.get(2).getName() + "</b> <br />" + player1Hand.get(2).getText() + "  </html>");
 		b3.setText("<html> <b>" + player1Hand.get(3).getName() + "</b> <br />" + player1Hand.get(3).getText() + "  </html>");
 		b4.setText("<html> <b>" + player1Hand.get(4).getName() + "</b> <br />" + player1Hand.get(4).getText() + "  </html>");
-		
-		if (maleAi) {
-			lAIGender.setText("The enemy is male.");
-		}
-		else {
-			lAIGender.setText("The enemy is female.");
-		}
-		if (blueAi) {
-			lAIBlue.setText("The enemy is wearing blue.");
-		}
-		else {
-			lAIBlue.setText("The enemy is not wearing bluee.");
-		}
-		lAIHeight.setText("The enemy is " + String.valueOf(heightAi) + " cm tall.");
-		lAIMonth.setText("The enemy was born in " + monthAi + ".");
 		
 		switch (player1Hand.get(0).getName()) {
 		case "nothing": b0.setVisible(false);
@@ -1619,7 +1396,6 @@ public class DidntPlaytest extends JFrame {
 			b4.setEnabled(false);
 			prompt.setEnabled(false);
 			confirm.setEnabled(false);
-			chatConfirm.setEnabled(false);
 	}
 		else {
 			b0.setEnabled(true);
@@ -1649,14 +1425,91 @@ public class DidntPlaytest extends JFrame {
 	
 	/* Makes a player loses the game */
 	public void playerLoses(int player) {
-		if (player == 3) {
-			addHistory("player 1 has lost the game.  ");
-			addHistory("player 2 has lost the game.  ");
+		addHistory("Player " + Integer.toString(player) + " has lost the game.");
+		switch (player) {
+		case 1:
+			if (player1Hand.contains(kaartExtraLife)) {
+				addHistory("But player 1 used an extra life.");
+				for (int i=0; i<player1Hand.size(); i++) {
+					playable testObject = player1Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player1Hand.remove(i);
+						break;
+					}
+				}
+			}
+			else {
+				gameEnd = true;
+			}
+			break;
+		case 2:
+			if (player2Hand.contains(kaartExtraLife)) {
+				addHistory("But player 2 used an extra life.");
+				for (int i=0; i<player2Hand.size(); i++) {
+					playable testObject = player2Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player2Hand.remove(i);
+						break;
+					}
+				}
+			}
+			else {
+				gameEnd = true;
+			}
+			break;
+		case 3:
+			if (player2Hand.contains(kaartExtraLife) && player1Hand.contains(kaartExtraLife)) {
+				addHistory("But both players used an extra life.");
+				for (int i=0; i<player1Hand.size(); i++) {
+					playable testObject = player1Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player1Hand.remove(i);
+						break;
+					}
+				}
+				for (int i=0; i<player2Hand.size(); i++) {
+					playable testObject = player2Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player2Hand.remove(i);
+						break;
+					}
+				}
+			}
+			else if (player2Hand.contains(kaartExtraLife)) {
+				addHistory("But players 2 used an extra life.");
+				addHistory("So player 2 wins.");
+				for (int i=0; i<player2Hand.size(); i++) {
+					playable testObject = player2Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player2Hand.remove(i);
+						break;
+					}
+				}
+				gameEnd = true;
+			}
+			else if (player1Hand.contains(kaartExtraLife)) {
+				addHistory("But players 1 used an extra life.");
+				addHistory("So player 1 wins.");
+				gameEnd = true;
+				for (int i=0; i<player1Hand.size(); i++) {
+					playable testObject = player1Hand.get(i);
+					String name = testObject.getName();
+					if ("Extra Life" == name) {
+						player1Hand.remove(i);
+						break;
+					}
+				}
+			}
+			else {
+				addHistory("Both players lost the game.");
+				gameEnd = true;
+			}
 		}
-		else {
-			addHistory("player " + player + " has lost the game.  ");
-		}
-		gameEnd = true;
 	}
 	
 	/* Makes a player wins the game */
@@ -1672,29 +1525,9 @@ public class DidntPlaytest extends JFrame {
 	}
 	
 	/* calls all functions that have to happen at the start of the game */
-	public void startOfGame() {
+	public void startOfGame(){
 		fillLibrary(10);
 		fillHand();
-		int random = (int) Math.random() * 2;
-		switch (random) {
-		case 0: maleAi = true;
-				break;
-		case 1: maleAi = false;
-		}
-		random = (int) Math.random() * 2;
-		switch (random) {
-		case 0: blueAi = true;
-				break;
-		case 1: blueAi = false;
-		}
-		random = (int) Math.random() * 100 + 120;
-		heightAi = random;
-		random = (int) Math.random() * 11;
-		String[] monthName = {"January", "February",
-                "March", "April", "May", "June", "July",
-                "August", "September", "October", "November",
-                "December"};
-		monthAi = monthName[random];
 	}
 	
 	/* If you give this a cardname it will activate that cards effect */
@@ -1757,7 +1590,6 @@ public class DidntPlaytest extends JFrame {
 				b4.setEnabled(false);
 				prompt.setEnabled(false);
 				confirm.setEnabled(false);
-				chatConfirm.setEnabled(false);
 			}
 			else {
 				b0.setEnabled(false);
@@ -1781,9 +1613,21 @@ public class DidntPlaytest extends JFrame {
 			addHistory("AHH! Zombies!");
 		}
 		/* Plays a random card */
-		int random = (int) Math.random() * player2Hand.size();
-		lastAiCard = player2Hand.get(random).getName();
-		runCard(player2Hand.get(random).getName(), 2, true);
+		aiChoices.clear();
+		int maxScore = 0;
+		for (int i=0; i<player2Hand.size(); i++) {
+			if (player2Hand.get(i).getScore() > maxScore) {
+				aiChoices.clear();
+				aiChoices.add(player2Hand.get(i));
+				maxScore = player2Hand.get(i).getScore();
+			}
+			if (player2Hand.get(i).getScore() == maxScore) {
+				aiChoices.add(player2Hand.get(i));
+			}
+		}
+		int random = (int) Math.random() * aiChoices.size();
+		lastAiCard = aiChoices.get(random).getName();
+		runCard(aiChoices.get(random).getName(), 2, true);
 		/* Only happens if the AI's turn ends here */
 		if (prompt.isVisible() == false) { 
 			addHistory("Your opponent played: " + lastAiCard + ". ");
@@ -1803,7 +1647,6 @@ public class DidntPlaytest extends JFrame {
 					b4.setEnabled(false);
 					prompt.setEnabled(false);
 					confirm.setEnabled(false);
-					chatConfirm.setEnabled(false);
 			}
 			else {
 				b0.setEnabled(true);
@@ -1827,8 +1670,6 @@ public class DidntPlaytest extends JFrame {
 	
 	/*Front End (Mostly) */
 	public DidntPlaytest() {
-		
-		
 		confirm.setBounds(893, 673, 113, 37);
 		confirm.setVisible(false);
 		cards.add(kaartPc);
@@ -1855,10 +1696,9 @@ public class DidntPlaytest extends JFrame {
 		cards.add(kaartSpaceship);
 		cards.add(kaartShield);
 		cards.add(kaartNinjas);
-		cards.add(kaartYouWinMonth);
-		cards.add(kaartYouWinGirl);
-		cards.add(kaartYouWinHeight);
-		cards.add(kaartYouWinBlue);
+		cards.add(kaartMadTeaParty);
+		cards.add(kaartCheater);
+		cards.add(kaartExtraLife);
 		startOfGame();
 		Draw(1, 3);
 		Draw(2, 2);
@@ -1973,76 +1813,6 @@ public class DidntPlaytest extends JFrame {
 			}
 		});
 		contentPane.setLayout(null);
-		
-
-		b0.setVisible(false);
-		b1.setVisible(false);
-		b2.setVisible(false);
-		confirm.setVisible(false);
-		chatConfirm.setVisible(false);
-		
-		
-		
-		startpanel.setBounds(0, 0, 1394, 965);
-		contentPane.add(startpanel);
-		startpanel.setLayout(null);
-		
-		
-		bConfirmQuestions.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				confirmQuestions();
-			}
-		});
-		bConfirmQuestions.setBounds(643, 340, 89, 23);
-		startpanel.add(bConfirmQuestions);
-		
-	
-		tHeight.setBounds(521, 238, 86, 20);
-		startpanel.add(tHeight);
-		tHeight.setColumns(10);
-		
-		
-		lWelcome.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lWelcome.setBounds(362, 147, 643, 43);
-		startpanel.add(lWelcome);
-		
-		
-		lLength.setBounds(507, 213, 161, 14);
-		startpanel.add(lLength);
-		
-		
-		buttonGroup.add(rGenderMale);
-		rGenderMale.setBounds(375, 237, 109, 23);
-		startpanel.add(rGenderMale);
-		
-		
-		buttonGroup.add(rGenderFemale);
-		rGenderFemale.setBounds(375, 268, 109, 23);
-		startpanel.add(rGenderFemale);
-		
-		
-		
-		
-		lGender.setBounds(347, 213, 137, 14);
-		startpanel.add(lGender);
-		lBlue.setBounds(873, 215, 212, 14);
-		
-		startpanel.add(lBlue);
-		buttonGroup_1.add(bYes);
-		bYes.setBounds(932, 240, 109, 23);
-		
-		startpanel.add(bYes);
-		buttonGroup_1.add(bNo);
-		bNo.setBounds(932, 271, 109, 23);
-		
-		startpanel.add(bNo);
-		lMonth.setBounds(678, 215, 185, 14);
-		
-		startpanel.add(lMonth);
-		cbMonth.setModel(new DefaultComboBoxModel(new String[] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}));
-		cbMonth.setBounds(703, 238, 110, 20);
-		
-		startpanel.add(cbMonth);
 		contentPane.add(b0);
 		contentPane.add(b1);
 		contentPane.add(b2);
@@ -2204,19 +1974,6 @@ public class DidntPlaytest extends JFrame {
 		fieldneutral5.setBounds(856, 469, 181, 50);
 		
 		contentPane.add(fieldneutral5);
-		
-		
-		lAIMonth.setBounds(189, 66, 343, 20);
-		contentPane.add(lAIMonth);
-		lAIBlue.setBounds(189, 86, 343, 20);
-		
-		contentPane.add(lAIBlue);
-		lAIHeight.setBounds(189, 47, 343, 20);
-		
-		contentPane.add(lAIHeight);
-		lAIGender.setBounds(189, 27, 343, 20);
-		
-		contentPane.add(lAIGender);
 		
 		
 		
