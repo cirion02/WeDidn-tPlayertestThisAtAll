@@ -1,12 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
-
+import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
@@ -384,23 +382,6 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
-	public class cardCheater implements playable {
-		static final String name = "Cheater";
-		static final String text = "Take an extra turn. Draw 2 cards.";
-		public void playCard(int Player) {
-			extraTurn = true;
-			Draw(Player, 2);				
-		}
-		public void battleEffect(int Player) {
-			
-		}
-		public String getName() {
-			return name;
-		}
-		public String getText() {
-			return text;
-		}
-	}
 	
 	public class cardBombParty implements playable {
 		static final String name = "Bomb Party";
@@ -725,19 +706,26 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
-	public class cardMadTeaParty implements playable {
-		static final String name = "Mad Tea Party";
-		static final String text = "Switch seats with you opponent. Take an extra turn in your new posision";
+	public class cardYouWinMonth implements playable {
+		static final String name = "You Win!";
+		static final String text = "If your birthday is in this month you win, otherwise you get 5 points.";
 		public void playCard(int Player) {	
-			ArrayList<playable> testArray=new ArrayList<playable>();
-			testArray = player1Hand;
-			player1Hand = player2Hand;
-			player2Hand = testArray;
-			testArray = player1Battlefield;
-			player1Battlefield = player2Battlefield;
-			player2Battlefield = testArray;
-			updateButtons();
-			extraTurn = true;
+			switch (Player) {
+			case 1:
+				if (monthPlayer == getMonth()) {
+					playerWins(1);
+				}
+				else {
+					winPoints(1);
+				}
+			case 2:
+				if (monthAi == getMonth()) {
+					playerWins(2);
+				}
+				else {
+					winPoints(2);
+				}
+			}
 		}
 		public void battleEffect(int Player) {
 
@@ -748,8 +736,177 @@ public class DidntPlaytest extends JFrame {
 		public String getText() {
 			return text;
 		}
-	}
+		public int getScore() {
+			if (monthAi == getMonth()) {
+				return 100;
+			}
+			
+			else if (winPoints - player2points <= 5) {
+				return 100;
+			}
 
+			else if (winPoints - player2points <= 10) {
+				return 75;
+			}
+
+			else if (winPoints - player2points <= 13) {
+				return 50;
+			}
+
+			else {
+				return 30;
+			}
+		}
+	}
+	
+	public class cardYouWinHeight implements playable {
+		static final String name = "You Win!";
+		static final String text = "If you are the shortest player in the game you win, otherwise you get 5 points.";
+		public void playCard(int Player) {	
+			switch (Player) {
+			case 1:
+				if (heightPlayer < heightAi) {
+					playerWins(1);
+				}
+				else {
+					winPoints(1);
+				}
+			case 2:
+				if (heightPlayer > heightAi) {
+					playerWins(2);
+				}
+				else {
+					winPoints(2);
+				}
+			}
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+		public int getScore() {
+			if (heightPlayer > heightAi) {
+				return 100;
+			}
+			
+			else if (winPoints - player2points <= 5) {
+				return 100;
+			}
+
+			else if (winPoints - player2points <= 10) {
+				return 75;
+			}
+
+			else if (winPoints - player2points <= 13) {
+				return 50;
+			}
+
+			else {
+				return 30;
+			}
+		}
+	}
+	
+	public class cardYouWinBlue implements playable {
+		static final String name = "You Win!";
+		static final String text = "If both players are wearing blue you win, otherwise you get 5 points.";
+		public void playCard(int Player) {	
+			if (bluePlayer == true && blueAi == true) {
+				playerWins(Player);
+			}
+			else {
+				winPoints(Player);
+			}
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+		public int getScore() {
+			if (bluePlayer == true && blueAi == true) {
+				return 100;
+			}
+			
+			else if (winPoints - player2points <= 5) {
+				return 100;
+			}
+
+			else if (winPoints - player2points <= 10) {
+				return 75;
+			}
+
+			else if (winPoints - player2points <= 13) {
+				return 50;
+			}
+
+			else {
+				return 30;
+			}
+		}
+	}
+	
+	public class cardYouWinGirl implements playable {
+		static final String name = "You Win!";
+		static final String text = "If you are the only girl in the game you win, otherwise you get 5 points.";
+		public void playCard(int Player) {	
+			switch (Player) {
+			case 1:
+				if (malePlayer == false && maleAi == true) {
+					playerWins(1);
+				}
+				else {
+					winPoints(1);
+				}
+			case 2:
+				if (malePlayer == true && maleAi == false) {
+					playerWins(2);
+				}
+				else {
+					winPoints(2);
+				}
+			}
+		}
+		public void battleEffect(int Player) {
+
+		}
+		public String getName() {
+			return name;
+		}
+		public String getText() {
+			return text;
+		}
+		public int getScore() {
+			if (malePlayer == true && maleAi == false) {
+				return 100;
+			}
+			
+			else if (winPoints - player2points <= 5) {
+				return 100;
+			}
+
+			else if (winPoints - player2points <= 10) {
+				return 75;
+			}
+
+			else if (winPoints - player2points <= 13) {
+				return 50;
+			}
+
+			else {
+				return 30;
+			}
+		}
+	}
 	
 	/* Make an Object for each card/class */
 	cardPc kaartPc = new cardPc();
@@ -777,8 +934,10 @@ public class DidntPlaytest extends JFrame {
 	cardZombies kaartZombies = new cardZombies();
 	cardComicSans kaartComicSans = new cardComicSans();
 	cardNinjas kaartNinjas = new cardNinjas();
-	cardMadTeaParty kaartMadTeaParty = new cardMadTeaParty();
-	cardCheater kaartCheater = new cardCheater();
+	cardYouWinMonth kaartYouWinMonth = new cardYouWinMonth();
+	cardYouWinGirl kaartYouWinGirl = new cardYouWinGirl();
+	cardYouWinHeight kaartYouWinHeight = new cardYouWinHeight();
+	cardYouWinBlue kaartYouWinBlue = new cardYouWinBlue();
 	
 	/* Makes variablelen, bottons, labels and arraylists */
 	ArrayList<playable> player1Hand=new ArrayList<playable>();
@@ -820,6 +979,11 @@ public class DidntPlaytest extends JFrame {
 	boolean malePlayer;
 	boolean bluePlayer;
 	String monthPlayer;
+	
+	int heightAi;
+	boolean maleAi;
+	boolean blueAi;
+	String monthAi;
 	
 	JPanel startpanel = new JPanel();
 	JButton bConfirmQuestions = new JButton("Confirm!");
@@ -906,6 +1070,17 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
+	public static String getMonth() {
+        String[] monthName = {"January", "February",
+                "March", "April", "May", "June", "July",
+                "August", "September", "October", "November",
+                "December"};
+
+        Calendar cal = Calendar.getInstance();
+        String month = monthName[cal.get(Calendar.MONTH)];
+
+        return month;
+    }
 	
 	/* Fill the player's starting hand with empty card to check against*/
 	public void fillHand() {
@@ -1024,6 +1199,23 @@ public class DidntPlaytest extends JFrame {
 					break;
 		case 2 :	player2points += 8;
 					player2Battlefield.add(0, kaartPoints);
+					if (player2points >= winPoints) {
+						playerWins(2);
+					};
+					break;
+		}
+	}
+	
+	public void winPoints(int Player) {
+		switch (Player) {
+		case 1 :	player1points += 5;
+					player1Battlefield.add(0, kaartYouWinMonth);
+					if (player1points >= winPoints) {
+						playerWins(1);
+					}
+					break;
+		case 2 :	player2points += 5;
+					player2Battlefield.add(0, kaartYouWinMonth);
 					if (player2points >= winPoints) {
 						playerWins(2);
 					};
@@ -1462,9 +1654,29 @@ public class DidntPlaytest extends JFrame {
 	}
 	
 	/* calls all functions that have to happen at the start of the game */
-	public void startOfGame(){
+	public void startOfGame() {
 		fillLibrary(10);
 		fillHand();
+		int random = (int) Math.random() * 2;
+		switch (random) {
+		case 0: maleAi = true;
+				break;
+		case 1: maleAi = false;
+		}
+		random = (int) Math.random() * 2;
+		switch (random) {
+		case 0: blueAi = true;
+				break;
+		case 1: blueAi = false;
+		}
+		random = (int) Math.random() * 100 + 120;
+		heightAi = random;
+		random = (int) Math.random() * 11;
+		String[] monthName = {"January", "February",
+                "March", "April", "May", "June", "July",
+                "August", "September", "October", "November",
+                "December"};
+		monthAi = monthName[random];
 	}
 	
 	/* If you give this a cardname it will activate that cards effect */
@@ -1625,8 +1837,10 @@ public class DidntPlaytest extends JFrame {
 		cards.add(kaartSpaceship);
 		cards.add(kaartShield);
 		cards.add(kaartNinjas);
-		cards.add(kaartMadTeaParty);
-		cards.add(kaartCheater);
+		cards.add(kaartYouWinMonth);
+		cards.add(kaartYouWinGirl);
+		cards.add(kaartYouWinHeight);
+		cards.add(kaartYouWinBlue);
 		startOfGame();
 		Draw(1, 3);
 		Draw(2, 2);
@@ -1740,12 +1954,7 @@ public class DidntPlaytest extends JFrame {
 				}
 			}
 		});
-		contentPane.setLayout(null);		
-		testExtraTurnMyNigga.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				extraTurn = true;
-			}
-		});
+		contentPane.setLayout(null);
 		
 
 		b0.setVisible(false);
@@ -1816,8 +2025,6 @@ public class DidntPlaytest extends JFrame {
 		cbMonth.setBounds(705, 170, 110, 20);
 		
 		startpanel.add(cbMonth);
-		testExtraTurnMyNigga.setBounds(883, 266, 89, 23);
-		contentPane.add(testExtraTurnMyNigga);
 		contentPane.add(b0);
 		contentPane.add(b1);
 		contentPane.add(b2);
