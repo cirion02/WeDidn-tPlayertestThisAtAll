@@ -957,12 +957,7 @@ public class DidntPlaytest extends JFrame {
 		}
 		
 		public int getScore() {
-			int totalScore = 0;
-			for (int i=0; i < player2Hand.size(); i++) {
-				totalScore += player2Hand.get(i).getScore();
-			}
-			int opponentScore = player1Hand.size()*50;
-			return (opponentScore/(opponentScore+totalScore))*100;
+			return 30;
 		}
 	}
 	
@@ -2027,7 +2022,6 @@ public class DidntPlaytest extends JFrame {
 		cards.add(kaartScience);
 		cards.add(kaartSpaceship);
 		cards.add(kaartShield);
-		cards.add(kaartNinjas);
 		cards.add(kaartYouWinMonth);
 		cards.add(kaartYouWinGirl);
 		cards.add(kaartYouWinHeight);
