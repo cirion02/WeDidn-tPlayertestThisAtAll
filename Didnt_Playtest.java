@@ -707,7 +707,7 @@ public class DidntPlaytest extends JFrame {
 	}
 	
 	public class cardYouWinMonth implements playable {
-		static final String name = "You Win!";
+		static final String name = "You Win! (Month)";
 		static final String text = "If your birthday is in this month you win, otherwise you get 5 points.";
 		public void playCard(int Player) {	
 			switch (Player) {
@@ -761,7 +761,7 @@ public class DidntPlaytest extends JFrame {
 	}
 	
 	public class cardYouWinHeight implements playable {
-		static final String name = "You Win!";
+		static final String name = "You Win! (Height)";
 		static final String text = "If you are the shortest player in the game you win, otherwise you get 5 points.";
 		public void playCard(int Player) {	
 			switch (Player) {
@@ -815,7 +815,7 @@ public class DidntPlaytest extends JFrame {
 	}
 	
 	public class cardYouWinBlue implements playable {
-		static final String name = "You Win!";
+		static final String name = "You Win! (Blue)";
 		static final String text = "If both players are wearing blue you win, otherwise you get 5 points.";
 		public void playCard(int Player) {	
 			if (bluePlayer == true && blueAi == true) {
@@ -857,8 +857,8 @@ public class DidntPlaytest extends JFrame {
 		}
 	}
 	
-	public class cardYouWinGirl implements playable {
-		static final String name = "You Win!";
+	public class cardYouWinGirl implements playable { 
+		static final String name = "You Win! (Girl)";
 		static final String text = "If you are the only girl in the game you win, otherwise you get 5 points.";
 		public void playCard(int Player) {	
 			switch (Player) {
@@ -1132,8 +1132,7 @@ public class DidntPlaytest extends JFrame {
 	/* Adds cards from the library to the hand */
 	public void Draw(int player, int amount) {
 		if (Drawing == true) {
-			int random;
-			for (int i=0; i<amount; i++) {
+			int random;			for (int i=0; i<amount; i++) {
 				random = (int) (Math.random()*library.size());
 				switch (player) {
 					case 1: player1Hand.add(0, library.get(random));
@@ -1295,13 +1294,13 @@ public class DidntPlaytest extends JFrame {
 	public void winPoints(int Player) {
 		switch (Player) {
 		case 1 :	player1points += 5;
-					player1Battlefield.add(0, kaartYouWinMonth);
+					player1Battlefield.add(kaartYouWinMonth);
 					if (player1points >= winPoints) {
 						playerWins(1);
 					}
 					break;
 		case 2 :	player2points += 5;
-					player2Battlefield.add(0, kaartYouWinMonth);
+					player2Battlefield.add(kaartYouWinMonth);
 					if (player2points >= winPoints) {
 						playerWins(2);
 					};
@@ -1752,8 +1751,7 @@ public class DidntPlaytest extends JFrame {
 			break;
 		case 2:
 			if (player2Hand.contains(kaartExtraLife)) {
-				addHistory("But player 2 used an extra life.");
-				for (int i=0; i<player2Hand.size(); i++) {
+				addHistory("But player 2 used an extra life.");				for (int i=0; i<player2Hand.size(); i++) {
 					playable testObject = player2Hand.get(i);
 					String name = testObject.getName();
 					if ("Extra Life" == name) {
@@ -1855,10 +1853,14 @@ public class DidntPlaytest extends JFrame {
                 "August", "September", "October", "November",
                 "December"};
 		monthAi = monthName[random];
+		confirm.setVisible(true);
 	}
 	
 	/* If you give this a cardname it will activate that cards effect */
 	public void runCard(String Name, int Player, boolean special) {
+		if (gameEnd == true) {
+			return;
+		}
 		if (Player == 1) {
 			if (comicSansTemp == true) {
 				playerLoses(1);
@@ -1904,7 +1906,7 @@ public class DidntPlaytest extends JFrame {
 				playable testObject = player1Battlefield.get(i);
 				testObject.battleEffect(1);
 			}
-			if (extraTurn) {
+			if (extraTurn && special == true) {
 				extraTurn = false;
 				Draw(1,1);
 				updateButtons();
