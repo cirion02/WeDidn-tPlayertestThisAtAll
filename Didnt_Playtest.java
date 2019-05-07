@@ -1815,11 +1815,11 @@ public class DidntPlaytest extends JFrame {
 	/* Makes a player wins the game */
 	public void playerWins(int player) {
 		if (player == 3) {
-			addHistory("player 1 has win the game.  ");
-			addHistory("player 2 has win the game.  ");
+			addHistory("player 1 has won the game.  ");
+			addHistory("player 2 has won the game.  ");
 		}
 		else {
-			addHistory("player " + player + " has win the game.  ");
+			addHistory("player " + player + " has won the game.  ");
 		}
 		gameEnd = true;
 	}
